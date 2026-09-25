@@ -1,0 +1,378 @@
+{
+  "workspace": "AcmeFlow Operations",
+  "verified_at": "2026-09-26T02:40:00+05:30",
+  "pages": {
+    "AcmeFlow Operations": {
+      "id": "3e6eda01-1b5a-80ff-b63e-cfe8414c70b5",
+      "url": "https://app.notion.com/p/AcmeFlow-Operations-3e6eda011b5a80ffb63ecfe8414c70b5",
+      "created_time": "2026-09-25T18:27:00.000Z",
+      "last_edited_time": "2026-09-25T21:02:00.000Z",
+      "blocks": [
+        {
+          "type": "child_page",
+          "text": "Payment Procedures"
+        },
+        {
+          "type": "child_page",
+          "text": "Incident Response"
+        },
+        {
+          "type": "child_page",
+          "text": "Escalation Rules"
+        },
+        {
+          "type": "child_page",
+          "text": "Refund Policy"
+        },
+        {
+          "type": "child_page",
+          "text": "Customer Support SOP"
+        },
+        {
+          "type": "child_page",
+          "text": "Team Ownership"
+        }
+      ]
+    },
+    "Team Ownership": {
+      "id": "3e6eda01-1b5a-8090-b5c4-c6d76e83214a",
+      "url": "https://app.notion.com/p/Team-Ownership-3e6eda011b5a8090b5c4c6d76e83214a",
+      "created_time": "2026-09-25T18:29:00.000Z",
+      "last_edited_time": "2026-09-25T18:31:00.000Z",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Finance"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Payment failures"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Refund anomalies"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Invoice reconciliation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Engineering"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Checkout failures"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Application errors"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Checkout latency"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer Support"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Customer complaints"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Customer communication"
+        },
+        {
+          "type": "paragraph",
+          "text": "Operations"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Incident coordination"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Investigation"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Escalation"
+        }
+      ]
+    },
+    "Customer Support SOP": {
+      "id": "3e6eda01-1b5a-8045-85d1-cadb2809f471",
+      "url": "https://app.notion.com/p/Customer-Support-SOP-3e6eda011b5a804585d1cadb2809f471",
+      "created_time": "2026-09-25T18:29:00.000Z",
+      "last_edited_time": "2026-09-25T18:30:00.000Z",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Customer complaints should be recorded."
+        },
+        {
+          "type": "paragraph",
+          "text": "Repeated complaints about the same issue should be linked to the relevant incident."
+        },
+        {
+          "type": "paragraph",
+          "text": "Support should communicate the current incident status to affected customers when appropriate."
+        }
+      ]
+    },
+    "Refund Policy": {
+      "id": "3e6eda01-1b5a-804e-b06b-e9ba096c9746",
+      "url": "https://app.notion.com/p/Refund-Policy-3e6eda011b5a804eb06be9ba096c9746",
+      "created_time": "2026-09-25T18:29:00.000Z",
+      "last_edited_time": "2026-09-25T18:30:00.000Z",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Refund requests must be reviewed before processing."
+        },
+        {
+          "type": "paragraph",
+          "text": "Payment-related refunds should be documented."
+        },
+        {
+          "type": "paragraph",
+          "text": "Unusual or repeated refund activity should be escalated to Finance."
+        }
+      ]
+    },
+    "Escalation Rules": {
+      "id": "3e6eda01-1b5a-80c5-a2b5-ee8e089880b3",
+      "url": "https://app.notion.com/p/Escalation-Rules-3e6eda011b5a80c5a2b5ee8e089880b3",
+      "created_time": "2026-09-25T18:28:00.000Z",
+      "last_edited_time": "2026-09-25T18:30:00.000Z",
+      "blocks": [
+        {
+          "type": "heading_2",
+          "text": "Payment Failures"
+        },
+        {
+          "type": "paragraph",
+          "text": "If more than 5 failed transactions occur within 15 minutes, escalate the incident to Finance."
+        },
+        {
+          "type": "heading_2",
+          "text": "Checkout Latency"
+        },
+        {
+          "type": "paragraph",
+          "text": "If checkout latency remains significantly elevated and affects customers, escalate to the Engineering team."
+        },
+        {
+          "type": "heading_2",
+          "text": "Customer Complaints"
+        },
+        {
+          "type": "paragraph",
+          "text": "Repeated complaints about the same operational issue should be escalated to Customer Support leadership."
+        },
+        {
+          "type": "heading_2",
+          "text": "Invoice Reconciliation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Invoice reconciliation discrepancies should be escalated to Finance when they cannot be resolved through normal reconciliation procedures."
+        },
+        {
+          "type": "heading_2",
+          "text": "Escalation Documentation"
+        },
+        {
+          "type": "paragraph",
+          "text": "When escalating an issue, include:"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "What happened"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "When it happened"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Number of affected transactions or customers"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Relevant Jira issue"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Investigation performed"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Recommended next action"
+        }
+      ]
+    },
+    "Incident Response": {
+      "id": "3e6eda01-1b5a-80f2-9417-d605940c227d",
+      "url": "https://app.notion.com/p/Incident-Response-3e6eda011b5a80f29417d605940c227d",
+      "created_time": "2026-09-25T18:28:00.000Z",
+      "last_edited_time": "2026-09-25T18:30:00.000Z",
+      "blocks": [
+        {
+          "type": "heading_2",
+          "text": "Purpose"
+        },
+        {
+          "type": "paragraph",
+          "text": "Provide a consistent process for identifying, investigating, escalating, and resolving operational incidents."
+        },
+        {
+          "type": "heading_2",
+          "text": "Initial Investigation"
+        },
+        {
+          "type": "paragraph",
+          "text": "When an operational anomaly is detected:"
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Identify the affected service or process."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Determine when the issue started."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Check the number of affected transactions or customers."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Search existing incidents for related problems."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Determine whether an escalation threshold has been reached."
+        },
+        {
+          "type": "heading_2",
+          "text": "Payment Incidents"
+        },
+        {
+          "type": "paragraph",
+          "text": "For payment-related incidents, consult the Payment Procedures and Escalation Rules pages."
+        },
+        {
+          "type": "heading_2",
+          "text": "Documentation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Every significant incident should include:"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Summary of the problem"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Time detected"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Systems affected"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Customer impact"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Investigation performed"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Escalation performed"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Current status"
+        },
+        {
+          "type": "bulleted_list_item",
+          "text": "Resolution"
+        }
+      ]
+    },
+    "Payment Procedures": {
+      "id": "3e6eda01-1b5a-8000-b65c-d6ab5b513491",
+      "url": "https://app.notion.com/p/Payment-Procedures-3e6eda011b5a8000b65cd6ab5b513491",
+      "created_time": "2026-09-25T18:28:00.000Z",
+      "last_edited_time": "2026-09-25T18:30:00.000Z",
+      "blocks": [
+        {
+          "type": "heading_2",
+          "text": "Payment Failure Monitoring"
+        },
+        {
+          "type": "paragraph",
+          "text": "Monitor payment failures for unusual spikes in transaction failures."
+        },
+        {
+          "type": "paragraph",
+          "text": "A payment failure spike should be investigated when multiple transactions fail within a short period."
+        },
+        {
+          "type": "heading_2",
+          "text": "Incident Threshold"
+        },
+        {
+          "type": "paragraph",
+          "text": "If more than 5 failed transactions occur within 15 minutes, treat the event as a payment incident and follow the Incident Response procedure."
+        },
+        {
+          "type": "heading_2",
+          "text": "Required Actions"
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Verify whether the failures are isolated or widespread."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Check the payment provider for service anomalies."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Check recent application or checkout changes."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Create an incident record if the threshold is exceeded."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Follow the Escalation Rules for the appropriate team."
+        },
+        {
+          "type": "numbered_list_item",
+          "text": "Document the investigation and resolution."
+        },
+        {
+          "type": "heading_2",
+          "text": "Finance Escalation"
+        },
+        {
+          "type": "paragraph",
+          "text": "More than 5 failed transactions within 15 minutes requires Finance escalation."
+        },
+        {
+          "type": "paragraph",
+          "text": "The Operations team should document the affected transactions and relevant payment-provider information when escalating."
+        }
+      ]
+    }
+  }
+}

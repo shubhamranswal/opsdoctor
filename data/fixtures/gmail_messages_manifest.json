@@ -1,0 +1,171 @@
+{
+  "incident_id": "INC-2026-042",
+  "payment_flow": "checkout-v2",
+  "deployment_id": "checkout-api-2026.09.25.3",
+  "target_account": "shubhamgivesdemo@gmail.com",
+  "generated_at_utc": "2026-09-25T20:42:45.286708+00:00",
+  "summary": {
+    "expected_messages": 14,
+    "created": 14,
+    "already_existed": 0,
+    "skipped": 0,
+    "duplicates": 0,
+    "verified_in_mailbox": 14
+  },
+  "messages": [
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-01",
+      "status": "CREATED",
+      "gmail_id": "1a0d4409ef190565",
+      "subject": "AcmeFlow Payment Confirmation - Order ORD-88190",
+      "from": "AcmeFlow Billing <billing@acmeflow.com>",
+      "to": "ops@starlightanalytics.net",
+      "category": "baseline_noise",
+      "order_id": "ORD-88190",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-02",
+      "status": "CREATED",
+      "gmail_id": "1a0d7bd42ce44260",
+      "subject": "Monthly Close Schedule: September 2026 & Concur Expense Submissions",
+      "from": "Daniel Kim <daniel.kim@acmeflow.com>",
+      "to": "leads@acmeflow.com",
+      "category": "baseline_noise",
+      "order_id": null,
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-03",
+      "status": "CREATED",
+      "gmail_id": "1a0d81d653aa3488",
+      "subject": "Reminder: Q3 OKR Departmental Rollup Due Friday 5 PM",
+      "from": "Maya Rao <maya.rao@acmeflow.com>",
+      "to": "team@acmeflow.com",
+      "category": "baseline_noise",
+      "order_id": null,
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-04",
+      "status": "CREATED",
+      "gmail_id": "1a0d84697b98e5ed",
+      "subject": "Amazon Web Services Monthly Billing Statement Available - Account #4412",
+      "from": "AWS Billing Notifications <no-reply-aws@amazon.com>",
+      "to": "devops@acmeflow.com",
+      "category": "baseline_noise",
+      "order_id": null,
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-05",
+      "status": "CREATED",
+      "gmail_id": "1a0d89d9146ac937",
+      "subject": "AcmeFlow Payment Confirmation - Order ORD-88195",
+      "from": "AcmeFlow Billing <billing@acmeflow.com>",
+      "to": "billing@beaconmedia.com",
+      "category": "baseline_noise",
+      "order_id": "ORD-88195",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-06",
+      "status": "CREATED",
+      "gmail_id": "1a09f408148c1396",
+      "subject": "Post-Incident Summary: INC-2026-031 (Webhook Delivery Delays with Third-Party Gateways)",
+      "from": "Arjun Mehta <arjun.mehta@acmeflow.com>",
+      "to": "operations@acmeflow.com, engineering@acmeflow.com",
+      "category": "historical_incident",
+      "order_id": null,
+      "incident_id": "INC-2026-031"
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-07",
+      "status": "CREATED",
+      "gmail_id": "1a0d8eff617329eb",
+      "subject": "Urgent: Failed PayPal payment for Annual Subscription (Order ORD-88219)",
+      "from": "Sarah Lin <billing@brightpathlabs.com>",
+      "to": "support@acmeflow.com",
+      "category": "customer_complaint",
+      "order_id": "ORD-88219",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-08",
+      "status": "CREATED",
+      "gmail_id": "1a0d8f74908510b9",
+      "subject": "Renewal payment issue - AcmeFlow Enterprise (Order ORD-88225)",
+      "from": "David Vance <procurement@omnicorplogistics.com>",
+      "to": "sofia.martinez@acmeflow.com",
+      "category": "customer_complaint",
+      "order_id": "ORD-88225",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-09",
+      "status": "CREATED",
+      "gmail_id": "1a0d8fdb331760b9",
+      "subject": "Payment confirmation error on order ORD-88231",
+      "from": "Elena Rostova <accounts@novatechsystems.io>",
+      "to": "support@acmeflow.com",
+      "category": "customer_complaint",
+      "order_id": "ORD-88231",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-10",
+      "status": "CREATED",
+      "gmail_id": "1a0d903312a960d6",
+      "subject": "Unable to process PayPal invoice for order ORD-88240",
+      "from": "Marcus Chen <finance@apexdynamics.co>",
+      "to": "support@acmeflow.com",
+      "category": "customer_complaint",
+      "order_id": "ORD-88240",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-11",
+      "status": "CREATED",
+      "gmail_id": "1a0d8faf23046474",
+      "subject": "ESCALATION: Spike in customer checkout failures (BrightPath Labs, OmniCorp)",
+      "from": "Priya Shah <priya.shah@acmeflow.com>",
+      "to": "maya.rao@acmeflow.com",
+      "category": "internal_escalation",
+      "order_id": "ORD-88219, ORD-88225",
+      "incident_id": null
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-12",
+      "status": "CREATED",
+      "gmail_id": "1a0d907c46af344d",
+      "subject": "OPS ALERT: Payment failures on checkout-v2 flow [INC-2026-042]",
+      "from": "Maya Rao <maya.rao@acmeflow.com>",
+      "to": "arjun.mehta@acmeflow.com, ethan.cole@acmeflow.com",
+      "category": "internal_escalation",
+      "order_id": "ORD-88219, ORD-88225, ORD-88231",
+      "incident_id": "INC-2026-042"
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-13",
+      "status": "CREATED",
+      "gmail_id": "1a0d912c0fd78a26",
+      "subject": "Re: OPS ALERT: Payment failures on checkout-v2 flow [INC-2026-042]",
+      "from": "Arjun Mehta <arjun.mehta@acmeflow.com>",
+      "to": "maya.rao@acmeflow.com, ethan.cole@acmeflow.com, daniel.kim@acmeflow.com",
+      "category": "internal_escalation",
+      "order_id": null,
+      "incident_id": "INC-2026-042"
+    },
+    {
+      "marker": "ACMEFLOW-SEED-INC-2026-042-14",
+      "status": "CREATED",
+      "gmail_id": "1a0d926e453b9989",
+      "subject": "Finance check on PayPal capture failures - INC-2026-042",
+      "from": "Daniel Kim <daniel.kim@acmeflow.com>",
+      "to": "maya.rao@acmeflow.com, arjun.mehta@acmeflow.com",
+      "category": "internal_escalation",
+      "order_id": "ORD-88219, ORD-88225",
+      "incident_id": "INC-2026-042"
+    }
+  ]
+}

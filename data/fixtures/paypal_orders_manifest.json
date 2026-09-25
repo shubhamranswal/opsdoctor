@@ -1,0 +1,187 @@
+{
+  "incident_id": "INC-2026-042",
+  "payment_flow": "checkout-v2",
+  "deployment_id": "checkout-api-2026.09.25.3",
+  "environment": "sandbox",
+  "generated_at_utc": "2026-09-25T21:41:30.108044+00:00",
+  "summary": {
+    "total_orders": 8,
+    "baseline_orders": 4,
+    "incident_orders": 4,
+    "failed_capture_attempts": 7
+  },
+  "orders": [
+    {
+      "order_id": "ORD-88190",
+      "paypal_order_id": "8AT91622HS865383K",
+      "customer": "Starlight Analytics",
+      "amount": "250.00",
+      "currency": "USD",
+      "flow": "checkout-v1",
+      "phase": "baseline",
+      "deployment": "pre-incident",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:22:50.071674+00:00",
+      "capture_attempts": []
+    },
+    {
+      "order_id": "ORD-88195",
+      "paypal_order_id": "0LJ89377E3678651P",
+      "customer": "Beacon Media",
+      "amount": "620.00",
+      "currency": "USD",
+      "flow": "checkout-v1",
+      "phase": "baseline",
+      "deployment": "pre-incident",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:22:54.592958+00:00",
+      "capture_attempts": []
+    },
+    {
+      "order_id": "ORD-88201",
+      "paypal_order_id": "2UV95174U6686544R",
+      "customer": "Zenith Logistics",
+      "amount": "1450.00",
+      "currency": "USD",
+      "flow": "checkout-v2",
+      "phase": "baseline",
+      "deployment": "pre-incident",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:22:58.734683+00:00",
+      "capture_attempts": []
+    },
+    {
+      "order_id": "ORD-88208",
+      "paypal_order_id": "4XL473937X660192E",
+      "customer": "Crestview Health",
+      "amount": "310.00",
+      "currency": "USD",
+      "flow": "checkout-v1",
+      "phase": "baseline",
+      "deployment": "pre-incident",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:23:03.343716+00:00",
+      "capture_attempts": []
+    },
+    {
+      "order_id": "ORD-88219",
+      "paypal_order_id": "1LL009468F308113M",
+      "customer": "BrightPath Labs",
+      "amount": "1200.00",
+      "currency": "USD",
+      "flow": "checkout-v2",
+      "phase": "incident",
+      "deployment": "checkout-api-2026.09.25.3",
+      "client_tracking_ref": "PAYID-MZ4910",
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:23:07.871733+00:00",
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "2026-09-25T21:40:55.663865+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d30aabc4c"
+        },
+        {
+          "attempt": 2,
+          "timestamp": "2026-09-25T21:41:00.712714+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d30c78e35"
+        }
+      ]
+    },
+    {
+      "order_id": "ORD-88225",
+      "paypal_order_id": "3KF38607U24457627",
+      "customer": "OmniCorp Logistics",
+      "amount": "4800.00",
+      "currency": "USD",
+      "flow": "checkout-v2",
+      "phase": "incident",
+      "deployment": "checkout-api-2026.09.25.3",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:23:22.305257+00:00",
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "2026-09-25T21:41:06.132711+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d30e99e46"
+        },
+        {
+          "attempt": 2,
+          "timestamp": "2026-09-25T21:41:10.772820+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d31064e69"
+        }
+      ]
+    },
+    {
+      "order_id": "ORD-88231",
+      "paypal_order_id": "9PN44652X52492116",
+      "customer": "NovaTech Systems",
+      "amount": "750.00",
+      "currency": "USD",
+      "flow": "checkout-v2",
+      "phase": "incident",
+      "deployment": "checkout-api-2026.09.25.3",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:23:31.544190+00:00",
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "2026-09-25T21:41:15.380289+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d31234cb4"
+        },
+        {
+          "attempt": 2,
+          "timestamp": "2026-09-25T21:41:20.875576+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d3145afa5"
+        }
+      ]
+    },
+    {
+      "order_id": "ORD-88240",
+      "paypal_order_id": "25B39056JJ708184A",
+      "customer": "Apex Dynamics",
+      "amount": "2400.00",
+      "currency": "USD",
+      "flow": "checkout-v2",
+      "phase": "incident",
+      "deployment": "checkout-api-2026.09.25.3",
+      "client_tracking_ref": null,
+      "order_status": "CREATED",
+      "created_at_utc": "2026-09-25T20:23:40.794471+00:00",
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "2026-09-25T21:41:25.515500+00:00",
+          "status_code": 422,
+          "error_issue": "ORDER_NOT_APPROVED",
+          "error_message": "PayPal API error HTTP 422: The requested action could not be performed, semantically incorrect, or failed business validation.",
+          "debug_id": "ca40d31626a39"
+        }
+      ]
+    }
+  ]
+}
