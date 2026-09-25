@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpsDoctor — AI Business Operations Agent</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-icon">🩺</div>
+      <div>
+        <div class="brand-title">OpsDoctor</div>
+        <div class="brand-subtitle">AI Business Operations Agent</div>
+      </div>
+      <span class="env-tag">AcmeFlow Operations</span>
+    </div>
+
+    <!-- Live System Status Pills -->
+    <div class="system-status-bar" id="system-status-container">
+      <div class="status-pill"><span class="status-dot connected"></span><span>Jira Cloud</span></div>
+      <div class="status-pill"><span class="status-dot connected"></span><span>PayPal Sandbox</span></div>
+      <div class="status-pill"><span class="status-dot connected"></span><span>Slack</span></div>
+      <div class="status-pill"><span class="status-dot connected"></span><span>Gmail</span></div>
+      <div class="status-pill"><span class="status-dot connected"></span><span>Notion</span></div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="app-nav">
+    <button class="nav-btn active" data-tab="console">
+      <span>💬 Investigation Console</span>
+    </button>
+    <button class="nav-btn" data-tab="approvals">
+      <span>🛡️ Action Center</span>
+      <span class="badge-count" id="approvals-badge" style="display:none">0</span>
+    </button>
+    <button class="nav-btn" data-tab="timeline">
+      <span>📊 Evidence Timeline &amp; Graph</span>
+    </button>
+    <button class="nav-btn" data-tab="systems">
+      <span>🔌 Connected Integrations</span>
+    </button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="app-main">
+
+    <!-- Tab 1: Investigation Console -->
+    <section class="tab-pane active" id="console-pane">
+      <div class="chat-panel">
+        
+        <!-- Quick-Start Prompts Bar -->
+        <div class="quick-prompts">
+          <span style="font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Quick Triage:</span>
+          <button class="prompt-chip" data-prompt="Investigate incident ticket KAN-4 and check if any policy escalation is required">
+            ⚡ Investigate incident ticket KAN-4
+          </button>
+          <button class="prompt-chip" data-prompt="Analyze PayPal Sandbox transaction failures on checkout-v2">
+            🔍 Check PayPal capture failures
+          </button>
+          <button class="prompt-chip" data-prompt="Scan Slack #ops-alerts for recent checkout-api deployments">
+            💬 Scan Slack deployment alerts
+          </button>
+          <button class="prompt-chip" data-prompt="Inspect Notion Payment Procedures and Escalation Rules thresholds">
+            📜 Retrieve Notion escalation policy
+          </button>
+          <button class="prompt-chip" data-prompt="Search Gmail support queue for customer checkout error reports">
+            ✉️ Search Gmail customer complaints
+          </button>
+        </div>
+
+        <!-- Message Feed Area -->
+        <div class="message-feed" id="message-feed">
+          
+          <!-- Welcome / Orientation Card -->
+          <div class="message-bubble assistant">
+            <div class="assistant-content-card">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:1.4rem">🩺</span>
+                <div>
+                  <strong style="color:var(--text-primary);font-size:1rem;">Welcome to OpsDoctor</strong>
+                  <div style="font-size:0.8rem;color:var(--text-secondary);">Autonomous Cross-System Operations Investigation Engine</div>
+                </div>
+              </div>
+              <p style="font-size:0.88rem;color:var(--text-secondary);margin-top:6px;">
+                I am connected directly to your operational ecosystem through <strong>Swytchcode</strong>:
+              </p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:8px;font-size:0.8rem;">
+                <div style="background:rgba(30,41,59,0.5);padding:8px;border-radius:6px;">
+                  <strong style="color:#60a5fa">Jira Cloud:</strong> <code>OPS (KAN)</code> incident tickets
+                </div>
+                <div style="background:rgba(30,41,59,0.5);padding:8px;border-radius:6px;">
+                  <strong style="color:#38bdf8">PayPal Sandbox:</strong> Orders &amp; capture failures
+                </div>
+                <div style="background:rgba(30,41,59,0.5);padding:8px;border-radius:6px;">
+                  <strong style="color:#e879f9">Slack:</strong> <code>#ops-alerts</code> &amp; <code>#payments</code>
+                </div>
+                <div style="background:rgba(30,41,59,0.5);padding:8px;border-radius:6px;">
+                  <strong style="color:#f87171">Gmail:</strong> Customer complaints &amp; alerts
+                </div>
+                <div style="background:rgba(30,41,59,0.5);padding:8px;border-radius:6px;">
+                  <strong style="color:#e2e8f0">Notion:</strong> <code>AcmeFlow Operations</code> runbooks
+                </div>
+              </div>
+              <p style="font-size:0.85rem;color:var(--text-muted);">
+                Ask me to investigate an incident, or click a quick-start chip above to begin.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Chat Input Bar (IME-Safe per Modern Web Guidance) -->
+        <div class="input-bar-container">
+          <textarea 
+            id="chat-input" 
+            class="chat-input" 
+            placeholder="Ask OpsDoctor to investigate an incident, check gateway logs, or evaluate policies... (Enter to send, Shift+Enter for new line)"
+            rows="1"
+          ></textarea>
+          <button id="btn-send" class="btn-send" title="Send (Enter)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tab 2: Action Center & Approvals -->
+    <section class="tab-pane" id="approvals-pane">
+      <div class="assistant-content-card">
+        <h2 style="font-size:1.15rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;">
+          <span>🛡️ Action Center — Human-in-the-Loop Approvals</span>
+        </h2>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">
+          OpsDoctor stages consequential operations (such as publishing investigation reports to Jira or sending escalation alerts to Slack) for explicit operator approval before executing them via Swytchcode.
+        </p>
+        <div id="approvals-list" style="display:flex;flex-direction:column;gap:1rem;margin-top:0.75rem;"></div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Evidence Timeline & Graph -->
+    <section class="tab-pane" id="timeline-pane">
+      <div class="assistant-content-card">
+        <h2 style="font-size:1.15rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;">
+          <span>📊 Cross-System Incident Timeline &amp; Evidence Graph</span>
+        </h2>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">
+          Chronological synthesis of events across Slack deployments, metric alarms, PayPal capture errors, Gmail customer complaints, and Notion policy rules for <code>INC-2026-042</code>.
+        </p>
+        <div class="timeline-list" id="timeline-container" style="margin-top:1rem;"></div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Connected Systems -->
+    <section class="tab-pane" id="systems-pane">
+      <div class="assistant-content-card">
+        <h2 style="font-size:1.15rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;">
+          <span>🔌 Connected Operational Integrations</span>
+        </h2>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">
+          All integrations are authenticated and executed through the <strong>Swytchcode</strong> execution kernel.
+        </p>
+        <div id="systems-detail-list" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:1rem;margin-top:1rem;"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
