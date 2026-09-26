@@ -1,107 +1,538 @@
-# 🩺 OpsDoctor — Autonomous AI Business Operations Engineer
+<p align="center">
+  <img src="./docs/logo_horizontal.png" alt="OpsDoctor" width="520">
+</p>
 
-**OpsDoctor** is an enterprise-grade AI Operations Agent that investigates incidents, monitors cross-provider payments, audits knowledge base policies, coordinates cross-team escalations, and executes safe operational remediations.
+<p align="center">
+  <strong>Investigate. Reason. Validate. Act.</strong>
+</p>
 
-Unlike brittle deterministic workflows or toy chatbots, OpsDoctor utilizes a **capability-first cognitive ReAct loop** coupled with **Swytchcode** as its secure execution kernel and compiler target.
+
+> OpsDoctor is an agentic AI operations assistant that turns fragmented operational signals into evidence-backed decisions and safe next actions.
+
+[![GitHub](https://img.shields.io/badge/GitHub-shubhamranswal%2Fopsdoctor-181717?logo=github)](https://github.com/shubhamranswal/opsdoctor)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Agent Architecture](https://img.shields.io/badge/Architecture-ReAct%20Agent-7C3AED)](#-how-the-agent-works)
+[![Execution](https://img.shields.io/badge/Execution-Swytchcode-0F766E)](#-swytchcode-as-the-execution-kernel)
 
 ---
 
-## 🌟 Key Capabilities
+## 📌 Overview
 
-### 1. Capability-First Multi-Domain Intelligence
-OpsDoctor routes user requests based on true operational intent rather than hardcoded waterfalls:
-- **Payments & Treasury**: Queries like *"Any pending payments?"* or *"Compare payment failures across gateways"* route directly to connected payment gateways (PayPal & Stripe) without invoking Jira.
-- **Incident Triage & Evidence Synthesis**: Multi-hop root-cause investigations start with real-time gateway failure telemetry, correlating logs with Slack alerts, Gmail customer complaints, and Notion runbooks before branching into Jira.
-- **Support & Communication**: Search customer sentiment and complaint threads across Gmail and incident alert channels in Slack.
-- **Policy & Compliance**: Verifies operational actions and escalation thresholds against official SOPs and runbooks hosted in Notion.
+OpsDoctor is an **agentic AI operations platform** designed to help teams investigate business issues, correlate evidence across connected systems, validate decisions against operational policies, and safely execute consequential actions.
 
-### 2. Live Payment Gateway Integration via Swytchcode
-- **Stripe Payments**: Queries live test-mode PaymentIntents, charges, customers, and refunds. Handles complex statuses (`requires_action` 3DS challenges, `requires_payment_method` incomplete checkouts, `succeeded`, `card_declined`).
-- **PayPal Sandbox**: Monitors capture telemetry, orders, and failure responses.
-- **Unified Payment Aggregation**: Normalizes transaction schemas across gateways to deliver real-time operational pulse and bottleneck metrics.
+Instead of behaving like a static dashboard or a chatbot that simply answers questions, OpsDoctor operates as a **capability-first cognitive agent**:
 
-### 3. Human-in-the-Loop Safeguards
-OpsDoctor strictly prevents unauthorized state mutations:
-- Consequential actions (adding Jira incident comments, initiating refunds, dispatching announcements) are automatically staged as **Approval Requests**.
-- Operators review the rationale, affected systems, and exact JSON payloads before approving or rejecting execution.
-- Approved actions execute strictly through Swytchcode with complete audit logging.
+1. Understand the operational request.
+2. Determine what capabilities and systems are relevant.
+3. Execute the required tools through Swytchcode.
+4. Inspect and reason over the returned observations.
+5. Gather additional evidence when necessary.
+6. Validate proposed actions against the Knowledge Base / operational policies.
+7. Stage consequential actions for human approval.
+8. Execute approved actions through Swytchcode.
+9. Preserve evidence and execution history for auditability.
 
-### 4. Multi-Turn Conversational Memory
-Maintains cross-turn context across extended operational dialogues:
+The result is a workflow that moves from:
+
+**"What happened?" → "Why did it happen?" → "Who or what is affected?" → "What should we do?" → "Is that action allowed?" → "Execute safely."**
+
+---
+
+## 🎯 What Problem Does OpsDoctor Solve?
+
+Modern operations teams work across a fragmented stack:
+
+- Payment gateways
+- Email
+- Slack
+- Jira
+- Knowledge bases and SOPs
+- Customer support conversations
+- Operational dashboards
+
+The problem is rarely a lack of data. The problem is connecting the right evidence at the right time and turning it into an actionable decision.
+
+OpsDoctor provides an agentic layer across these systems.
+
+### Example
+
+A team notices several payment failures.
+
+A traditional dashboard might show:
+
 ```text
-Turn 1: "Show me pending payments"
-         ↳ Returns live multi-gateway summary ($1,270.00 pending across Stripe)
-Turn 2: "Which ones are stuck?"
-         ↳ Identifies specific bottlenecks (3DS auth challenge & incomplete checkout)
-Turn 3: "Why is the Meridian payment stuck?"
-         ↳ Investigates Meridian Tech's specific transaction held in requires_payment_method
-Turn 4: "Check whether this violates any operational policy"
-         ↳ Audits Notion SOPs to confirm payment delay threshold
-Turn 5: "Escalate it"
-         ↳ Stages a professionally formatted Jira comment awaiting human approval
+5 failed payments
+$9,830 affected
+4 PayPal
+1 Stripe
 ```
 
-### 5. Linear-Style Web Operations Console
-A SaaS web console (`http://localhost:8000`) featuring:
-- **Ask OpsDoctor**: Real-time streaming conversational agent interface with collapsible activity traces.
-- **Operations Pulse**: High-level telemetry dashboards with live gateway metrics and recent transactions.
-- **Payments Hub**: Unified visibility across Stripe and PayPal with status filters and transaction drill-downs.
-- **Investigations**: Incident investigation history and cross-system evidence graphs.
-- **Approvals Center**: Action staging, operator inspection, and one-click execution.
+OpsDoctor can continue the investigation:
+
+```text
+Payment failures
+      ↓
+Identify affected transactions
+      ↓
+Gather customer / operational context
+      ↓
+Retrieve relevant policies and SOPs
+      ↓
+Assess the operational situation
+      ↓
+Validate the proposed action
+      ↓
+Prepare an evidence-backed recommendation
+      ↓
+Request human approval
+      ↓
+Execute the approved action
+```
+
+This makes the agent useful not only for **incident detection**, but for **operational decision-making and customer retention workflows**.
 
 ---
 
-## 🏗️ Architecture
+# 🌟 Key Capabilities
+
+## 1. 🧠 Capability-First Agentic Reasoning
+
+OpsDoctor routes requests according to operational intent rather than following a single hardcoded waterfall.
+
+Examples:
+
+- **Payments & Treasury**
+  - Pending payments
+  - Failed payments
+  - Provider-specific payment investigations
+  - Cross-provider comparisons
+
+- **Incident Triage & Evidence Synthesis**
+  - Investigate operational failures
+  - Correlate payment telemetry with other business signals
+  - Gather evidence across multiple systems
+  - Continue investigation when the first observation is insufficient
+
+- **Support & Communication**
+  - Search customer sentiment and complaint threads
+  - Correlate support conversations with operational incidents
+
+- **Policy & Compliance**
+  - Retrieve SOPs and operational policies
+  - Check thresholds and permitted actions
+  - Use policy evidence when validating recommendations
+
+---
+
+## 2. 💳 Multi-Provider Payment Intelligence
+
+OpsDoctor integrates payment operations across:
+
+### Stripe
+
+Supports live test-mode operational data including:
+
+- PaymentIntents
+- Charges
+- Customers
+- Refunds
+- Payment states such as:
+  - `requires_action`
+  - `requires_payment_method`
+  - `succeeded`
+  - `card_declined`
+
+### PayPal
+
+Supports sandbox operational data including:
+
+- Orders
+- Capture telemetry
+- Capture failures
+- Provider responses
+
+### Unified Payment View
+
+The agent normalizes observations from connected providers so operations teams can reason about payment health across gateways instead of inspecting each provider separately.
+
+---
+
+## 3. 🔎 Evidence-Driven Investigations
+
+OpsDoctor can perform multi-hop investigations instead of stopping after the first API response.
+
+A typical investigation can move through:
+
+```text
+Payment Gateway
+      ↓
+Transaction / Failure Evidence
+      ↓
+Customer Context
+      ↓
+Slack / Gmail Signals
+      ↓
+Notion SOP / Knowledge Base
+      ↓
+Jira Investigation
+      ↓
+Evidence Synthesis
+```
+
+The agent records tool observations in its working state so later reasoning steps can build on earlier results.
+
+---
+
+## 4. 📚 Knowledge Base & Policy Validation
+
+Operational actions should not be based purely on model intuition.
+
+OpsDoctor can retrieve official SOPs and operational policies from the connected Knowledge Base and use them as evidence when evaluating a proposed action.
+
+The intended decision pattern is:
+
+```text
+Observed Evidence
+       ↓
+Proposed Action
+       ↓
+Relevant Policy / SOP
+       ↓
+Validation
+       ↓
+Allowed / Requires Approval / Escalate
+```
+
+This creates a clear distinction between:
+
+- **What the systems observed**
+- **What the agent inferred**
+- **What the organization permits**
+- **What action is ultimately executed**
+
+---
+
+## 5. 🛡️ Human-in-the-Loop Safety
+
+OpsDoctor does not silently mutate business state.
+
+Consequential operations are staged as **Approval Requests** before execution.
+
+Examples include:
+
+- Adding Jira incident comments
+- Initiating refunds
+- Dispatching announcements
+- Other consequential operational writes
+
+Operators can review:
+
+- The proposed action
+- The rationale
+- Affected systems
+- Tool and evidence context
+- Exact execution payload
+
+Only approved actions are executed through Swytchcode.
+
+---
+
+## 6. 💬 Multi-Turn Operational Memory
+
+OpsDoctor maintains context across operational conversations.
+
+Example:
+
+```text
+Turn 1
+"Show me pending payments."
+
+        ↓
+
+Turn 2
+"Which ones are stuck?"
+
+        ↓
+
+Turn 3
+"Why is the Meridian payment stuck?"
+
+        ↓
+
+Turn 4
+"Check whether this violates any operational policy."
+
+        ↓
+
+Turn 5
+"Escalate it."
+```
+
+The agent can use the accumulated context to continue the investigation instead of treating every message as an isolated request.
+
+---
+
+## 7. 🖥️ Operations Console
+
+OpsDoctor includes a web-based operations console with dedicated operational surfaces:
+
+### Ask OpsDoctor
+
+Conversational interface for interacting with the agent and observing its activity.
+
+### Operations Pulse
+
+High-level operational telemetry and recent transaction visibility.
+
+### Payments Hub
+
+Unified Stripe and PayPal payment visibility with status filters and transaction drill-downs.
+
+### Investigations
+
+Investigation history and cross-system evidence views.
+
+### Approvals Center
+
+Review, approve, or reject staged operational actions.
+
+---
+
+# 🖼️ Product Screenshots
+
+## Ask OpsDoctor
+
+![Ask OpsDoctor](./docs/ss_chat.png)
+
+Conversational agent interface with operational reasoning and activity traces.
+
+## Operations Pulse
+
+![Operations Pulse](./docs/ss_pulse.png)
+
+Operational overview and telemetry.
+
+## Payments Hub
+
+![Payments Hub](./docs/ss_payments.png)
+
+Cross-provider payment visibility.
+
+## Investigations
+
+![Investigations](./docs/ss_investigations.png)
+
+Investigation history and evidence.
+
+## Integrations
+
+![Integrations](./docs/ss_integrations.png)
+
+Connected operational systems and integrations.
+
+---
+
+# 🏗️ Architecture
+
+![OpsDoctor Architecture](./docs/arch.svg)
 
 ```mermaid
 flowchart TD
-    UI["Web Operations Console (FastAPI + Modern Web UI)"] --> API["REST API (/api/agent, /api/payments, /api/approvals, /api/systems)"]
-    API --> Orchestrator["OpsDoctor Orchestrator (packages.agent.orchestrator)"]
-    
-    subgraph Agent Core
-        Orchestrator --> Brain["Cognitive Brain (Gemini / ReAct Planner)"]
-        Orchestrator --> Memory["Session & State Store (Disk-backed persistence)"]
-        Orchestrator --> Approvals["Approval Manager (Human-in-the-Loop)"]
-        Orchestrator --> Registry["Tool Registry (20+ Canonical Tools)"]
+    User["Operations User"] --> UI["Web Operations Console"]
+
+    UI --> API["FastAPI REST API"]
+
+    API --> Orchestrator["OpsDoctor Orchestrator"]
+
+    subgraph AgentCore["Agent Core"]
+        Orchestrator --> Brain["Cognitive Brain / ReAct Planner"]
+        Orchestrator --> Memory["Session & State Store"]
+        Orchestrator --> Approval["Approval Manager"]
+        Orchestrator --> Registry["Tool Registry"]
     end
 
-    subgraph Execution Kernel
-        Registry --> Swytchcode["Swytchcode CLI Engine (swytchcode exec)"]
+    subgraph Execution["Execution Kernel"]
+        Registry --> Swytchcode["Swytchcode CLI Engine"]
     end
 
-    subgraph External Systems
-        Swytchcode --> Stripe["Stripe API (Test Mode)"]
-        Swytchcode --> PayPal["PayPal Sandbox API"]
-        Swytchcode --> Jira["Jira Cloud (acmeflow-ops)"]
-        Swytchcode --> Slack["Slack Workspace"]
+    subgraph Providers["Connected Systems"]
+        Swytchcode --> Stripe["Stripe"]
+        Swytchcode --> PayPal["PayPal"]
+        Swytchcode --> Jira["Jira"]
+        Swytchcode --> Slack["Slack"]
         Swytchcode --> Gmail["Gmail / Google Workspace"]
         Swytchcode --> Notion["Notion Knowledge Base"]
     end
+
+    Brain --> Registry
+    Brain --> Memory
+    Approval --> Swytchcode
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🧩 Core Components
 
-### Prerequisites
-- Python 3.10+ (tested on Python 3.13)
-- Swytchcode CLI installed (`swytchcode --version`)
+| Component | Responsibility |
+|---|---|
+| **Web Operations Console** | User-facing operations experience |
+| **FastAPI API Layer** | HTTP endpoints for agent, payments, approvals, and systems |
+| **OpsDoctor Orchestrator** | Coordinates the agent loop, tools, state, evidence, and approvals |
+| **Cognitive Brain** | Determines what the agent should do next |
+| **ReAct Planner** | Supports iterative reasoning and tool selection |
+| **Tool Registry** | Central registry for canonical operational capabilities |
+| **Session & State Store** | Preserves conversational and investigation state |
+| **Approval Manager** | Handles human approval for consequential actions |
+| **Swytchcode** | Secure execution kernel and integration layer |
+| **External Providers** | Stripe, PayPal, Jira, Slack, Gmail, and Notion |
 
-### 1. Installation
-Fork, Clone the repository and install dependencies:
+---
+
+# 🤖 How the Agent Works
+
+OpsDoctor follows an iterative agent loop rather than a fixed workflow.
+
+```text
+┌───────────────────────────┐
+│       User Request        │
+└─────────────┬─────────────┘
+              ↓
+┌───────────────────────────┐
+│   Understand Intent       │
+└─────────────┬─────────────┘
+              ↓
+┌───────────────────────────┐
+│ Select Relevant Capability│
+└─────────────┬─────────────┘
+              ↓
+┌───────────────────────────┐
+│ Execute Tool via          │
+│ Swytchcode                │
+└─────────────┬─────────────┘
+              ↓
+┌───────────────────────────┐
+│ Inspect Observation       │
+└─────────────┬─────────────┘
+              ↓
+        More evidence?
+          /       \
+        YES        NO
+         ↓          ↓
+   Select next     Synthesize
+      tool          result
+         ↓            ↓
+         └──────┬─────┘
+                ↓
+┌───────────────────────────┐
+│ Validate Proposed Action  │
+│ against Policy / KB       │
+└─────────────┬─────────────┘
+              ↓
+       Consequential?
+          /       \
+        YES        NO
+         ↓          ↓
+     Approval      Return
+         ↓         Result
+      Approved?
+       /     \
+     YES      NO
+      ↓        ↓
+   Execute    Stop
+      ↓
+   Audit
+```
+
+The important distinction is that the **agent decides what it needs to do next based on the current evidence**.
+
+---
+
+# ⚡ Swytchcode as the Execution Kernel
+
+OpsDoctor uses **Swytchcode** as its secure integration and execution layer.
+
+Rather than embedding provider credentials and API-specific execution logic throughout the application, OpsDoctor routes canonical capabilities through Swytchcode.
+
+Connected systems include:
+
+- Stripe
+- PayPal
+- Jira
+- Slack
+- Gmail
+- Notion
+
+This gives the agent a consistent execution boundary while keeping provider authentication outside the application code.
+
+---
+
+# 🔐 Security & Safety
+
+OpsDoctor follows a zero-secret application architecture.
+
+### Zero Committed Secrets
+
+The project does not store bearer tokens, private keys, or passwords in source code.
+
+### Encrypted Credential Handling
+
+Third-party credentials are managed through Swytchcode's encrypted local keychain.
+
+### Redacted Execution Logs
+
+Sensitive authorization headers and tokens are removed from execution traces.
+
+### Human Approval Gates
+
+Consequential write operations require explicit operator approval before execution.
+
+### Evidence Before Action
+
+The agent is designed to gather evidence and validate proposed actions before executing consequential operations.
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+- Python 3.10+
+- Python 3.13 tested
+- Swytchcode CLI installed
+- Access to the providers you intend to connect
+
+Verify the CLI:
+
 ```bash
-git clone https://github.com/<your_username>/opsdoctor.git
+swytchcode --version
+```
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/shubhamranswal/opsdoctor.git
 cd opsdoctor
+```
+
+Install Python dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Swytchcode Provider Authentication
-OpsDoctor leverages Swytchcode for secure credential handling. No external API keys or secrets are stored in code or `.env`:
-```bash
-# Verify Swytchcode installation and tooling
-swytchcode doctor
+---
 
-# Connect providers (developer connects once via interactive CLI)
+## 2. Verify Swytchcode
+
+```bash
+swytchcode doctor
+```
+
+Connect the required providers:
+
+```bash
 swytchcode auth connect Stripe
 swytchcode auth connect paypal
 swytchcode auth connect jira
@@ -110,68 +541,329 @@ swytchcode auth connect gmail
 swytchcode auth connect notion
 ```
 
-### 3. Seed Realistic Stripe Test Data (Optional)
-To populate the connected Stripe test environment with realistic operational transactions (succeeded, 3DS action required, awaiting payment method, card declined, refund):
+You only need to connect the providers required for the capabilities you want to use.
+
+---
+
+## 3. Seed Stripe Test Data
+
+OpsDoctor includes an optional script for populating a connected Stripe test environment with realistic operational transactions.
+
 ```bash
 python scripts/seed_stripe_test_data.py
 ```
 
-### 4. Launch the Web Application
-```bash
-python -m uvicorn apps.web.main:app --host 127.0.0.1 --port 8000 --reload
-```
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000) to access the OpsDoctor Operations Console.
+The seeded scenarios include examples such as:
+
+- Successful payments
+- 3DS / additional-action payments
+- Incomplete payment-method flows
+- Card declines
+- Refunds
 
 ---
 
-## 🧪 Comprehensive Automated Test Suites
+## 4. Start the Application
 
-OpsDoctor includes comprehensive test suites validating all capability domains and architectural guarantees:
+```bash
+python -m uvicorn apps.web.main:app --host 127.0.0.1 --port 8000 --reload
+```
 
-### 1. The 15-Scenario Product Verification Matrix
-Verifies the complete product specification:
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# 🧪 Testing
+
+OpsDoctor includes automated verification suites covering agent behavior, tool routing, approvals, payment integrations, conversational memory, and persistence.
+
+## Product Verification Matrix
+
 ```bash
 python -m unittest tests/test_opsdoctor_product_matrix.py -v
 ```
-**Scenarios Covered:**
-1. `test_01_pending_payment_query_does_not_call_jira`
-2. `test_02_paypal_specific_query_uses_paypal`
-3. `test_03_stripe_specific_query_uses_stripe`
-4. `test_04_cross_provider_payment_query_checks_connected_providers`
-5. `test_05_disconnected_providers_are_not_queried`
-6. `test_06_connected_but_empty_providers_reported_empty`
-7. `test_07_no_hardcoded_transaction_summaries_returned`
-8. `test_08_followup_questions_retain_conversational_context`
-9. `test_09_agent_dynamically_selects_multiple_tools_when_needed`
-10. `test_10_consequential_actions_require_approval`
-11. `test_11_approved_actions_execute_through_swytchcode`
-12. `test_12_jira_comments_use_proper_professional_formatting`
-13. `test_13_agent_answers_derived_from_actual_tool_observations`
-14. `test_14_stripe_test_records_are_real_connected_records`
-15. `test_15_restarting_application_preserves_session_state`
 
-### 2. Multi-Turn Natural Operational Dialogue Test
-Verifies natural 5-turn dialogue progression and Jira wiki markup:
+The 15-scenario matrix covers:
+
+1. Pending payment queries avoid unnecessary Jira calls
+2. PayPal-specific queries use PayPal
+3. Stripe-specific queries use Stripe
+4. Cross-provider payment queries inspect connected providers
+5. Disconnected providers are not queried
+6. Connected-but-empty providers are reported correctly
+7. Transaction summaries are derived from observations
+8. Follow-up questions retain conversational context
+9. The agent can dynamically select multiple tools
+10. Consequential actions require approval
+11. Approved actions execute through Swytchcode
+12. Jira comments use professional formatting
+13. Agent answers are derived from actual tool observations
+14. Stripe test records come from connected records
+15. Restarting the application preserves session state
+
+## Natural Operational Dialogue
+
 ```bash
 python -m unittest tests/test_natural_flow.py -v
 ```
 
-### 3. Cross-Domain Agent Behavior Matrix
+This verifies multi-turn operational dialogue and Jira formatting behavior.
+
+## Cross-Domain Agent Matrix
+
 ```bash
 python -m unittest tests/test_agent_comprehensive_matrix.py -v
 ```
 
 ---
 
-## 🛡️ Security & Zero-Secret Architecture
+# 📁 Project Structure
 
-1. **Zero Committed Secrets**: OpsDoctor does not store or log any bearer tokens, private keys, or passwords.
-2. **Encrypted Key Management**: All third-party credentials reside in Swytchcode's encrypted local keychain.
-3. **Redacted Execution Logs**: Sensitive headers (`Authorization`, tokens) are stripped from execution traces.
-4. **Approval Gateways**: Consequential write methods require human verification before execution.
+A high-level view of the repository:
+
+```text
+opsdoctor/
+│
+├── apps/
+│   └── web/
+│       └── main.py
+│
+├── packages/
+│   └── agent/
+│       ├── orchestrator
+│       ├── cognitive brain
+│       ├── tool registry
+│       └── approval / state management
+│
+├── scripts/
+│   └── seed_stripe_test_data.py
+│
+├── tests/
+│   ├── test_opsdoctor_product_matrix.py
+│   ├── test_natural_flow.py
+│   └── test_agent_comprehensive_matrix.py
+│
+├── arch.svg
+├── logo_horizontal.png
+├── logo_square.png
+├── ss_chat.png
+├── ss_integrations.png
+├── ss_investigations.png
+├── ss_payments.png
+├── ss_pulse.png
+├── requirements.txt
+└── README.md
+```
+
+> The exact package contents may evolve as the agent capabilities grow. The structure above highlights the major application boundaries and repository assets.
 
 ---
 
-## 📖 Production Deployment
+# 🧭 Operational Domains
 
-For Docker containerization, systemd daemon configuration, health probes, and Kubernetes manifests, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+OpsDoctor currently organizes its capabilities around several operational domains:
+
+| Domain | Example Questions |
+|---|---|
+| 💳 **Payments** | "What payments are pending?" |
+| 🔍 **Investigations** | "Why did this payment fail?" |
+| 📚 **Policy** | "Does this action comply with our SOP?" |
+| 💬 **Support** | "Are customers reporting this issue?" |
+| 🚨 **Incidents** | "Should this operational issue be escalated?" |
+| 🛡️ **Approvals** | "What actions are waiting for approval?" |
+| 📈 **Operations Pulse** | "What is happening across our connected systems?" |
+
+---
+
+# 🎬 Demo Scenario
+
+A representative OpsDoctor workflow:
+
+### 1. Detect
+
+```text
+"We're seeing payment failures."
+```
+
+### 2. Investigate
+
+OpsDoctor inspects connected payment providers and identifies the affected transactions.
+
+### 3. Correlate
+
+The agent gathers additional context from connected operational systems where relevant.
+
+### 4. Understand Customer Impact
+
+The investigation can move beyond transaction status to the affected customer's operational context.
+
+### 5. Validate
+
+OpsDoctor retrieves the relevant Knowledge Base / SOP information and validates the proposed operational response.
+
+### 6. Recommend
+
+The agent presents:
+
+- What happened
+- What evidence supports the conclusion
+- Which customers / systems are affected
+- What action is being proposed
+- Why the action is appropriate
+- Which policy or operational guidance supports it
+
+### 7. Approve
+
+A human operator reviews the proposed consequential action.
+
+### 8. Execute
+
+Once approved, the action is executed through Swytchcode and recorded for auditability.
+
+---
+
+# 🧱 Design Principles
+
+OpsDoctor is built around a few core principles.
+
+### Evidence over assumptions
+
+Agent responses should be grounded in actual tool observations.
+
+### Capabilities over workflows
+
+The agent chooses capabilities based on operational intent instead of following one giant predefined workflow.
+
+### Policy before action
+
+Operational policies and SOPs should inform consequential decisions.
+
+### Human control
+
+The agent can prepare and reason about consequential actions, but humans remain in control of execution.
+
+### Secure execution
+
+Provider credentials and external execution are isolated behind Swytchcode.
+
+### Conversational continuity
+
+Operational investigations can span multiple turns without losing context.
+
+### Observable reasoning
+
+Tool activity, evidence, and approval state should remain inspectable by operators.
+
+---
+
+# 🗺️ Roadmap
+
+The architecture is designed to grow beyond the current payment and operations scenarios.
+
+Potential extensions include:
+
+- Expanded customer retention intelligence
+- More Knowledge Base sources
+- Additional payment providers
+- Additional CRM and support integrations
+- More operational remediation capabilities
+- Richer investigation graphs
+- Expanded policy validation
+- Additional approval workflows
+- More comprehensive deployment automation
+- Broader automated agent evaluation
+
+The goal is to evolve OpsDoctor from an operations assistant into a reusable **AI operations control plane** for businesses.
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+A good contribution should generally:
+
+1. Add or improve a clearly defined capability.
+2. Keep provider execution behind the integration layer.
+3. Preserve evidence-driven agent behavior.
+4. Avoid committing credentials or secrets.
+5. Add or update tests for meaningful behavior changes.
+6. Preserve human approval for consequential operations.
+
+Suggested workflow:
+
+```bash
+git checkout -b feature/your-capability
+```
+
+Make your changes, add tests, and open a pull request with:
+
+- What changed
+- Why it changed
+- Which capability it affects
+- How it was tested
+- Any new provider configuration required
+
+---
+
+# 🐛 Troubleshooting
+
+### Check Swytchcode
+
+```bash
+swytchcode doctor
+```
+
+### Check provider authentication
+
+```bash
+swytchcode auth
+```
+
+Reconnect the provider if required.
+
+### Run the automated tests
+
+```bash
+python -m unittest tests/test_opsdoctor_product_matrix.py -v
+```
+
+### Start the application locally
+
+```bash
+python -m uvicorn apps.web.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+---
+
+# 📄 License
+
+Add the repository's chosen open-source license here before publishing the repository as a public open-source project.
+
+For example, if the project is intended to use MIT:
+
+```text
+MIT License
+```
+
+Do not claim a license until the corresponding `LICENSE` file has been added to the repository.
+
+---
+
+# 🙌 Acknowledgements
+
+Built as an agentic AI operations project around **Swytchcode** integrations and execution.
+
+---
+
+## 🔗 Project
+
+**Repository:**  
+https://github.com/shubhamranswal/opsdoctor
+
+**OpsDoctor**  
+*From operational signals to evidence-backed action.*
