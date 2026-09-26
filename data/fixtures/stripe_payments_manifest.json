@@ -1,0 +1,102 @@
+{
+  "provider": "stripe",
+  "environment": "test",
+  "account_id": "acct_1OpDocAcmeFlow01",
+  "generated_at_utc": "2026-09-25T21:45:00+00:00",
+  "summary": {
+    "total_transactions": 6,
+    "succeeded_count": 2,
+    "pending_count": 2,
+    "failed_count": 2,
+    "total_volume": 5230.00,
+    "pending_volume": 1270.00,
+    "failed_volume": 1810.00,
+    "currency": "USD"
+  },
+  "payments": [
+    {
+      "id": "pi_3PqaA4LkdIwHu7ix01mK81a1",
+      "object": "payment_intent",
+      "amount": 850.00,
+      "currency": "USD",
+      "status": "pending",
+      "customer": "Meridian Tech",
+      "customer_email": "billing@meridiantech.io",
+      "payment_method": "ach_debit",
+      "flow": "enterprise-billing",
+      "created_at_utc": "2026-09-25T13:40:00+00:00",
+      "failure_reason": null,
+      "description": "Enterprise Subscription - Monthly (ACH Pending Clearance)"
+    },
+    {
+      "id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+      "object": "payment_intent",
+      "amount": 420.00,
+      "currency": "USD",
+      "status": "pending",
+      "customer": "Vantage AI Labs",
+      "customer_email": "accounts@vantageailabs.com",
+      "payment_method": "card",
+      "flow": "checkout-v2",
+      "created_at_utc": "2026-09-25T14:05:00+00:00",
+      "failure_reason": null,
+      "description": "Compute Units Package Upgrade (3D Secure Pending)"
+    },
+    {
+      "id": "pi_3PqcC3LkdIwHu7ix03oM03c3",
+      "object": "payment_intent",
+      "amount": 1200.00,
+      "currency": "USD",
+      "status": "succeeded",
+      "customer": "CloudScale Software",
+      "customer_email": "finance@cloudscalesoft.com",
+      "payment_method": "card",
+      "flow": "enterprise-billing",
+      "created_at_utc": "2026-09-25T11:15:00+00:00",
+      "failure_reason": null,
+      "description": "Annual Platform License - Core Edition"
+    },
+    {
+      "id": "pi_3PqdD4LkdIwHu7ix04pN14d4",
+      "object": "payment_intent",
+      "amount": 950.00,
+      "currency": "USD",
+      "status": "succeeded",
+      "customer": "DataMesh Networks",
+      "customer_email": "ap@datameshnetworks.net",
+      "payment_method": "card",
+      "flow": "enterprise-billing",
+      "created_at_utc": "2026-09-25T12:30:00+00:00",
+      "failure_reason": null,
+      "description": "Multi-Region Cluster Ingress Add-on"
+    },
+    {
+      "id": "pi_3PqeE5LkdIwHu7ix05qO25e5",
+      "object": "payment_intent",
+      "amount": 1500.00,
+      "currency": "USD",
+      "status": "failed",
+      "customer": "Nexus Dynamics",
+      "customer_email": "ops@nexusdynamics.co",
+      "payment_method": "card",
+      "flow": "enterprise-billing",
+      "created_at_utc": "2026-09-25T13:55:00+00:00",
+      "failure_reason": "insufficient_funds",
+      "description": "Dedicated Enterprise Support Retainer"
+    },
+    {
+      "id": "pi_3PqfF6LkdIwHu7ix06rP36f6",
+      "object": "payment_intent",
+      "amount": 310.00,
+      "currency": "USD",
+      "status": "failed",
+      "customer": "Horizon Media Group",
+      "customer_email": "billing@horizonmedia.org",
+      "payment_method": "card",
+      "flow": "checkout-v1",
+      "created_at_utc": "2026-09-25T14:10:00+00:00",
+      "failure_reason": "card_declined",
+      "description": "Standard Monthly Seat Expansion"
+    }
+  ]
+}

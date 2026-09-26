@@ -1,6 +1,7 @@
 """Tool definitions and Swytchcode bindings for OpsDoctor agent."""
 
 import json
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 from pydantic import BaseModel, Field
 
@@ -9,6 +10,8 @@ from packages.adapters.paypal import PayPalSwytchcodeClient
 from packages.adapters.slack import SlackSwytchcodeClient
 from packages.adapters.gmail import GmailSwytchcodeClient
 from packages.adapters.notion import NotionSwytchcodeClient
+from packages.adapters.payments.manager import UnifiedPaymentManager
+from packages.domain.payment import PaymentStatus
 
 
 class ToolParam(BaseModel):
@@ -22,7 +25,7 @@ class ToolParam(BaseModel):
 class ToolDefinition(BaseModel):
     name: str
     description: str
-    system: str  # "jira", "paypal", "slack", "gmail", "notion"
+    system: str  # "payments", "paypal", "stripe", "jira", "slack", "gmail", "notion"
     parameters: List[ToolParam]
     is_consequential: bool = False  # If True, requires user approval before execution
 
@@ -36,6 +39,7 @@ class ToolRegistry:
         self.slack = SlackSwytchcodeClient()
         self.gmail = GmailSwytchcodeClient()
         self.notion = NotionSwytchcodeClient()
+        self.payment_manager = UnifiedPaymentManager()
         self._tools: Dict[str, ToolDefinition] = {}
         self._handlers: Dict[str, Callable[..., Any]] = {}
         self._register_default_tools()
@@ -54,10 +58,117 @@ class ToolRegistry:
         handler = self._handlers.get(name)
         if not handler:
             raise ValueError(f"Unknown tool: {name}")
-        return handler(**kwargs)
+        try:
+            return handler(**kwargs)
+        except Exception as e:
+            return {"error": str(e), "tool": name, "status": "failed"}
 
     def _register_default_tools(self):
-        # 1. Jira Tools
+        # 1. Unified Payment Domain Tools
+        self.register(
+            ToolDefinition(
+                name="payments_get_pending",
+                description="Inspect pending payment transactions across connected gateways (PayPal, Stripe). Returns transaction counts, total pending volume, and details.",
+                system="payments",
+                parameters=[
+                    ToolParam(name="provider", type="string", description="Optional provider name ('paypal' or 'stripe')", required=False, default=None)
+                ],
+                is_consequential=False,
+            ),
+            self._handle_payments_get_pending,
+        )
+
+        self.register(
+            ToolDefinition(
+                name="payments_get_failed",
+                description="Inspect failed payment transactions and capture errors across payment gateways (PayPal, Stripe).",
+                system="payments",
+                parameters=[
+                    ToolParam(name="provider", type="string", description="Optional provider name ('paypal' or 'stripe')", required=False, default=None)
+                ],
+                is_consequential=False,
+            ),
+            self._handle_payments_get_failed,
+        )
+
+        self.register(
+            ToolDefinition(
+                name="payments_compare_providers",
+                description="Compare payment gateway performance, failure rates, and transaction volumes between PayPal and Stripe.",
+                system="payments",
+                parameters=[],
+                is_consequential=False,
+            ),
+            self._handle_payments_compare_providers,
+        )
+
+        self.register(
+            ToolDefinition(
+                name="payments_get_overview",
+                description="Get unified high-level financial overview across all connected payment gateways.",
+                system="payments",
+                parameters=[],
+                is_consequential=False,
+            ),
+            self._handle_payments_get_overview,
+        )
+
+        # 2. Stripe Specific Tools
+        self.register(
+            ToolDefinition(
+                name="stripe_get_payment",
+                description="Fetch full details of a specific Stripe payment intent or charge by its ID (e.g. pi_3PqaA4LkdIwHu7ix01mK81a1).",
+                system="stripe",
+                parameters=[
+                    ToolParam(name="payment_id", type="string", description="Stripe PaymentIntent ID (e.g. pi_...)")
+                ],
+                is_consequential=False,
+            ),
+            self._handle_stripe_get_payment,
+        )
+
+        self.register(
+            ToolDefinition(
+                name="stripe_list_payments",
+                description="List recent Stripe payment transactions filtered optionally by status.",
+                system="stripe",
+                parameters=[
+                    ToolParam(name="status", type="string", description="Optional status ('succeeded', 'pending', 'failed')", required=False, default=None),
+                    ToolParam(name="limit", type="integer", description="Max transactions to return", required=False, default=20),
+                ],
+                is_consequential=False,
+            ),
+            self._handle_stripe_list_payments,
+        )
+
+        # 3. PayPal Specific Tools
+        self.register(
+            ToolDefinition(
+                name="paypal_get_incident_evidence",
+                description="Retrieve PayPal Sandbox orders, transaction statuses, and capture failure records.",
+                system="paypal",
+                parameters=[
+                    ToolParam(name="flow", type="string", description="Payment flow name (e.g. 'checkout-v2')", required=False, default="checkout-v2")
+                ],
+                is_consequential=False,
+            ),
+            self._handle_paypal_get_incident_evidence,
+        )
+
+        self.register(
+            ToolDefinition(
+                name="paypal_get_order",
+                description="Get detailed status and purchase units of a specific PayPal order by PayPal ID or Custom ID.",
+                system="paypal",
+                parameters=[
+                    ToolParam(name="order_id", type="string", description="PayPal Order ID (e.g. 1LL009468F308113M) or internal custom ID (ORD-...)")
+                ],
+                is_consequential=False,
+            ),
+            self._handle_paypal_get_order,
+        )
+
+        # 4. Jira Tools
         self.register(
             ToolDefinition(
                 name="jira_get_issue",
@@ -112,34 +223,7 @@ class ToolRegistry:
             self._handle_jira_update_issue,
         )
 
-        # 2. PayPal Tools
-        self.register(
-            ToolDefinition(
-                name="paypal_get_incident_evidence",
-                description="Retrieve PayPal Sandbox orders, transaction statuses, and capture failure records.",
-                system="paypal",
-                parameters=[
-                    ToolParam(name="flow", type="string", description="Payment flow name (e.g. 'checkout-v2')", required=False, default="checkout-v2")
-                ],
-                is_consequential=False,
-            ),
-            self._handle_paypal_get_incident_evidence,
-        )
-
-        self.register(
-            ToolDefinition(
-                name="paypal_get_order",
-                description="Get detailed status and purchase units of a specific PayPal order by PayPal ID or Custom ID.",
-                system="paypal",
-                parameters=[
-                    ToolParam(name="order_id", type="string", description="PayPal Order ID (e.g. 1LL009468F308113M) or custom ID")
-                ],
-                is_consequential=False,
-            ),
-            self._handle_paypal_get_order,
-        )
-
-        # 3. Slack Tools
+        # 5. Slack Tools
         self.register(
             ToolDefinition(
                 name="slack_list_channels",
@@ -179,7 +263,7 @@ class ToolRegistry:
             self._handle_slack_post_message,
         )
 
-        # 4. Gmail Tools
+        # 6. Gmail Tools
         self.register(
             ToolDefinition(
                 name="gmail_search_messages",
@@ -206,7 +290,7 @@ class ToolRegistry:
             self._handle_gmail_get_message,
         )
 
-        # 5. Notion Tools
+        # 7. Notion Tools
         self.register(
             ToolDefinition(
                 name="notion_search_policies",
@@ -233,36 +317,71 @@ class ToolRegistry:
             self._handle_notion_read_policy_page,
         )
 
-    # Handlers
+    # Handlers: Payments
+    def _handle_payments_get_pending(self, provider: Optional[str] = None) -> Dict[str, Any]:
+        return self.payment_manager.get_pending_payments(provider_name=provider)
+
+    def _handle_payments_get_failed(self, provider: Optional[str] = None) -> Dict[str, Any]:
+        return self.payment_manager.get_failed_payments(provider_name=provider)
+
+    def _handle_payments_compare_providers(self) -> Dict[str, Any]:
+        return self.payment_manager.compare_providers()
+
+    def _handle_payments_get_overview(self) -> Dict[str, Any]:
+        return self.payment_manager.get_overview().model_dump()
+
+    def _handle_stripe_get_payment(self, payment_id: str) -> Dict[str, Any]:
+        p = self.payment_manager.find_transaction(payment_id)
+        if p and p.provider == "stripe":
+            return p.model_dump()
+        stripe_provider = self.payment_manager.get_provider("stripe")
+        if stripe_provider:
+            tx = stripe_provider.get_transaction(payment_id)
+            if tx:
+                return tx.model_dump()
+        return {"error": f"Stripe payment '{payment_id}' not found"}
+
+    def _handle_stripe_list_payments(self, status: Optional[str] = None, limit: int = 20) -> List[Dict[str, Any]]:
+        stripe_provider = self.payment_manager.get_provider("stripe")
+        if not stripe_provider:
+            return []
+        p_status = PaymentStatus(status.lower()) if status else None
+        txs = stripe_provider.list_transactions(status=p_status, limit=limit)
+        return [t.model_dump() for t in txs]
+
+    # Handlers: Jira
     def _handle_jira_get_issue(self, issue_key: str) -> Dict[str, Any]:
-        data = self.jira.get_issue(issue_key)
-        fields = data.get("fields", {})
+        data = self.jira.get_issue(issue_key) or {}
+        fields = data.get("fields") or {}
+        status = fields.get("status") or {}
+        priority = fields.get("priority") or {}
+        project = fields.get("project") or {}
         return {
             "key": data.get("key", issue_key),
             "summary": fields.get("summary"),
-            "status": fields.get("status", {}).get("name"),
-            "priority": fields.get("priority", {}).get("name"),
-            "labels": fields.get("labels", []),
+            "status": status.get("name") if isinstance(status, dict) else str(status),
+            "priority": priority.get("name") if isinstance(priority, dict) else (str(priority) if priority else "Normal"),
+            "labels": fields.get("labels") or [],
             "created": fields.get("created"),
-            "description": fields.get("description"),
-            "project": fields.get("project", {}).get("name"),
+            "description": str(fields.get("description")) if fields.get("description") else "",
+            "project": project.get("name") if isinstance(project, dict) else str(project),
         }
 
     def _handle_jira_search_issues(self, jql: str) -> List[Dict[str, Any]]:
         raw_issues = self.jira.search_issues(jql)
         results = []
         for issue in raw_issues:
-            # If issue only contains id, fetch key/summary
             issue_id = issue.get("id")
             if issue_id:
                 try:
-                    full = self.jira.get_issue(issue_id)
-                    fields = full.get("fields", {})
+                    full = self.jira.get_issue(issue_id) or {}
+                    fields = full.get("fields") or {}
+                    status = fields.get("status") or {}
                     results.append({
                         "key": full.get("key"),
                         "summary": fields.get("summary"),
-                        "status": fields.get("status", {}).get("name"),
-                        "labels": fields.get("labels", []),
+                        "status": status.get("name") if isinstance(status, dict) else str(status),
+                        "labels": fields.get("labels") or [],
                     })
                 except Exception:
                     results.append(issue)
@@ -279,15 +398,12 @@ class ToolRegistry:
         res = self.jira.update_issue(issue_key, fields)
         return {"status": "success", "issue_key": issue_key, "updated_fields": list(fields.keys())}
 
+    # Handlers: PayPal
     def _handle_paypal_get_incident_evidence(self, flow: str = "checkout-v2") -> Dict[str, Any]:
-        # Reads live from fixture manifest or live orders in sandbox
-        import os
-        from pathlib import Path
         manifest_path = Path(__file__).resolve().parents[2] / "data" / "fixtures" / "paypal_orders_manifest.json"
         if manifest_path.exists():
             with open(manifest_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            # filter for relevant flow
             incident_orders = [o for o in data.get("orders", []) if o.get("phase") == "incident" and (not flow or o.get("flow") == flow)]
             total_failed_captures = sum(len(o.get("capture_attempts", [])) for o in incident_orders)
             return {
@@ -301,14 +417,39 @@ class ToolRegistry:
         return {"error": "PayPal manifest not found"}
 
     def _handle_paypal_get_order(self, order_id: str) -> Dict[str, Any]:
-        return self.paypal.execute("orders.checkout.orders.get", {"id": order_id})
+        manifest_path = Path(__file__).resolve().parents[2] / "data" / "fixtures" / "paypal_orders_manifest.json"
+        mapped_paypal_id = order_id
+        meta: Dict[str, Any] = {}
+        if manifest_path.exists():
+            try:
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                for o in manifest.get("orders", []):
+                    if o.get("order_id") == order_id or o.get("paypal_order_id") == order_id:
+                        mapped_paypal_id = o.get("paypal_order_id", order_id)
+                        meta = o
+                        break
+            except Exception:
+                pass
+        try:
+            live = self.paypal.execute("orders.checkout.orders.get", {"id": mapped_paypal_id})
+            if isinstance(live, dict) and not live.get("error"):
+                res = {**meta, **live, "paypal_order_id": mapped_paypal_id}
+                if meta.get("order_id"):
+                    res["internal_order_id"] = meta["order_id"]
+                return res
+        except Exception as e:
+            if meta:
+                return {**meta, "live_query_note": f"Retrieved from local manifest fixture (live query returned {e})"}
+            raise e
+        return meta or self.paypal.execute("orders.checkout.orders.get", {"id": mapped_paypal_id})
 
+    # Handlers: Slack
     def _handle_slack_list_channels(self) -> List[Dict[str, Any]]:
         channels = self.slack.list_channels()
         return [{"id": c.get("id"), "name": c.get("name"), "topic": c.get("topic", {}).get("value")} for c in channels]
 
     def _handle_slack_read_channel(self, channel_name: str, limit: int = 20) -> List[Dict[str, Any]]:
-        # Resolve channel name to ID
         ch_map = {
             "all-acmeflow-operations": "C0C43R6TS15",
             "general": "C0C4D0KH9C3",
@@ -341,6 +482,7 @@ class ToolRegistry:
         res = self.slack.post_message(channel_id=cid, text=message)
         return {"status": "success", "channel": channel_name, "ts": res.get("ts")}
 
+    # Handlers: Gmail
     def _handle_gmail_search_messages(self, query: str) -> List[Dict[str, Any]]:
         raw_msgs = self.gmail.list_messages(q=query, max_results=10)
         results = []
@@ -376,6 +518,7 @@ class ToolRegistry:
             "snippet": full.get("snippet"),
         }
 
+    # Handlers: Notion
     def _handle_notion_search_policies(self, query: str = "") -> List[Dict[str, Any]]:
         results = self.notion.search(query)
         pages = []
@@ -393,7 +536,6 @@ class ToolRegistry:
         return pages
 
     def _handle_notion_read_policy_page(self, page_name_or_id: str) -> Dict[str, Any]:
-        # Search page ID if a name was passed
         page_id = page_name_or_id
         page_title = page_name_or_id
         if not ("-" in page_name_or_id and len(page_name_or_id) == 36):

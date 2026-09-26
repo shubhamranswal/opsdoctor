@@ -1,0 +1,92 @@
+{
+  "session_id": "test-matrix-notion-f7519b",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What does our Notion policy say about refund approvals?",
+      "activities": [],
+      "evidence": [],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:02:49.731684+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 📖 AcmeFlow Operations Policy: Refund Policy\n\nRetrieved from the **AcmeFlow Operations** Notion workspace:\n\nRefund requests must be reviewed before processing.\nPayment-related refunds should be documented.\nUnusual or repeated refund activity should be escalated to Finance.\n",
+      "activities": [
+        {
+          "id": "step-5b674b",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'What does our Notion policy say about refund approvals?'",
+          "system": null,
+          "data": {
+            "query": "What does our Notion policy say about refund approvals?"
+          },
+          "timestamp": "2026-09-25T23:02:42.382480+00:00"
+        },
+        {
+          "id": "step-bcdf51",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: notion_read_policy_page",
+          "description": "User requested policy documentation for 'Refund Policy'. Querying notion_read_policy_page.",
+          "system": "notion",
+          "data": {
+            "tool": "notion_read_policy_page",
+            "args": {
+              "page_name_or_id": "Refund Policy"
+            }
+          },
+          "timestamp": "2026-09-25T23:02:42.382577+00:00"
+        },
+        {
+          "id": "step-1436bf",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: notion_read_policy_page",
+          "description": "Completed notion_read_policy_page call across NOTION integration.",
+          "system": "notion",
+          "data": {
+            "args": {
+              "page_name_or_id": "Refund Policy"
+            },
+            "result_preview": "{'page_id': '3e6eda01-1b5a-804e-b06b-e9ba096c9746', 'title': 'Refund Policy', 'content': 'Refund requests must be reviewed before processing.\\nPayment-related refunds should be documented.\\nUnusual or repeated refund activity should be escalated to F"
+          },
+          "timestamp": "2026-09-25T23:02:49.731493+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-6c6583",
+          "system": "notion",
+          "title": "Notion Policy: Refund Policy",
+          "summary": "Refund requests must be reviewed before processing.\nPayment-related refunds should be documented.\nUnusual or repeated refund activity should be escalated to Finance.",
+          "details": {
+            "page_id": "3e6eda01-1b5a-804e-b06b-e9ba096c9746",
+            "title": "Refund Policy",
+            "content": "Refund requests must be reviewed before processing.\nPayment-related refunds should be documented.\nUnusual or repeated refund activity should be escalated to Finance."
+          },
+          "timestamp": "2026-09-25T23:02:49.731556+00:00"
+        }
+      ],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:02:49.731671+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-6c6583",
+      "system": "notion",
+      "title": "Notion Policy: Refund Policy",
+      "summary": "Refund requests must be reviewed before processing.\nPayment-related refunds should be documented.\nUnusual or repeated refund activity should be escalated to Finance.",
+      "details": {
+        "page_id": "3e6eda01-1b5a-804e-b06b-e9ba096c9746",
+        "title": "Refund Policy",
+        "content": "Refund requests must be reviewed before processing.\nPayment-related refunds should be documented.\nUnusual or repeated refund activity should be escalated to Finance."
+      },
+      "timestamp": "2026-09-25T23:02:49.731556+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-25T23:02:42.381384+00:00",
+  "updated_at": "2026-09-25T23:02:49.731694+00:00"
+}

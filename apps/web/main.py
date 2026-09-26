@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 
 from apps.web.routes.agent import router as agent_router
 from apps.web.routes.approvals import router as approvals_router
+from apps.web.routes.payments import router as payments_router
 from apps.web.routes.systems import router as systems_router
 from apps.web.routes.timeline import router as timeline_router
 
@@ -31,6 +32,7 @@ app.add_middleware(
 # Include API routers
 app.include_router(agent_router)
 app.include_router(approvals_router)
+app.include_router(payments_router)
 app.include_router(systems_router)
 app.include_router(timeline_router)
 
@@ -48,8 +50,16 @@ def serve_index():
 
 
 @app.get("/health")
+@app.get("/healthz")
 def health_check():
-    return {"status": "ok", "app": "opsdoctor", "version": "1.0.0"}
+    return {"status": "ok", "app": "opsdoctor", "version": "2.0.0"}
+
+
+@app.post("/api/chat")
+def chat_alias(req: dict):
+    from apps.web.routes.agent import chat_turn, ChatRequest
+    return chat_turn(ChatRequest(**req))
+
 
 
 if __name__ == "__main__":

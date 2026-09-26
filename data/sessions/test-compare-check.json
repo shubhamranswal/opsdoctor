@@ -1,0 +1,146 @@
+{
+  "session_id": "test-compare-check",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "what payment gateway is having more payment fails?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T00:25:50.554673+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "PayPal has the higher observed failure rate.\n\nPayPal: 4/8 failed = 50%\nStripe: 1/5 failed = 20%",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-5d98f0",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'what payment gateway is having more payment fails?'",
+          "system": null,
+          "data": {
+            "query": "what payment gateway is having more payment fails?"
+          },
+          "timestamp": "2026-09-26T00:25:46.483834+00:00"
+        },
+        {
+          "id": "step-eb540a",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_compare_providers",
+          "description": "Querying metrics from connected payment gateways for comparative analysis.",
+          "system": "payments",
+          "data": {
+            "tool": "payments_compare_providers",
+            "args": {}
+          },
+          "timestamp": "2026-09-26T00:25:46.484927+00:00"
+        },
+        {
+          "id": "step-7bbc68",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_compare_providers",
+          "description": "Completed payments_compare_providers call across PAYMENTS integration.",
+          "system": "payments",
+          "data": {
+            "args": {},
+            "result_preview": "{'providers_analyzed': 2, 'comparison': [{'provider': 'paypal', 'status': 'connected', 'total_transactions': 8, 'succeeded': 4, 'pending': 0, 'failed': 4, 'failure_rate_percent': 50.0, 'total_volume': 11780.0, 'pending_volume': 0.0, 'failed_volume': "
+          },
+          "timestamp": "2026-09-26T00:25:50.554471+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-fbfb97",
+          "system": "payments",
+          "title": "Cross-Gateway Comparative Analysis",
+          "summary": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+          "details": {
+            "providers_analyzed": 2,
+            "comparison": [
+              {
+                "provider": "paypal",
+                "status": "connected",
+                "total_transactions": 8,
+                "succeeded": 4,
+                "pending": 0,
+                "failed": 4,
+                "failure_rate_percent": 50.0,
+                "total_volume": 11780.0,
+                "pending_volume": 0.0,
+                "failed_volume": 9150.0
+              },
+              {
+                "provider": "stripe",
+                "status": "connected",
+                "total_transactions": 5,
+                "succeeded": 2,
+                "pending": 2,
+                "failed": 1,
+                "failure_rate_percent": 20.0,
+                "total_volume": 4100.0,
+                "pending_volume": 1270.0,
+                "failed_volume": 680.0
+              }
+            ],
+            "highest_failure_rate_provider": "paypal",
+            "analysis_finding": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+            "generated_at": "2026-09-26T00:25:50.554374+00:00"
+          },
+          "timestamp": "2026-09-26T00:25:50.554493+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T00:25:50.554657+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-fbfb97",
+      "system": "payments",
+      "title": "Cross-Gateway Comparative Analysis",
+      "summary": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+      "details": {
+        "providers_analyzed": 2,
+        "comparison": [
+          {
+            "provider": "paypal",
+            "status": "connected",
+            "total_transactions": 8,
+            "succeeded": 4,
+            "pending": 0,
+            "failed": 4,
+            "failure_rate_percent": 50.0,
+            "total_volume": 11780.0,
+            "pending_volume": 0.0,
+            "failed_volume": 9150.0
+          },
+          {
+            "provider": "stripe",
+            "status": "connected",
+            "total_transactions": 5,
+            "succeeded": 2,
+            "pending": 2,
+            "failed": 1,
+            "failure_rate_percent": 20.0,
+            "total_volume": 4100.0,
+            "pending_volume": 1270.0,
+            "failed_volume": 680.0
+          }
+        ],
+        "highest_failure_rate_provider": "paypal",
+        "analysis_finding": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+        "generated_at": "2026-09-26T00:25:50.554374+00:00"
+      },
+      "timestamp": "2026-09-26T00:25:50.554493+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T00:25:46.481040+00:00",
+  "updated_at": "2026-09-26T00:25:50.554679+00:00"
+}

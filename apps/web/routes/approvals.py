@@ -27,15 +27,15 @@ class RejectPayload(BaseModel):
 
 
 @router.get("", response_model=List[ApprovalRequest])
-def list_approvals(status: Optional[str] = None):
+def list_approvals(status: Optional[str] = None, session_id: Optional[str] = None):
     mgr = get_approval_manager()
     status_filter = None
     if status:
         try:
-            status_filter = ApprovalStatus(status)
+            status_filter = ApprovalStatus(status.upper())
         except ValueError:
             pass
-    return mgr.list_requests(status=status_filter)
+    return mgr.list_requests(status=status_filter, session_id=session_id)
 
 
 @router.post("/{approval_id}/approve")
@@ -43,9 +43,15 @@ def approve_action(approval_id: str):
     mgr = get_approval_manager()
     try:
         req = mgr.approve_and_execute(approval_id)
+        exec_id = "N/A"
+        if req.execution_result and isinstance(req.execution_result, dict):
+            exec_id = req.execution_result.get("comment_id") or req.execution_result.get("id") or req.id
         return {
             "status": "success",
+            "response_type": "ACTION_COMPLETED",
             "message": f"Action {req.action_type} executed successfully on {req.target} via Swytchcode.",
+            "execution_id": exec_id,
+            "execution_result": req.execution_result,
             "approval": req,
         }
     except Exception as e:
@@ -59,6 +65,7 @@ def reject_action(approval_id: str, payload: RejectPayload):
         req = mgr.reject(approval_id, reason=payload.reason or "")
         return {
             "status": "rejected",
+            "response_type": "ACTION_REJECTED",
             "message": f"Action {req.action_type} was rejected.",
             "approval": req,
         }

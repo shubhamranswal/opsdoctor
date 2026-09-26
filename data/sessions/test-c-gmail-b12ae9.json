@@ -1,0 +1,138 @@
+{
+  "session_id": "test-c-gmail-b12ae9",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Search customer emails for complaints from BrightPath Labs",
+      "activities": [],
+      "evidence": [],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:01:17.166212+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 📬 Customer Support Email Threads (3 found)\n\n\n* **Finance check on PayPal capture failures - INC-2026-042**\n  * From: `Daniel Kim <daniel.kim@acmeflow.com>` | Date: `Fri, 25 Sep 2026 15:20:00 +0000`\n  * Excerpt: *\"Maya, Arjun: Quick finance check regarding INC-2026-042. I queried the PayPal reporting and balance endpoints; reporting API is functioning ...\"*\n\n* **ESCALATION: Spike in customer checkout failures (BrightPath Labs, OmniCorp)**\n  * From: `Priya Shah <priya.shah@acmeflow.com>` | Date: `Fri, 25 Sep 2026 14:32:00 +0000`\n  * Excerpt: *\"Hi Maya, Escalating support tickets CS-1094 (BrightPath Labs) and CS-1095 (OmniCorp Logistics). Both enterprise accounts are reporting sudde...\"*\n\n* **Urgent: Failed PayPal payment for Annual Subscription (Order ORD-88219)**\n  * From: `Sarah Lin <billing@brightpathlabs.com>` | Date: `Fri, 25 Sep 2026 14:20:00 +0000`\n  * Excerpt: *\"Hi AcmeFlow Support, We have been trying to renew our AcmeFlow Enterprise Annual plan for order ORD-88219 today. When clicking &#39;Confirm ...\"*",
+      "activities": [
+        {
+          "id": "step-516aea",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Search customer emails for complaints from BrightPath Labs'",
+          "system": null,
+          "data": {
+            "query": "Search customer emails for complaints from BrightPath Labs"
+          },
+          "timestamp": "2026-09-25T23:01:03.004560+00:00"
+        },
+        {
+          "id": "step-deb10a",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: gmail_search_messages",
+          "description": "User requested customer email search for 'BrightPath Labs'. Querying gmail_search_messages.",
+          "system": "gmail",
+          "data": {
+            "tool": "gmail_search_messages",
+            "args": {
+              "query": "BrightPath Labs"
+            }
+          },
+          "timestamp": "2026-09-25T23:01:03.004782+00:00"
+        },
+        {
+          "id": "step-ca87d4",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: gmail_search_messages",
+          "description": "Completed gmail_search_messages call across GMAIL integration.",
+          "system": "gmail",
+          "data": {
+            "args": {
+              "query": "BrightPath Labs"
+            },
+            "result_preview": "[{'id': '1a0d926e453b9989', 'subject': 'Finance check on PayPal capture failures - INC-2026-042', 'from': 'Daniel Kim <daniel.kim@acmeflow.com>', 'to': 'maya.rao@acmeflow.com, arjun.mehta@acmeflow.com', 'date': 'Fri, 25 Sep 2026 15:20:00 +0000', 'sni"
+          },
+          "timestamp": "2026-09-25T23:01:17.165990+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-2cfb77",
+          "system": "gmail",
+          "title": "Customer Support Inquiries",
+          "summary": "3 email threads retrieved matching query.",
+          "details": {
+            "messages": [
+              {
+                "id": "1a0d926e453b9989",
+                "subject": "Finance check on PayPal capture failures - INC-2026-042",
+                "from": "Daniel Kim <daniel.kim@acmeflow.com>",
+                "to": "maya.rao@acmeflow.com, arjun.mehta@acmeflow.com",
+                "date": "Fri, 25 Sep 2026 15:20:00 +0000",
+                "snippet": "Maya, Arjun: Quick finance check regarding INC-2026-042. I queried the PayPal reporting and balance endpoints; reporting API is functioning normally and existing settled balances are intact. Reviewing"
+              },
+              {
+                "id": "1a0d8faf23046474",
+                "subject": "ESCALATION: Spike in customer checkout failures (BrightPath Labs, OmniCorp)",
+                "from": "Priya Shah <priya.shah@acmeflow.com>",
+                "to": "maya.rao@acmeflow.com",
+                "date": "Fri, 25 Sep 2026 14:32:00 +0000",
+                "snippet": "Hi Maya, Escalating support tickets CS-1094 (BrightPath Labs) and CS-1095 (OmniCorp Logistics). Both enterprise accounts are reporting sudden payment confirmation failures in PayPal checkout within the"
+              },
+              {
+                "id": "1a0d8eff617329eb",
+                "subject": "Urgent: Failed PayPal payment for Annual Subscription (Order ORD-88219)",
+                "from": "Sarah Lin <billing@brightpathlabs.com>",
+                "to": "support@acmeflow.com",
+                "date": "Fri, 25 Sep 2026 14:20:00 +0000",
+                "snippet": "Hi AcmeFlow Support, We have been trying to renew our AcmeFlow Enterprise Annual plan for order ORD-88219 today. When clicking &#39;Confirm Payment&#39; on the PayPal window, it spins for a few seconds"
+              }
+            ]
+          },
+          "timestamp": "2026-09-25T23:01:17.166075+00:00"
+        }
+      ],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:01:17.166200+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-2cfb77",
+      "system": "gmail",
+      "title": "Customer Support Inquiries",
+      "summary": "3 email threads retrieved matching query.",
+      "details": {
+        "messages": [
+          {
+            "id": "1a0d926e453b9989",
+            "subject": "Finance check on PayPal capture failures - INC-2026-042",
+            "from": "Daniel Kim <daniel.kim@acmeflow.com>",
+            "to": "maya.rao@acmeflow.com, arjun.mehta@acmeflow.com",
+            "date": "Fri, 25 Sep 2026 15:20:00 +0000",
+            "snippet": "Maya, Arjun: Quick finance check regarding INC-2026-042. I queried the PayPal reporting and balance endpoints; reporting API is functioning normally and existing settled balances are intact. Reviewing"
+          },
+          {
+            "id": "1a0d8faf23046474",
+            "subject": "ESCALATION: Spike in customer checkout failures (BrightPath Labs, OmniCorp)",
+            "from": "Priya Shah <priya.shah@acmeflow.com>",
+            "to": "maya.rao@acmeflow.com",
+            "date": "Fri, 25 Sep 2026 14:32:00 +0000",
+            "snippet": "Hi Maya, Escalating support tickets CS-1094 (BrightPath Labs) and CS-1095 (OmniCorp Logistics). Both enterprise accounts are reporting sudden payment confirmation failures in PayPal checkout within the"
+          },
+          {
+            "id": "1a0d8eff617329eb",
+            "subject": "Urgent: Failed PayPal payment for Annual Subscription (Order ORD-88219)",
+            "from": "Sarah Lin <billing@brightpathlabs.com>",
+            "to": "support@acmeflow.com",
+            "date": "Fri, 25 Sep 2026 14:20:00 +0000",
+            "snippet": "Hi AcmeFlow Support, We have been trying to renew our AcmeFlow Enterprise Annual plan for order ORD-88219 today. When clicking &#39;Confirm Payment&#39; on the PayPal window, it spins for a few seconds"
+          }
+        ]
+      },
+      "timestamp": "2026-09-25T23:01:17.166075+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-25T23:01:03.000929+00:00",
+  "updated_at": "2026-09-25T23:01:17.166218+00:00"
+}

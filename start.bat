@@ -1,0 +1,3 @@
+@echo off
+echo Starting OpsDoctor...
+python start.py

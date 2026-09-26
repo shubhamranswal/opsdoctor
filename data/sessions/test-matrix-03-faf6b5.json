@@ -1,0 +1,136 @@
+{
+  "session_id": "test-matrix-03-faf6b5",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Inspect Stripe payment pi_3UJiheRpzp5AdrAh1Scb7Oru",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T00:39:10.291862+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💳 Stripe Payment Record: `pi_3UJiheRpzp5AdrAh1Scb7Oru`\n\n* **Customer**: cus_VKNSlChJRODlGu\n* **Amount**: $420.00 USD\n* **Status**: `PaymentStatus.PENDING`\n* **Payment Method**: `pm_1UJiheRpzp5AdrAhIeQsy1XB`\n* **Flow**: `checkout-v2`\n* **Created**: `2026-09-25T23:38:54+00:00`\n* **Failure Reason**: None\n",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-a74bdf",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Inspect Stripe payment pi_3UJiheRpzp5AdrAh1Scb7Oru'",
+          "system": null,
+          "data": {
+            "query": "Inspect Stripe payment pi_3UJiheRpzp5AdrAh1Scb7Oru"
+          },
+          "timestamp": "2026-09-26T00:39:06.307266+00:00"
+        },
+        {
+          "id": "step-fb5998",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: stripe_get_payment",
+          "description": "Querying Stripe gateway for PaymentIntent pi_3UJiheRpzp5AdrAh1Scb7Oru.",
+          "system": "stripe",
+          "data": {
+            "tool": "stripe_get_payment",
+            "args": {
+              "payment_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru"
+            }
+          },
+          "timestamp": "2026-09-26T00:39:06.307446+00:00"
+        },
+        {
+          "id": "step-2bb7c1",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: stripe_get_payment",
+          "description": "Completed stripe_get_payment call across STRIPE integration.",
+          "system": "stripe",
+          "data": {
+            "args": {
+              "payment_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru"
+            },
+            "result_preview": "{'id': 'pi_3UJiheRpzp5AdrAh1Scb7Oru', 'provider': 'stripe', 'provider_transaction_id': 'pi_3UJiheRpzp5AdrAh1Scb7Oru', 'customer': 'cus_VKNSlChJRODlGu', 'customer_email': None, 'amount': 420.0, 'currency': 'USD', 'status': <PaymentStatus.PENDING: 'pen"
+          },
+          "timestamp": "2026-09-26T00:39:10.291735+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-92bbb2",
+          "system": "stripe",
+          "title": "Stripe Payment pi_3UJiheRpzp5AdrAh1Scb7Oru",
+          "summary": "Customer: cus_VKNSlChJRODlGu | Status: PaymentStatus.PENDING ($420.00)",
+          "details": {
+            "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "customer": "cus_VKNSlChJRODlGu",
+            "customer_email": null,
+            "amount": 420.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T23:38:54+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": null,
+            "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+            "metadata": {
+              "description": "Annual Security Addon - 3DS Pending",
+              "raw_status": "requires_action",
+              "object": "payment_intent",
+              "auth_blocker": null,
+              "metadata": {
+                "flow": "checkout-v2",
+                "order_id": "ORD-STRIPE-103",
+                "reason": "3ds_challenge_pending"
+              }
+            }
+          },
+          "timestamp": "2026-09-26T00:39:10.291772+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T00:39:10.291852+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-92bbb2",
+      "system": "stripe",
+      "title": "Stripe Payment pi_3UJiheRpzp5AdrAh1Scb7Oru",
+      "summary": "Customer: cus_VKNSlChJRODlGu | Status: PaymentStatus.PENDING ($420.00)",
+      "details": {
+        "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+        "provider": "stripe",
+        "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+        "customer": "cus_VKNSlChJRODlGu",
+        "customer_email": null,
+        "amount": 420.0,
+        "currency": "USD",
+        "status": "pending",
+        "created_at": "2026-09-25T23:38:54+00:00",
+        "flow": "checkout-v2",
+        "failure_reason": null,
+        "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+        "metadata": {
+          "description": "Annual Security Addon - 3DS Pending",
+          "raw_status": "requires_action",
+          "object": "payment_intent",
+          "auth_blocker": null,
+          "metadata": {
+            "flow": "checkout-v2",
+            "order_id": "ORD-STRIPE-103",
+            "reason": "3ds_challenge_pending"
+          }
+        }
+      },
+      "timestamp": "2026-09-26T00:39:10.291772+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T00:39:06.304118+00:00",
+  "updated_at": "2026-09-26T00:39:10.291867+00:00"
+}

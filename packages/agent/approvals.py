@@ -22,6 +22,7 @@ class ApprovalManager:
         title: str,
         explanation: str,
         proposed_payload: Dict[str, Any],
+        session_id: Optional[str] = None,
     ) -> ApprovalRequest:
         """Create a new pending approval request."""
         req_id = f"appr-{uuid.uuid4().hex[:8]}"
@@ -35,6 +36,7 @@ class ApprovalManager:
             proposed_payload=proposed_payload,
             status=ApprovalStatus.PENDING,
             created_at=datetime.now(timezone.utc).isoformat(),
+            session_id=session_id,
         )
         self._approvals[req_id] = req
         return req
@@ -42,10 +44,17 @@ class ApprovalManager:
     def get_request(self, approval_id: str) -> Optional[ApprovalRequest]:
         return self._approvals.get(approval_id)
 
-    def list_requests(self, status: Optional[ApprovalStatus] = None) -> List[ApprovalRequest]:
+    def list_requests(
+        self,
+        status: Optional[ApprovalStatus] = None,
+        session_id: Optional[str] = None,
+    ) -> List[ApprovalRequest]:
+        reqs = list(self._approvals.values())
         if status:
-            return [a for a in self._approvals.values() if a.status == status]
-        return list(self._approvals.values())
+            reqs = [a for a in reqs if a.status == status]
+        if session_id:
+            reqs = [a for a in reqs if a.session_id == session_id]
+        return reqs
 
     def approve_and_execute(self, approval_id: str) -> ApprovalRequest:
         """Approve a request and execute the consequential action via Swytchcode."""
@@ -56,14 +65,14 @@ class ApprovalManager:
         if req.status != ApprovalStatus.PENDING:
             raise ValueError(f"Approval request {approval_id} is already in status {req.status}.")
 
-        req.status = ApprovalStatus.APPROVED
+        req.status = ApprovalStatus.EXECUTING
         try:
             result = self.tool_registry.execute_tool(req.action_type, **req.proposed_payload)
             req.status = ApprovalStatus.EXECUTED
             req.executed_at = datetime.now(timezone.utc).isoformat()
             req.execution_result = result
         except Exception as e:
-            req.status = ApprovalStatus.PENDING
+            req.status = ApprovalStatus.FAILED
             raise RuntimeError(f"Failed to execute approved action {req.action_type}: {e}") from e
 
         return req
@@ -76,3 +85,7 @@ class ApprovalManager:
         req.status = ApprovalStatus.REJECTED
         req.explanation = f"{req.explanation} [REJECTED: {reason}]" if reason else req.explanation
         return req
+
+    def reject_request(self, approval_id: str, reason: str = "") -> ApprovalRequest:
+        """Alias for reject for interface consistency."""
+        return self.reject(approval_id, reason=reason)

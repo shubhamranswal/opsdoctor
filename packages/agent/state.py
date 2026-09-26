@@ -17,11 +17,32 @@ class StepType(str, Enum):
     ACTION_TAKEN = "action_taken"
 
 
+class ResponseType(str, Enum):
+    """Explicit response types governing whether actions/approvals should be displayed."""
+    READ_ONLY = "READ_ONLY"
+    ACTION_PROPOSAL = "ACTION_PROPOSAL"
+    ACTION_EXECUTING = "ACTION_EXECUTING"
+    ACTION_COMPLETED = "ACTION_COMPLETED"
+    ACTION_FAILED = "ACTION_FAILED"
+
+
 class ApprovalStatus(str, Enum):
-    PENDING = "pending"
-    APPROVED = "approved"
-    REJECTED = "rejected"
-    EXECUTED = "executed"
+    PENDING = "PENDING"
+    EXECUTING = "EXECUTING"
+    APPROVED = "APPROVED"
+    EXECUTED = "EXECUTED"
+    REJECTED = "REJECTED"
+    FAILED = "FAILED"
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, str):
+            return self.value.upper() == other.upper()
+        if isinstance(other, ApprovalStatus):
+            return self.value.upper() == other.value.upper()
+        return super().__eq__(other)
+
+    def __hash__(self) -> int:
+        return hash(self.value.upper())
 
 
 class ActivityStep(BaseModel):
@@ -55,13 +76,16 @@ class ApprovalRequest(BaseModel):
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     executed_at: Optional[str] = None
     execution_result: Optional[Dict[str, Any]] = None
+    session_id: Optional[str] = None
 
 
 class AgentMessage(BaseModel):
     role: str  # "user", "assistant", "system"
     content: str
+    response_type: ResponseType = ResponseType.READ_ONLY
     activities: List[ActivityStep] = Field(default_factory=list)
     evidence: List[EvidenceItem] = Field(default_factory=list)
+    actions: List[ApprovalRequest] = Field(default_factory=list)
     approvals: List[ApprovalRequest] = Field(default_factory=list)
     timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 

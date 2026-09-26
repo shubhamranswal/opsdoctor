@@ -6,6 +6,9 @@ import shutil
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, Optional
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def find_swytchcode_bin() -> str:
@@ -46,6 +49,11 @@ class BaseSwytchcodeClient:
     ) -> Dict[str, Any]:
         """Execute a canonical Swytchcode method via subprocess."""
         payload_args = dict(args or {})
+        if canonical_id.startswith("stripe.") and "Authorization" not in payload_args:
+            stripe_key = os.getenv("STRIPE_API_KEY")
+            if stripe_key:
+                payload_args["Authorization"] = f"Bearer {stripe_key}"
+
         cmd = [self.swytchcode_bin, "exec", "--json"]
         stdin_payload = json.dumps({"tool": canonical_id, "args": payload_args})
 

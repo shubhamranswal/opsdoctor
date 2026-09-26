@@ -10,6 +10,8 @@ from .state import (
     InvestigationSession,
 )
 from .approvals import ApprovalManager
+from .llm import CognitiveBrain, StepDecision
+from .storage import SessionStore
 
 __all__ = [
     "OpsDoctorOrchestrator",
@@ -23,4 +25,7 @@ __all__ = [
     "AgentMessage",
     "InvestigationSession",
     "ApprovalManager",
+    "CognitiveBrain",
+    "StepDecision",
+    "SessionStore",
 ]

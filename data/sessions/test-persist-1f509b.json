@@ -1,0 +1,102 @@
+{
+  "session_id": "test-persist-1f509b",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the status of ticket KAN-1?",
+      "activities": [],
+      "evidence": [],
+      "approvals": [],
+      "timestamp": "2026-09-25T22:31:07.606723+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 📋 Jira Issue Details: `KAN-1`\n\n* **Key**: `KAN-1`\n* **Summary**: Task 1\n* **Status**: `To Do`\n* **Project**: OPS\n* **Labels**: None\n* **Description**: {'content': [], 'type': 'doc', 'version': 1}\n",
+      "activities": [
+        {
+          "id": "step-a65203",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'What is the status of ticket KAN-1?'",
+          "system": null,
+          "data": {
+            "query": "What is the status of ticket KAN-1?"
+          },
+          "timestamp": "2026-09-25T22:31:03.620483+00:00"
+        },
+        {
+          "id": "step-dd04ce",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: jira_get_issue",
+          "description": "User asked for details of Jira ticket 'KAN-1'. Invoking jira_get_issue.",
+          "system": "jira",
+          "data": {
+            "tool": "jira_get_issue",
+            "args": {
+              "issue_key": "KAN-1"
+            }
+          },
+          "timestamp": "2026-09-25T22:31:03.620754+00:00"
+        },
+        {
+          "id": "step-ae230c",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: jira_get_issue",
+          "description": "Completed jira_get_issue call across JIRA integration.",
+          "system": "jira",
+          "data": {
+            "args": {
+              "issue_key": "KAN-1"
+            },
+            "result_preview": "{'key': 'KAN-1', 'summary': 'Task 1', 'status': 'To Do', 'priority': None, 'labels': [], 'created': '2026-09-25T23:54:55.921+0530', 'description': \"{'content': [], 'type': 'doc', 'version': 1}\", 'project': 'OPS'}"
+          },
+          "timestamp": "2026-09-25T22:31:07.606475+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-6279d2",
+          "system": "jira",
+          "title": "Jira Ticket KAN-1",
+          "summary": "Task 1",
+          "details": {
+            "key": "KAN-1",
+            "summary": "Task 1",
+            "status": "To Do",
+            "priority": null,
+            "labels": [],
+            "created": "2026-09-25T23:54:55.921+0530",
+            "description": "{'content': [], 'type': 'doc', 'version': 1}",
+            "project": "OPS"
+          },
+          "timestamp": "2026-09-25T22:31:07.606557+00:00"
+        }
+      ],
+      "approvals": [],
+      "timestamp": "2026-09-25T22:31:07.606703+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-6279d2",
+      "system": "jira",
+      "title": "Jira Ticket KAN-1",
+      "summary": "Task 1",
+      "details": {
+        "key": "KAN-1",
+        "summary": "Task 1",
+        "status": "To Do",
+        "priority": null,
+        "labels": [],
+        "created": "2026-09-25T23:54:55.921+0530",
+        "description": "{'content': [], 'type': 'doc', 'version': 1}",
+        "project": "OPS"
+      },
+      "timestamp": "2026-09-25T22:31:07.606557+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-25T22:31:03.615721+00:00",
+  "updated_at": "2026-09-25T22:31:07.606734+00:00"
+}

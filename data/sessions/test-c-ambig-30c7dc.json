@@ -1,0 +1,950 @@
+{
+  "session_id": "test-c-ambig-30c7dc",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is our current operational status today?",
+      "activities": [],
+      "evidence": [],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:01:37.754496+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 🩺 OpsDoctor Operational Overview\n\n* **Total Transactions Today**: 14\n* **Total Volume**: $17,010.00 USD\n* **Pending Settlements**: 2 ($1,270.00 USD)\n* **Failed Transactions**: 6 ($10,960.00 USD)\n* **Connected Providers**: PayPal Sandbox, Stripe\n\nAsk me any question about pending payments, customer complaints, runbooks, or active incident triage.",
+      "activities": [
+        {
+          "id": "step-21fe6e",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'What is our current operational status today?'",
+          "system": null,
+          "data": {
+            "query": "What is our current operational status today?"
+          },
+          "timestamp": "2026-09-25T23:01:37.751690+00:00"
+        },
+        {
+          "id": "step-d8e61b",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_get_overview",
+          "description": "General operational query. Fetching high-level payment overview.",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_overview",
+            "args": {}
+          },
+          "timestamp": "2026-09-25T23:01:37.751779+00:00"
+        },
+        {
+          "id": "step-e89af9",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_get_overview",
+          "description": "Completed payments_get_overview call across PAYMENTS integration.",
+          "system": "payments",
+          "data": {
+            "args": {},
+            "result_preview": "{'total_transactions': 14, 'total_volume': 17010.0, 'total_pending': 2, 'total_pending_volume': 1270.0, 'total_failed': 6, 'total_failed_volume': 10960.0, 'total_succeeded': 6, 'currency': 'USD', 'providers': {'paypal': {'provider': 'paypal', 'status"
+          },
+          "timestamp": "2026-09-25T23:01:37.754281+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-390af4",
+          "system": "payments",
+          "title": "Financial Operations Overview",
+          "summary": "Total volume $17,010.00 across 14 transactions.",
+          "details": {
+            "total_transactions": 14,
+            "total_volume": 17010.0,
+            "total_pending": 2,
+            "total_pending_volume": 1270.0,
+            "total_failed": 6,
+            "total_failed_volume": 10960.0,
+            "total_succeeded": 6,
+            "currency": "USD",
+            "providers": {
+              "paypal": {
+                "provider": "paypal",
+                "status": "connected",
+                "total_count": 8,
+                "succeeded_count": 4,
+                "pending_count": 0,
+                "failed_count": 4,
+                "total_volume": 11780.0,
+                "pending_volume": 0.0,
+                "failed_volume": 9150.0,
+                "currency": "USD",
+                "recent_transactions": [
+                  {
+                    "id": "ORD-88190",
+                    "provider": "paypal",
+                    "provider_transaction_id": "8AT91622HS865383K",
+                    "customer": "Starlight Analytics",
+                    "customer_email": null,
+                    "amount": 250.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T20:22:50.071674+00:00",
+                    "flow": "checkout-v1",
+                    "failure_reason": null,
+                    "payment_method": "paypal_wallet",
+                    "metadata": {
+                      "phase": "baseline",
+                      "deployment": "pre-incident",
+                      "failed_capture_attempts": 0,
+                      "client_tracking_ref": null
+                    }
+                  },
+                  {
+                    "id": "ORD-88195",
+                    "provider": "paypal",
+                    "provider_transaction_id": "0LJ89377E3678651P",
+                    "customer": "Beacon Media",
+                    "customer_email": null,
+                    "amount": 620.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T20:22:54.592958+00:00",
+                    "flow": "checkout-v1",
+                    "failure_reason": null,
+                    "payment_method": "paypal_wallet",
+                    "metadata": {
+                      "phase": "baseline",
+                      "deployment": "pre-incident",
+                      "failed_capture_attempts": 0,
+                      "client_tracking_ref": null
+                    }
+                  },
+                  {
+                    "id": "ORD-88201",
+                    "provider": "paypal",
+                    "provider_transaction_id": "2UV95174U6686544R",
+                    "customer": "Zenith Logistics",
+                    "customer_email": null,
+                    "amount": 1450.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T20:22:58.734683+00:00",
+                    "flow": "checkout-v2",
+                    "failure_reason": null,
+                    "payment_method": "paypal_wallet",
+                    "metadata": {
+                      "phase": "baseline",
+                      "deployment": "pre-incident",
+                      "failed_capture_attempts": 0,
+                      "client_tracking_ref": null
+                    }
+                  },
+                  {
+                    "id": "ORD-88208",
+                    "provider": "paypal",
+                    "provider_transaction_id": "4XL473937X660192E",
+                    "customer": "Crestview Health",
+                    "customer_email": null,
+                    "amount": 310.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T20:23:03.343716+00:00",
+                    "flow": "checkout-v1",
+                    "failure_reason": null,
+                    "payment_method": "paypal_wallet",
+                    "metadata": {
+                      "phase": "baseline",
+                      "deployment": "pre-incident",
+                      "failed_capture_attempts": 0,
+                      "client_tracking_ref": null
+                    }
+                  },
+                  {
+                    "id": "ORD-88219",
+                    "provider": "paypal",
+                    "provider_transaction_id": "1LL009468F308113M",
+                    "customer": "BrightPath Labs",
+                    "customer_email": null,
+                    "amount": 1200.0,
+                    "currency": "USD",
+                    "status": "failed",
+                    "created_at": "2026-09-25T20:23:07.871733+00:00",
+                    "flow": "checkout-v2",
+                    "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                    "payment_method": "paypal_wallet",
+                    "metadata": {
+                      "phase": "incident",
+                      "deployment": "checkout-api-2026.09.25.3",
+                      "failed_capture_attempts": 2,
+                      "client_tracking_ref": "PAYID-MZ4910"
+                    }
+                  }
+                ]
+              },
+              "stripe": {
+                "provider": "stripe",
+                "status": "ready_for_auth",
+                "total_count": 6,
+                "succeeded_count": 2,
+                "pending_count": 2,
+                "failed_count": 2,
+                "total_volume": 5230.0,
+                "pending_volume": 1270.0,
+                "failed_volume": 1810.0,
+                "currency": "USD",
+                "recent_transactions": [
+                  {
+                    "id": "pi_3PqaA4LkdIwHu7ix01mK81a1",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3PqaA4LkdIwHu7ix01mK81a1",
+                    "customer": "Meridian Tech",
+                    "customer_email": "billing@meridiantech.io",
+                    "amount": 850.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T13:40:00+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": null,
+                    "payment_method": "ach_debit",
+                    "metadata": {
+                      "description": "Enterprise Subscription - Monthly (ACH Pending Clearance)",
+                      "object": "payment_intent",
+                      "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                    }
+                  },
+                  {
+                    "id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                    "customer": "Vantage AI Labs",
+                    "customer_email": "accounts@vantageailabs.com",
+                    "amount": 420.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T14:05:00+00:00",
+                    "flow": "checkout-v2",
+                    "failure_reason": null,
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Compute Units Package Upgrade (3D Secure Pending)",
+                      "object": "payment_intent",
+                      "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                    }
+                  },
+                  {
+                    "id": "pi_3PqcC3LkdIwHu7ix03oM03c3",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3PqcC3LkdIwHu7ix03oM03c3",
+                    "customer": "CloudScale Software",
+                    "customer_email": "finance@cloudscalesoft.com",
+                    "amount": 1200.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T11:15:00+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": null,
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Annual Platform License - Core Edition",
+                      "object": "payment_intent",
+                      "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                    }
+                  },
+                  {
+                    "id": "pi_3PqdD4LkdIwHu7ix04pN14d4",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3PqdD4LkdIwHu7ix04pN14d4",
+                    "customer": "DataMesh Networks",
+                    "customer_email": "ap@datameshnetworks.net",
+                    "amount": 950.0,
+                    "currency": "USD",
+                    "status": "succeeded",
+                    "created_at": "2026-09-25T12:30:00+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": null,
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Multi-Region Cluster Ingress Add-on",
+                      "object": "payment_intent",
+                      "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                    }
+                  },
+                  {
+                    "id": "pi_3PqeE5LkdIwHu7ix05qO25e5",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3PqeE5LkdIwHu7ix05qO25e5",
+                    "customer": "Nexus Dynamics",
+                    "customer_email": "ops@nexusdynamics.co",
+                    "amount": 1500.0,
+                    "currency": "USD",
+                    "status": "failed",
+                    "created_at": "2026-09-25T13:55:00+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": "insufficient_funds",
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Dedicated Enterprise Support Retainer",
+                      "object": "payment_intent",
+                      "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                    }
+                  }
+                ]
+              }
+            },
+            "recent_transactions": [
+              {
+                "id": "ORD-88240",
+                "provider": "paypal",
+                "provider_transaction_id": "25B39056JJ708184A",
+                "customer": "Apex Dynamics",
+                "customer_email": null,
+                "amount": 2400.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T20:23:40.794471+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "incident",
+                  "deployment": "checkout-api-2026.09.25.3",
+                  "failed_capture_attempts": 1,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88231",
+                "provider": "paypal",
+                "provider_transaction_id": "9PN44652X52492116",
+                "customer": "NovaTech Systems",
+                "customer_email": null,
+                "amount": 750.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T20:23:31.544190+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "incident",
+                  "deployment": "checkout-api-2026.09.25.3",
+                  "failed_capture_attempts": 2,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88225",
+                "provider": "paypal",
+                "provider_transaction_id": "3KF38607U24457627",
+                "customer": "OmniCorp Logistics",
+                "customer_email": null,
+                "amount": 4800.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T20:23:22.305257+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "incident",
+                  "deployment": "checkout-api-2026.09.25.3",
+                  "failed_capture_attempts": 2,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88219",
+                "provider": "paypal",
+                "provider_transaction_id": "1LL009468F308113M",
+                "customer": "BrightPath Labs",
+                "customer_email": null,
+                "amount": 1200.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T20:23:07.871733+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "incident",
+                  "deployment": "checkout-api-2026.09.25.3",
+                  "failed_capture_attempts": 2,
+                  "client_tracking_ref": "PAYID-MZ4910"
+                }
+              },
+              {
+                "id": "ORD-88208",
+                "provider": "paypal",
+                "provider_transaction_id": "4XL473937X660192E",
+                "customer": "Crestview Health",
+                "customer_email": null,
+                "amount": 310.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:23:03.343716+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88201",
+                "provider": "paypal",
+                "provider_transaction_id": "2UV95174U6686544R",
+                "customer": "Zenith Logistics",
+                "customer_email": null,
+                "amount": 1450.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:58.734683+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88195",
+                "provider": "paypal",
+                "provider_transaction_id": "0LJ89377E3678651P",
+                "customer": "Beacon Media",
+                "customer_email": null,
+                "amount": 620.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:54.592958+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88190",
+                "provider": "paypal",
+                "provider_transaction_id": "8AT91622HS865383K",
+                "customer": "Starlight Analytics",
+                "customer_email": null,
+                "amount": 250.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:50.071674+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "pi_3PqfF6LkdIwHu7ix06rP36f6",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqfF6LkdIwHu7ix06rP36f6",
+                "customer": "Horizon Media Group",
+                "customer_email": "billing@horizonmedia.org",
+                "amount": 310.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T14:10:00+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": "card_declined",
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Standard Monthly Seat Expansion",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              },
+              {
+                "id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                "customer": "Vantage AI Labs",
+                "customer_email": "accounts@vantageailabs.com",
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T14:05:00+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Compute Units Package Upgrade (3D Secure Pending)",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              }
+            ],
+            "generated_at": "2026-09-25T23:01:37.753715+00:00"
+          },
+          "timestamp": "2026-09-25T23:01:37.754334+00:00"
+        }
+      ],
+      "approvals": [],
+      "timestamp": "2026-09-25T23:01:37.754484+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-390af4",
+      "system": "payments",
+      "title": "Financial Operations Overview",
+      "summary": "Total volume $17,010.00 across 14 transactions.",
+      "details": {
+        "total_transactions": 14,
+        "total_volume": 17010.0,
+        "total_pending": 2,
+        "total_pending_volume": 1270.0,
+        "total_failed": 6,
+        "total_failed_volume": 10960.0,
+        "total_succeeded": 6,
+        "currency": "USD",
+        "providers": {
+          "paypal": {
+            "provider": "paypal",
+            "status": "connected",
+            "total_count": 8,
+            "succeeded_count": 4,
+            "pending_count": 0,
+            "failed_count": 4,
+            "total_volume": 11780.0,
+            "pending_volume": 0.0,
+            "failed_volume": 9150.0,
+            "currency": "USD",
+            "recent_transactions": [
+              {
+                "id": "ORD-88190",
+                "provider": "paypal",
+                "provider_transaction_id": "8AT91622HS865383K",
+                "customer": "Starlight Analytics",
+                "customer_email": null,
+                "amount": 250.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:50.071674+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88195",
+                "provider": "paypal",
+                "provider_transaction_id": "0LJ89377E3678651P",
+                "customer": "Beacon Media",
+                "customer_email": null,
+                "amount": 620.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:54.592958+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88201",
+                "provider": "paypal",
+                "provider_transaction_id": "2UV95174U6686544R",
+                "customer": "Zenith Logistics",
+                "customer_email": null,
+                "amount": 1450.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:22:58.734683+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88208",
+                "provider": "paypal",
+                "provider_transaction_id": "4XL473937X660192E",
+                "customer": "Crestview Health",
+                "customer_email": null,
+                "amount": 310.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T20:23:03.343716+00:00",
+                "flow": "checkout-v1",
+                "failure_reason": null,
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "baseline",
+                  "deployment": "pre-incident",
+                  "failed_capture_attempts": 0,
+                  "client_tracking_ref": null
+                }
+              },
+              {
+                "id": "ORD-88219",
+                "provider": "paypal",
+                "provider_transaction_id": "1LL009468F308113M",
+                "customer": "BrightPath Labs",
+                "customer_email": null,
+                "amount": 1200.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T20:23:07.871733+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+                "payment_method": "paypal_wallet",
+                "metadata": {
+                  "phase": "incident",
+                  "deployment": "checkout-api-2026.09.25.3",
+                  "failed_capture_attempts": 2,
+                  "client_tracking_ref": "PAYID-MZ4910"
+                }
+              }
+            ]
+          },
+          "stripe": {
+            "provider": "stripe",
+            "status": "ready_for_auth",
+            "total_count": 6,
+            "succeeded_count": 2,
+            "pending_count": 2,
+            "failed_count": 2,
+            "total_volume": 5230.0,
+            "pending_volume": 1270.0,
+            "failed_volume": 1810.0,
+            "currency": "USD",
+            "recent_transactions": [
+              {
+                "id": "pi_3PqaA4LkdIwHu7ix01mK81a1",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqaA4LkdIwHu7ix01mK81a1",
+                "customer": "Meridian Tech",
+                "customer_email": "billing@meridiantech.io",
+                "amount": 850.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T13:40:00+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "ach_debit",
+                "metadata": {
+                  "description": "Enterprise Subscription - Monthly (ACH Pending Clearance)",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              },
+              {
+                "id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+                "customer": "Vantage AI Labs",
+                "customer_email": "accounts@vantageailabs.com",
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T14:05:00+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Compute Units Package Upgrade (3D Secure Pending)",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              },
+              {
+                "id": "pi_3PqcC3LkdIwHu7ix03oM03c3",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqcC3LkdIwHu7ix03oM03c3",
+                "customer": "CloudScale Software",
+                "customer_email": "finance@cloudscalesoft.com",
+                "amount": 1200.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T11:15:00+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Annual Platform License - Core Edition",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              },
+              {
+                "id": "pi_3PqdD4LkdIwHu7ix04pN14d4",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqdD4LkdIwHu7ix04pN14d4",
+                "customer": "DataMesh Networks",
+                "customer_email": "ap@datameshnetworks.net",
+                "amount": 950.0,
+                "currency": "USD",
+                "status": "succeeded",
+                "created_at": "2026-09-25T12:30:00+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Multi-Region Cluster Ingress Add-on",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              },
+              {
+                "id": "pi_3PqeE5LkdIwHu7ix05qO25e5",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3PqeE5LkdIwHu7ix05qO25e5",
+                "customer": "Nexus Dynamics",
+                "customer_email": "ops@nexusdynamics.co",
+                "amount": 1500.0,
+                "currency": "USD",
+                "status": "failed",
+                "created_at": "2026-09-25T13:55:00+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": "insufficient_funds",
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Dedicated Enterprise Support Retainer",
+                  "object": "payment_intent",
+                  "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+                }
+              }
+            ]
+          }
+        },
+        "recent_transactions": [
+          {
+            "id": "ORD-88240",
+            "provider": "paypal",
+            "provider_transaction_id": "25B39056JJ708184A",
+            "customer": "Apex Dynamics",
+            "customer_email": null,
+            "amount": 2400.0,
+            "currency": "USD",
+            "status": "failed",
+            "created_at": "2026-09-25T20:23:40.794471+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "incident",
+              "deployment": "checkout-api-2026.09.25.3",
+              "failed_capture_attempts": 1,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88231",
+            "provider": "paypal",
+            "provider_transaction_id": "9PN44652X52492116",
+            "customer": "NovaTech Systems",
+            "customer_email": null,
+            "amount": 750.0,
+            "currency": "USD",
+            "status": "failed",
+            "created_at": "2026-09-25T20:23:31.544190+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "incident",
+              "deployment": "checkout-api-2026.09.25.3",
+              "failed_capture_attempts": 2,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88225",
+            "provider": "paypal",
+            "provider_transaction_id": "3KF38607U24457627",
+            "customer": "OmniCorp Logistics",
+            "customer_email": null,
+            "amount": 4800.0,
+            "currency": "USD",
+            "status": "failed",
+            "created_at": "2026-09-25T20:23:22.305257+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "incident",
+              "deployment": "checkout-api-2026.09.25.3",
+              "failed_capture_attempts": 2,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88219",
+            "provider": "paypal",
+            "provider_transaction_id": "1LL009468F308113M",
+            "customer": "BrightPath Labs",
+            "customer_email": null,
+            "amount": 1200.0,
+            "currency": "USD",
+            "status": "failed",
+            "created_at": "2026-09-25T20:23:07.871733+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": "ORDER_NOT_APPROVED: Payer has not approved the order for capture (HTTP 422)",
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "incident",
+              "deployment": "checkout-api-2026.09.25.3",
+              "failed_capture_attempts": 2,
+              "client_tracking_ref": "PAYID-MZ4910"
+            }
+          },
+          {
+            "id": "ORD-88208",
+            "provider": "paypal",
+            "provider_transaction_id": "4XL473937X660192E",
+            "customer": "Crestview Health",
+            "customer_email": null,
+            "amount": 310.0,
+            "currency": "USD",
+            "status": "succeeded",
+            "created_at": "2026-09-25T20:23:03.343716+00:00",
+            "flow": "checkout-v1",
+            "failure_reason": null,
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "baseline",
+              "deployment": "pre-incident",
+              "failed_capture_attempts": 0,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88201",
+            "provider": "paypal",
+            "provider_transaction_id": "2UV95174U6686544R",
+            "customer": "Zenith Logistics",
+            "customer_email": null,
+            "amount": 1450.0,
+            "currency": "USD",
+            "status": "succeeded",
+            "created_at": "2026-09-25T20:22:58.734683+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": null,
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "baseline",
+              "deployment": "pre-incident",
+              "failed_capture_attempts": 0,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88195",
+            "provider": "paypal",
+            "provider_transaction_id": "0LJ89377E3678651P",
+            "customer": "Beacon Media",
+            "customer_email": null,
+            "amount": 620.0,
+            "currency": "USD",
+            "status": "succeeded",
+            "created_at": "2026-09-25T20:22:54.592958+00:00",
+            "flow": "checkout-v1",
+            "failure_reason": null,
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "baseline",
+              "deployment": "pre-incident",
+              "failed_capture_attempts": 0,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "ORD-88190",
+            "provider": "paypal",
+            "provider_transaction_id": "8AT91622HS865383K",
+            "customer": "Starlight Analytics",
+            "customer_email": null,
+            "amount": 250.0,
+            "currency": "USD",
+            "status": "succeeded",
+            "created_at": "2026-09-25T20:22:50.071674+00:00",
+            "flow": "checkout-v1",
+            "failure_reason": null,
+            "payment_method": "paypal_wallet",
+            "metadata": {
+              "phase": "baseline",
+              "deployment": "pre-incident",
+              "failed_capture_attempts": 0,
+              "client_tracking_ref": null
+            }
+          },
+          {
+            "id": "pi_3PqfF6LkdIwHu7ix06rP36f6",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3PqfF6LkdIwHu7ix06rP36f6",
+            "customer": "Horizon Media Group",
+            "customer_email": "billing@horizonmedia.org",
+            "amount": 310.0,
+            "currency": "USD",
+            "status": "failed",
+            "created_at": "2026-09-25T14:10:00+00:00",
+            "flow": "checkout-v1",
+            "failure_reason": "card_declined",
+            "payment_method": "card",
+            "metadata": {
+              "description": "Standard Monthly Seat Expansion",
+              "object": "payment_intent",
+              "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+            }
+          },
+          {
+            "id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3PqbB2LkdIwHu7ix02nL92b2",
+            "customer": "Vantage AI Labs",
+            "customer_email": "accounts@vantageailabs.com",
+            "amount": 420.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T14:05:00+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": null,
+            "payment_method": "card",
+            "metadata": {
+              "description": "Compute Units Package Upgrade (3D Secure Pending)",
+              "object": "payment_intent",
+              "auth_blocker": "Swytchcode execution failed for stripe.payment_intent.list: missing credentials for Stripe - run `swytchcode auth connect Stripe`"
+            }
+          }
+        ],
+        "generated_at": "2026-09-25T23:01:37.753715+00:00"
+      },
+      "timestamp": "2026-09-25T23:01:37.754334+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-25T23:01:37.750099+00:00",
+  "updated_at": "2026-09-25T23:01:37.754503+00:00"
+}
