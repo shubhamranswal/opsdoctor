@@ -857,13 +857,3 @@ Do not claim a license until the corresponding `LICENSE` file has been added to 
 # 🙌 Acknowledgements
 
 Built as an agentic AI operations project around **Swytchcode** integrations and execution.
-
----
-
-## 🔗 Project
-
-**Repository:**  
-https://github.com/shubhamranswal/opsdoctor
-
-**OpsDoctor**  
-*From operational signals to evidence-backed action.*
