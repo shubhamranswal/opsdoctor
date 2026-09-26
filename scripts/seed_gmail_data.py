@@ -82,7 +82,7 @@ GMAIL_DATASET = [
     {
         "marker": "ACMEFLOW-SEED-INC-2026-042-03",
         "category": "baseline_noise",
-        "from": "Maya Rao <maya.rao@acmeflow.com>",
+        "from": "Shubham Ranswal <maya.rao@acmeflow.com>",
         "to": "team@acmeflow.com",
         "date": "Fri, 25 Sep 2026 10:30:00 +0000",
         "subject": "Reminder: Q3 OKR Departmental Rollup Due Friday 5 PM",
@@ -92,7 +92,7 @@ GMAIL_DATASET = [
             "Please update key results directly in your team's Notion workspace pages. "
             "We will review high-level organizational metrics at next week's all-hands meeting.\n\n"
             "Thanks for your dedication!\n"
-            "Maya Rao\n"
+            "Shubham Ranswal\n"
             "Operations Manager, AcmeFlow\n"
             "[ACMEFLOW-SEED-INC-2026-042-03]"
         ),
@@ -283,7 +283,7 @@ GMAIL_DATASET = [
     {
         "marker": "ACMEFLOW-SEED-INC-2026-042-12",
         "category": "internal_escalation",
-        "from": "Maya Rao <maya.rao@acmeflow.com>",
+        "from": "Shubham Ranswal <maya.rao@acmeflow.com>",
         "to": "arjun.mehta@acmeflow.com, ethan.cole@acmeflow.com",
         "date": "Fri, 25 Sep 2026 14:46:00 +0000",
         "subject": "OPS ALERT: Payment failures on checkout-v2 flow [INC-2026-042]",
@@ -295,7 +295,7 @@ GMAIL_DATASET = [
             "checkout-api-2026.09.25.3. Notably, transactions going through checkout-v1 remain healthy; the failures "
             "appear concentrated in checkout-v2 capture requests.\n\n"
             "Ethan has opened the war room in #ops-incidents. Please investigate commit changes in this release immediately.\n\n"
-            "Maya Rao\n"
+            "Shubham Ranswal\n"
             "Operations Manager, AcmeFlow\n"
             "[ACMEFLOW-SEED-INC-2026-042-12]"
         ),

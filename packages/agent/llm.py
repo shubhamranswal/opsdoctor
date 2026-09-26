@@ -141,12 +141,16 @@ class CognitiveBrain:
 
         contents = f"User Request: {query}\n{context_summary}\nWhat is the next step?"
 
+        gemini_tool = types.Tool(
+            function_declarations=gemini_tools
+        )
+
         response = self._gemini_client.models.generate_content(
             model=self.model_name,
             contents=contents,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
-                tools=gemini_tools,
+                tools=[gemini_tool],
                 temperature=0.1,
             ),
         )

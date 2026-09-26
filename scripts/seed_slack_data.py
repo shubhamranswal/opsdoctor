@@ -107,7 +107,7 @@ SEED_DATA = {
             "Gross settled: $184,250.00 across 1,420 transactions. Dispute volume remains under 0.05%."
         ),
         (
-            "*[Maya Rao - Operations Manager]* (11:30 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (11:30 UTC)\n"
             "Good to hear Daniel. FYI we have the gradual traffic ramp of `checkout-v2` continuing today - "
             "currently routing ~35% of web checkout traffic."
         ),
@@ -185,14 +185,14 @@ SEED_DATA = {
             "*:rotating_light: INCIDENT DECLARED: INC-2026-042 (P1)*\n"
             "• *Title*: Elevated PayPal payment capture failures on checkout-v2\n"
             "• *Incident Commander*: Ethan Cole\n"
-            "• *Ops Lead*: Maya Rao\n"
+            "• *Ops Lead*: Shubham Ranswal\n"
             "• *Engineering Lead*: Arjun Mehta\n"
             "• *Impact*: Customers attempting payments via `checkout-v2` receiving capture failures. Error rate ~15%.\n"
             "• *Tracking Jira*: `OPS-412` | *Runbook*: Notion > Operations / Runbooks / Payment Incident Response (REV-4)\n"
             "• *Declared*: 14:38 UTC"
         ),
         (
-            "*[Maya Rao - Operations Manager]* (14:44 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (14:44 UTC)\n"
             "Ops update: Customer Support is tracking ~8 escalated tickets so far. Finance reports no issues on PayPal reporting or webhook listener infrastructure. Initial customer transactions affected include order `ORD-88219`, `ORD-88225`, and `ORD-88231`."
         ),
         (
@@ -217,7 +217,7 @@ SEED_DATA = {
     ],
     "general": [
         (
-            "*[Maya Rao - Operations Manager]* (08:30 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (08:30 UTC)\n"
             "Good morning AcmeFlow! Friendly reminder that Q3 OKR departmental rollups are due this Friday by 5 PM. Please ensure your team sheets in Notion are updated."
         ),
         (
@@ -229,13 +229,13 @@ SEED_DATA = {
             "Customer Support team lunch is happening today at 1 PM! Support coverage will be handled by the EMEA rotation during that hour."
         ),
         (
-            "*[Maya Rao - Operations Manager]* (16:00 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (16:00 UTC)\n"
             "Pantry reminder: Fresh fruit and cold brew have been restocked on the 3rd floor. Please remember to label any personal containers in the fridge!"
         ),
     ],
     "all-acmeflow-operations": [
         (
-            "*[Maya Rao - Operations Manager]* (09:00 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (09:00 UTC)\n"
             "Weekly Operations Pulse (Sep 25, 2026): Platform uptime at 99.94% across all regions. Customer onboarding cycle time reduced by 12% this sprint. Excellent work cross-functional team!"
         ),
         (
@@ -243,11 +243,11 @@ SEED_DATA = {
             "FYI to team leads: September end-of-month expense reports must be submitted into Concur by Monday morning for monthly close."
         ),
         (
-            "*[Maya Rao - Operations Manager]* (14:45 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (14:45 UTC)\n"
             "Operations Notice: Ops and Engineering are actively managing an intermittent issue impacting some checkout payments. An incident has been declared and the team is working on mitigation. Please direct any customer inquiries to Priya's support team queue."
         ),
         (
-            "*[Maya Rao - Operations Manager]* (15:30 UTC)\n"
+            "*[Shubham Ranswal - Operations Manager]* (15:30 UTC)\n"
             "Operations Update: Payment investigation is progressing with engineering. Root cause isolation underway. Support has established customer communication macros. Further technical updates will remain centralized in #ops-incidents."
         ),
     ],
