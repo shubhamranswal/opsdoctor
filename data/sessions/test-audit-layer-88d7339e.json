@@ -1,0 +1,469 @@
+{
+  "session_id": "test-audit-layer-88d7339e",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "what payment gateway is having more payment fails?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:34.840064+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "PayPal has the higher observed failure rate.\n\nPayPal: 4/8 failed = 50%\nStripe: 1/5 failed = 20%",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-01a26c",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'what payment gateway is having more payment fails?'",
+          "system": null,
+          "data": {
+            "query": "what payment gateway is having more payment fails?"
+          },
+          "timestamp": "2026-09-26T06:23:30.913774+00:00"
+        },
+        {
+          "id": "step-e52621",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_compare_providers",
+          "description": "Querying metrics from connected payment gateways for comparative analysis.",
+          "system": "payments",
+          "data": {
+            "tool": "payments_compare_providers",
+            "reason": "Querying metrics from connected payment gateways for comparative analysis.",
+            "args": {}
+          },
+          "timestamp": "2026-09-26T06:23:30.915699+00:00"
+        },
+        {
+          "id": "step-3ddd7d",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_compare_providers",
+          "description": "Completed payments_compare_providers call across PAYMENTS integration (SUCCESS).",
+          "system": "payments",
+          "data": {
+            "tool": "payments_compare_providers",
+            "args": {},
+            "status": "SUCCESS",
+            "result_preview": "{'providers_analyzed': 2, 'comparison': [{'provider': 'paypal', 'status': 'connected', 'total_transactions': 8, 'succeeded': 4, 'pending': 0, 'failed': 4, 'failure_rate_percent': 50.0, 'total_volume': 11780.0, 'pending_volume': 0.0, 'failed_volume': 9150.0}, {'provider': 'stripe', 'status': 'connect"
+          },
+          "timestamp": "2026-09-26T06:23:34.839739+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-7f54ad",
+          "system": "payments",
+          "title": "Cross-Gateway Comparative Analysis",
+          "summary": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+          "details": {
+            "providers_analyzed": 2,
+            "comparison": [
+              {
+                "provider": "paypal",
+                "status": "connected",
+                "total_transactions": 8,
+                "succeeded": 4,
+                "pending": 0,
+                "failed": 4,
+                "failure_rate_percent": 50.0,
+                "total_volume": 11780.0,
+                "pending_volume": 0.0,
+                "failed_volume": 9150.0
+              },
+              {
+                "provider": "stripe",
+                "status": "connected",
+                "total_transactions": 5,
+                "succeeded": 2,
+                "pending": 2,
+                "failed": 1,
+                "failure_rate_percent": 20.0,
+                "total_volume": 4100.0,
+                "pending_volume": 1270.0,
+                "failed_volume": 680.0
+              }
+            ],
+            "highest_failure_rate_provider": "paypal",
+            "analysis_finding": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+            "generated_at": "2026-09-26T06:23:34.839626+00:00"
+          },
+          "timestamp": "2026-09-26T06:23:34.839781+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:34.840043+00:00"
+    },
+    {
+      "role": "user",
+      "content": "show me pending payments",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:38.762600+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💳 Pending Payments Status Overview\n\n* **Total Pending**: **2 transaction(s)** totaling **$1,270.00 USD**\n* **Time Horizon**: Real-time snapshot across active payment gateways\n\n#### 📊 Provider Breakdown\n* **PAYPAL**: 0 pending ($0.00 USD)\n* **STRIPE**: 2 pending ($1,270.00 USD)\n\n#### 🔍 Pending Transactions Detail\n* `pi_3UJihjRpzp5AdrAh144OTNjH` (STRIPE): **$850.00** for **cus_VKNS4ViWlBOdBO** | Flow: `enterprise-billing` | Method: `card` | Reason: `Awaiting Checkout Completion`\n* `pi_3UJiheRpzp5AdrAh1Scb7Oru` (STRIPE): **$420.00** for **cus_VKNSlChJRODlGu** | Flow: `checkout-v2` | Method: `pm_1UJiheRpzp5AdrAhIeQsy1XB` | Reason: `3D Secure Challenge Pending`\n\n> [!NOTE]\n> Retrieved 2 live pending transaction(s) directly from connected payment gateways. You can ask 'Which ones are stuck?' or 'Why is the Meridian payment stuck?' for deep-dive investigation.",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-ccec5e",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'show me pending payments'",
+          "system": null,
+          "data": {
+            "query": "show me pending payments"
+          },
+          "timestamp": "2026-09-26T06:23:34.845030+00:00"
+        },
+        {
+          "id": "step-584625",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_get_pending",
+          "description": "Querying pending payments from all connected providers",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_pending",
+            "reason": "Querying pending payments from all connected providers",
+            "args": {
+              "provider": null
+            }
+          },
+          "timestamp": "2026-09-26T06:23:34.845276+00:00"
+        },
+        {
+          "id": "step-534f50",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_get_pending",
+          "description": "Completed payments_get_pending call across PAYMENTS integration (SUCCESS).",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_pending",
+            "args": {
+              "provider": null
+            },
+            "status": "SUCCESS",
+            "result_preview": "{'total_pending_count': 2, 'total_pending_volume': 1270.0, 'currency': 'USD', 'provider_breakdown': {'paypal': {'count': 0, 'volume': 0, 'transactions': []}, 'stripe': {'count': 2, 'volume': 1270.0, 'transactions': [{'id': 'pi_3UJihjRpzp5AdrAh144OTNjH', 'provider': 'stripe', 'provider_transaction_id"
+          },
+          "timestamp": "2026-09-26T06:23:38.762399+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-1e501e",
+          "system": "payments",
+          "title": "Pending Payments Telemetry",
+          "summary": "2 pending payments identified across gateways totaling $1,270.00 USD.",
+          "details": {
+            "total_pending_count": 2,
+            "total_pending_volume": 1270.0,
+            "currency": "USD",
+            "provider_breakdown": {
+              "paypal": {
+                "count": 0,
+                "volume": 0,
+                "transactions": []
+              },
+              "stripe": {
+                "count": 2,
+                "volume": 1270.0,
+                "transactions": [
+                  {
+                    "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                    "customer": "cus_VKNS4ViWlBOdBO",
+                    "customer_email": null,
+                    "amount": 850.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T23:38:59+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": null,
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Custom Data Pipeline Provisioning",
+                      "raw_status": "requires_payment_method",
+                      "object": "payment_intent",
+                      "auth_blocker": null,
+                      "metadata": {
+                        "flow": "enterprise-billing",
+                        "order_id": "ORD-STRIPE-104",
+                        "reason": "checkout_in_progress"
+                      }
+                    }
+                  },
+                  {
+                    "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                    "customer": "cus_VKNSlChJRODlGu",
+                    "customer_email": null,
+                    "amount": 420.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T23:38:54+00:00",
+                    "flow": "checkout-v2",
+                    "failure_reason": null,
+                    "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                    "metadata": {
+                      "description": "Annual Security Addon - 3DS Pending",
+                      "raw_status": "requires_action",
+                      "object": "payment_intent",
+                      "auth_blocker": null,
+                      "metadata": {
+                        "flow": "checkout-v2",
+                        "order_id": "ORD-STRIPE-103",
+                        "reason": "3ds_challenge_pending"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "pending_transactions": [
+              {
+                "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "customer": "cus_VKNS4ViWlBOdBO",
+                "customer_email": null,
+                "amount": 850.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:59+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Custom Data Pipeline Provisioning",
+                  "raw_status": "requires_payment_method",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "enterprise-billing",
+                    "order_id": "ORD-STRIPE-104",
+                    "reason": "checkout_in_progress"
+                  }
+                }
+              },
+              {
+                "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "customer": "cus_VKNSlChJRODlGu",
+                "customer_email": null,
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:54+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                "metadata": {
+                  "description": "Annual Security Addon - 3DS Pending",
+                  "raw_status": "requires_action",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "checkout-v2",
+                    "order_id": "ORD-STRIPE-103",
+                    "reason": "3ds_challenge_pending"
+                  }
+                }
+              }
+            ],
+            "queried_at_utc": "2026-09-26T06:23:38.762248+00:00"
+          },
+          "timestamp": "2026-09-26T06:23:38.762443+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:38.762585+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-7f54ad",
+      "system": "payments",
+      "title": "Cross-Gateway Comparative Analysis",
+      "summary": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+      "details": {
+        "providers_analyzed": 2,
+        "comparison": [
+          {
+            "provider": "paypal",
+            "status": "connected",
+            "total_transactions": 8,
+            "succeeded": 4,
+            "pending": 0,
+            "failed": 4,
+            "failure_rate_percent": 50.0,
+            "total_volume": 11780.0,
+            "pending_volume": 0.0,
+            "failed_volume": 9150.0
+          },
+          {
+            "provider": "stripe",
+            "status": "connected",
+            "total_transactions": 5,
+            "succeeded": 2,
+            "pending": 2,
+            "failed": 1,
+            "failure_rate_percent": 20.0,
+            "total_volume": 4100.0,
+            "pending_volume": 1270.0,
+            "failed_volume": 680.0
+          }
+        ],
+        "highest_failure_rate_provider": "paypal",
+        "analysis_finding": "PAYPAL has the highest failure rate (50.0%) primarily impacted by repeated capture failures.",
+        "generated_at": "2026-09-26T06:23:34.839626+00:00"
+      },
+      "timestamp": "2026-09-26T06:23:34.839781+00:00"
+    },
+    {
+      "id": "ev-1e501e",
+      "system": "payments",
+      "title": "Pending Payments Telemetry",
+      "summary": "2 pending payments identified across gateways totaling $1,270.00 USD.",
+      "details": {
+        "total_pending_count": 2,
+        "total_pending_volume": 1270.0,
+        "currency": "USD",
+        "provider_breakdown": {
+          "paypal": {
+            "count": 0,
+            "volume": 0,
+            "transactions": []
+          },
+          "stripe": {
+            "count": 2,
+            "volume": 1270.0,
+            "transactions": [
+              {
+                "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "customer": "cus_VKNS4ViWlBOdBO",
+                "customer_email": null,
+                "amount": 850.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:59+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Custom Data Pipeline Provisioning",
+                  "raw_status": "requires_payment_method",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "enterprise-billing",
+                    "order_id": "ORD-STRIPE-104",
+                    "reason": "checkout_in_progress"
+                  }
+                }
+              },
+              {
+                "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "customer": "cus_VKNSlChJRODlGu",
+                "customer_email": null,
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:54+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                "metadata": {
+                  "description": "Annual Security Addon - 3DS Pending",
+                  "raw_status": "requires_action",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "checkout-v2",
+                    "order_id": "ORD-STRIPE-103",
+                    "reason": "3ds_challenge_pending"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "pending_transactions": [
+          {
+            "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+            "customer": "cus_VKNS4ViWlBOdBO",
+            "customer_email": null,
+            "amount": 850.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T23:38:59+00:00",
+            "flow": "enterprise-billing",
+            "failure_reason": null,
+            "payment_method": "card",
+            "metadata": {
+              "description": "Custom Data Pipeline Provisioning",
+              "raw_status": "requires_payment_method",
+              "object": "payment_intent",
+              "auth_blocker": null,
+              "metadata": {
+                "flow": "enterprise-billing",
+                "order_id": "ORD-STRIPE-104",
+                "reason": "checkout_in_progress"
+              }
+            }
+          },
+          {
+            "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "customer": "cus_VKNSlChJRODlGu",
+            "customer_email": null,
+            "amount": 420.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T23:38:54+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": null,
+            "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+            "metadata": {
+              "description": "Annual Security Addon - 3DS Pending",
+              "raw_status": "requires_action",
+              "object": "payment_intent",
+              "auth_blocker": null,
+              "metadata": {
+                "flow": "checkout-v2",
+                "order_id": "ORD-STRIPE-103",
+                "reason": "3ds_challenge_pending"
+              }
+            }
+          }
+        ],
+        "queried_at_utc": "2026-09-26T06:23:38.762248+00:00"
+      },
+      "timestamp": "2026-09-26T06:23:38.762443+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T06:23:30.908064+00:00",
+  "updated_at": "2026-09-26T06:23:38.762608+00:00"
+}

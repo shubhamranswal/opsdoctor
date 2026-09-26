@@ -11,9 +11,12 @@ class SlackSwytchcodeClient(BaseSwytchcodeClient):
         """Verify connected Slack identity."""
         return self.execute("slack.auth.test.list", {})
 
-    def list_channels(self, types: str = "public_channel,private_channel") -> List[Dict[str, Any]]:
+    def list_channels(self, types: Optional[str] = None) -> List[Dict[str, Any]]:
         """List channels in the workspace."""
-        res = self.execute("slack.conversations.list.list", {"types": types})
+        args: Dict[str, Any] = {}
+        if types:
+            args["types"] = types
+        res = self.execute("slack.conversations.list.list", args)
         return res.get("channels", [])
 
     def get_channel_history(self, channel_id: str, limit: int = 50) -> List[Dict[str, Any]]:

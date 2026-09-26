@@ -100,3 +100,10 @@ def get_readiness() -> Dict[str, Any]:
         "connected_systems_count": sum(1 for s in status["systems"].values() if s.get("connected")),
         "total_systems_count": len(status["systems"]),
     }
+
+
+@router.get("/tools")
+def get_tools_diagnostic() -> Dict[str, Any]:
+    """Diagnostic endpoint displaying tool registry state for operations dashboard."""
+    from apps.web.routes.agent import list_agent_tools
+    return list_agent_tools()

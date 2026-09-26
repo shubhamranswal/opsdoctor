@@ -1,0 +1,205 @@
+{
+  "session_id": "http-test-exec",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Post an update to #ops-incidents saying 'Automated verification check completed.'",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:52:50.043778+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💬 Slack Message Staged for Approval\n\nI have prepared an operational message to be posted to **#ops-incidents**:\n\n> *\"Automated verification check completed.\"*\n\nPlease review the proposed message in the **Action Center** card below and click **Approve & Execute** to dispatch it to Slack.\n\n#### 🛡️ Action Center: Staged For Your Approval\nI have prepared an official action requiring your explicit authorization before execution. Please review and approve in the Action Center card.",
+      "response_type": "ACTION_PROPOSAL",
+      "activities": [
+        {
+          "id": "step-5cc9b8",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Post an update to #ops-incidents saying 'Automated verification check completed.''",
+          "system": null,
+          "data": {
+            "query": "Post an update to #ops-incidents saying 'Automated verification check completed.'"
+          },
+          "timestamp": "2026-09-26T06:52:50.043587+00:00"
+        },
+        {
+          "id": "step-841b0c",
+          "step_type": "approval_required",
+          "title": "Action Staged for User Approval",
+          "description": "Prepared SLACK action for #ops-incidents. Staged for review.",
+          "system": "slack",
+          "data": {
+            "approval_id": "appr-d4f801a3",
+            "target": "#ops-incidents"
+          },
+          "timestamp": "2026-09-26T06:52:50.043747+00:00"
+        }
+      ],
+      "evidence": [],
+      "actions": [
+        {
+          "id": "appr-d4f801a3",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "Automated verification check completed."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:52:50.043720+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "http-test-exec"
+        }
+      ],
+      "approvals": [
+        {
+          "id": "appr-d4f801a3",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "Automated verification check completed."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:52:50.043720+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "http-test-exec"
+        }
+      ],
+      "timestamp": "2026-09-26T06:52:50.043764+00:00"
+    },
+    {
+      "role": "user",
+      "content": "Post an update to #ops-incidents saying 'Automated verification check completed.'",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:53:07.653790+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💬 Slack Message Staged for Approval\n\nI have prepared an operational message to be posted to **#ops-incidents**:\n\n> *\"Automated verification check completed.\"*\n\nPlease review the proposed message in the **Action Center** card below and click **Approve & Execute** to dispatch it to Slack.\n\n#### 🛡️ Action Center: Staged For Your Approval\nI have prepared an official action requiring your explicit authorization before execution. Please review and approve in the Action Center card.",
+      "response_type": "ACTION_PROPOSAL",
+      "activities": [
+        {
+          "id": "step-d34586",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Post an update to #ops-incidents saying 'Automated verification check completed.''",
+          "system": null,
+          "data": {
+            "query": "Post an update to #ops-incidents saying 'Automated verification check completed.'"
+          },
+          "timestamp": "2026-09-26T06:53:07.653678+00:00"
+        },
+        {
+          "id": "step-09f1da",
+          "step_type": "approval_required",
+          "title": "Action Staged for User Approval",
+          "description": "Prepared SLACK action for #ops-incidents. Staged for review.",
+          "system": "slack",
+          "data": {
+            "approval_id": "appr-b65f0ada",
+            "target": "#ops-incidents"
+          },
+          "timestamp": "2026-09-26T06:53:07.653776+00:00"
+        }
+      ],
+      "evidence": [],
+      "actions": [
+        {
+          "id": "appr-b65f0ada",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "Automated verification check completed."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:53:07.653759+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "http-test-exec"
+        }
+      ],
+      "approvals": [
+        {
+          "id": "appr-b65f0ada",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "Automated verification check completed."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:53:07.653759+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "http-test-exec"
+        }
+      ],
+      "timestamp": "2026-09-26T06:53:07.653786+00:00"
+    }
+  ],
+  "accumulated_evidence": [],
+  "pending_approvals": [
+    {
+      "id": "appr-d4f801a3",
+      "action_type": "slack_post_message",
+      "system": "slack",
+      "target": "#ops-incidents",
+      "title": "Post Operational Update to Slack (#ops-incidents)",
+      "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+      "proposed_payload": {
+        "channel_name": "ops-incidents",
+        "message": "Automated verification check completed."
+      },
+      "status": "PENDING",
+      "created_at": "2026-09-26T06:52:50.043720+00:00",
+      "executed_at": null,
+      "execution_result": null,
+      "session_id": "http-test-exec"
+    },
+    {
+      "id": "appr-b65f0ada",
+      "action_type": "slack_post_message",
+      "system": "slack",
+      "target": "#ops-incidents",
+      "title": "Post Operational Update to Slack (#ops-incidents)",
+      "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+      "proposed_payload": {
+        "channel_name": "ops-incidents",
+        "message": "Automated verification check completed."
+      },
+      "status": "PENDING",
+      "created_at": "2026-09-26T06:53:07.653759+00:00",
+      "executed_at": null,
+      "execution_result": null,
+      "session_id": "http-test-exec"
+    }
+  ],
+  "created_at": "2026-09-26T06:52:50.042148+00:00",
+  "updated_at": "2026-09-26T06:53:07.653792+00:00"
+}

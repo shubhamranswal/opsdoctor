@@ -1,0 +1,42 @@
+{
+  "session_id": "test-slack-06ad64",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "can i make it post something on slack?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:42.622717+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💬 Yes, OpsDoctor Can Post to Slack!\n\nOpsDoctor has native, bidirectional integration with Slack via **Swytchcode** (`slack.chat.postmessage.create`).\n\n#### 🛡️ How It Works: Human-in-the-Loop Safeguard\nBecause posting to shared communication channels modifies team operations, OpsDoctor strictly adheres to consequential action safety:\n1. **Staged Proposals**: When you ask OpsDoctor to post a message, it **does not silently send it**. Instead, it prepares an **Action Proposal** in the **Action Center**.\n2. **Operator Verification**: The Action Center card displays the target channel, the full message payload, and the operational rationale.\n3. **Approve & Execute**: You click **Approve & Execute** to dispatch the message through Swytchcode in real-time, or **Reject** to cancel.\n\n#### 📢 Available Slack Channels (AcmeFlow Operations)\n* `#ops-incidents` – Incident triage, war-room updates, and mitigation tracking\n* `#ops-alerts` – Real-time telemetry alerts, failure spikes, and deployment logs\n* `#payments` – Gateway errors, PayPal/Stripe reconciliation, and refund notices\n* `#all-acmeflow-operations` – Broad team announcements\n* `#general` & `#social` – General workspace channels\n\n#### 🚀 Try It Right Now!\nYou can prompt OpsDoctor with instructions such as:\n* *\"Post an update to #ops-incidents saying: 'Investigating checkout-v2 capture failures after deployment.'\"*\n* *\"Send a message to #ops-alerts: 'Stripe gateway operational baseline verified.'\"*\n* *\"Post the latest incident triage report to #ops-incidents\"*\n",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-751b76",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'can i make it post something on slack?'",
+          "system": null,
+          "data": {
+            "query": "can i make it post something on slack?"
+          },
+          "timestamp": "2026-09-26T06:23:42.622536+00:00"
+        }
+      ],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:23:42.622696+00:00"
+    }
+  ],
+  "accumulated_evidence": [],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T06:23:42.619679+00:00",
+  "updated_at": "2026-09-26T06:23:42.622728+00:00"
+}

@@ -1,0 +1,261 @@
+{
+  "session_id": "test-slack-4c6720",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "can i make it post something on slack?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:32:48.925024+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💬 Yes, OpsDoctor Can Post to Slack!\n\nOpsDoctor has native, bidirectional integration with Slack via **Swytchcode** (`slack.chat.postmessage.create`).\n\n#### 🛡️ How It Works: Human-in-the-Loop Safeguard\nBecause posting to shared communication channels modifies team operations, OpsDoctor strictly adheres to consequential action safety:\n1. **Staged Proposals**: When you ask OpsDoctor to post a message, it **does not silently send it**. Instead, it prepares an **Action Proposal** in the **Action Center**.\n2. **Operator Verification**: The Action Center card displays the target channel, the full message payload, and the operational rationale.\n3. **Approve & Execute**: You click **Approve & Execute** to dispatch the message through Swytchcode in real-time, or **Reject** to cancel.\n\n#### 📢 Available Slack Channels (AcmeFlow Operations)\n* `#all-acmeflow-operations`\n* `#ops-incidents`\n* `#payments`\n* `#general`\n* `#new-channel`\n* `#ops-alerts`\n* `#social`\n\n#### 🚀 Try It Right Now!\nYou can prompt OpsDoctor with instructions such as:\n* *\"Post an update to #ops-incidents saying: 'Investigating checkout-v2 capture failures after deployment.'\"*\n* *\"Send a message to #ops-alerts: 'Stripe gateway operational baseline verified.'\"*\n* *\"Post the latest incident triage report to #ops-incidents\"*\n",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-586812",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'can i make it post something on slack?'",
+          "system": null,
+          "data": {
+            "query": "can i make it post something on slack?"
+          },
+          "timestamp": "2026-09-26T06:32:45.451118+00:00"
+        },
+        {
+          "id": "step-d73419",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: slack_list_channels",
+          "description": "Querying Slack workspace channels via Swytchcode to determine available channels.",
+          "system": "slack",
+          "data": {
+            "tool": "slack_list_channels",
+            "reason": "Querying Slack workspace channels via Swytchcode to determine available channels.",
+            "args": {}
+          },
+          "timestamp": "2026-09-26T06:32:45.451213+00:00"
+        },
+        {
+          "id": "step-170495",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: slack_list_channels",
+          "description": "Completed slack_list_channels call across SLACK integration (SUCCESS).",
+          "system": "slack",
+          "data": {
+            "tool": "slack_list_channels",
+            "args": {},
+            "status": "SUCCESS",
+            "result_preview": "[{'id': 'C0C43R6TS15', 'name': 'all-acmeflow-operations', 'topic': ''}, {'id': 'C0C4D0G4H1R', 'name': 'ops-incidents', 'topic': ''}, {'id': 'C0C4D0HSLF5', 'name': 'payments', 'topic': ''}, {'id': 'C0C4D0KH9C3', 'name': 'general', 'topic': ''}, {'id': 'C0C4E48431T', 'name': 'new-channel', 'topic': ''"
+          },
+          "timestamp": "2026-09-26T06:32:48.924914+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-70f82e",
+          "system": "slack",
+          "title": "Slack Channels Directory",
+          "summary": "7 operational channels discovered in AcmeFlow Operations.",
+          "details": {
+            "channels": [
+              {
+                "id": "C0C43R6TS15",
+                "name": "all-acmeflow-operations",
+                "topic": ""
+              },
+              {
+                "id": "C0C4D0G4H1R",
+                "name": "ops-incidents",
+                "topic": ""
+              },
+              {
+                "id": "C0C4D0HSLF5",
+                "name": "payments",
+                "topic": ""
+              },
+              {
+                "id": "C0C4D0KH9C3",
+                "name": "general",
+                "topic": ""
+              },
+              {
+                "id": "C0C4E48431T",
+                "name": "new-channel",
+                "topic": ""
+              },
+              {
+                "id": "C0C4E4BERRB",
+                "name": "ops-alerts",
+                "topic": ""
+              },
+              {
+                "id": "C0C4K2WG6LS",
+                "name": "social",
+                "topic": ""
+              }
+            ]
+          },
+          "timestamp": "2026-09-26T06:32:48.924948+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:32:48.925018+00:00"
+    },
+    {
+      "role": "user",
+      "content": "Post an update to #ops-incidents saying 'OpsDoctor health check verified.'",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:32:48.928004+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💬 Slack Message Staged for Approval\n\nI have prepared an operational message to be posted to **#ops-incidents**:\n\n> *\"OpsDoctor health check verified.\"*\n\nPlease review the proposed message in the **Action Center** card below and click **Approve & Execute** to dispatch it to Slack.\n\n#### 🛡️ Action Center: Staged For Your Approval\nI have prepared an official action requiring your explicit authorization before execution. Please review and approve in the Action Center card.",
+      "response_type": "ACTION_PROPOSAL",
+      "activities": [
+        {
+          "id": "step-c90ff7",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Post an update to #ops-incidents saying 'OpsDoctor health check verified.''",
+          "system": null,
+          "data": {
+            "query": "Post an update to #ops-incidents saying 'OpsDoctor health check verified.'"
+          },
+          "timestamp": "2026-09-26T06:32:48.927262+00:00"
+        },
+        {
+          "id": "step-440f4e",
+          "step_type": "approval_required",
+          "title": "Action Staged for User Approval",
+          "description": "Prepared SLACK action for #ops-incidents. Staged for review.",
+          "system": "slack",
+          "data": {
+            "approval_id": "appr-1818ec5c",
+            "target": "#ops-incidents"
+          },
+          "timestamp": "2026-09-26T06:32:48.927964+00:00"
+        }
+      ],
+      "evidence": [],
+      "actions": [
+        {
+          "id": "appr-1818ec5c",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "OpsDoctor health check verified."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:32:48.927894+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "test-slack-4c6720"
+        }
+      ],
+      "approvals": [
+        {
+          "id": "appr-1818ec5c",
+          "action_type": "slack_post_message",
+          "system": "slack",
+          "target": "#ops-incidents",
+          "title": "Post Operational Update to Slack (#ops-incidents)",
+          "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+          "proposed_payload": {
+            "channel_name": "ops-incidents",
+            "message": "OpsDoctor health check verified."
+          },
+          "status": "PENDING",
+          "created_at": "2026-09-26T06:32:48.927894+00:00",
+          "executed_at": null,
+          "execution_result": null,
+          "session_id": "test-slack-4c6720"
+        }
+      ],
+      "timestamp": "2026-09-26T06:32:48.927991+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-70f82e",
+      "system": "slack",
+      "title": "Slack Channels Directory",
+      "summary": "7 operational channels discovered in AcmeFlow Operations.",
+      "details": {
+        "channels": [
+          {
+            "id": "C0C43R6TS15",
+            "name": "all-acmeflow-operations",
+            "topic": ""
+          },
+          {
+            "id": "C0C4D0G4H1R",
+            "name": "ops-incidents",
+            "topic": ""
+          },
+          {
+            "id": "C0C4D0HSLF5",
+            "name": "payments",
+            "topic": ""
+          },
+          {
+            "id": "C0C4D0KH9C3",
+            "name": "general",
+            "topic": ""
+          },
+          {
+            "id": "C0C4E48431T",
+            "name": "new-channel",
+            "topic": ""
+          },
+          {
+            "id": "C0C4E4BERRB",
+            "name": "ops-alerts",
+            "topic": ""
+          },
+          {
+            "id": "C0C4K2WG6LS",
+            "name": "social",
+            "topic": ""
+          }
+        ]
+      },
+      "timestamp": "2026-09-26T06:32:48.924948+00:00"
+    }
+  ],
+  "pending_approvals": [
+    {
+      "id": "appr-1818ec5c",
+      "action_type": "slack_post_message",
+      "system": "slack",
+      "target": "#ops-incidents",
+      "title": "Post Operational Update to Slack (#ops-incidents)",
+      "explanation": "Ready to post message to #ops-incidents in AcmeFlow Operations workspace via Swytchcode.",
+      "proposed_payload": {
+        "channel_name": "ops-incidents",
+        "message": "OpsDoctor health check verified."
+      },
+      "status": "PENDING",
+      "created_at": "2026-09-26T06:32:48.927894+00:00",
+      "executed_at": null,
+      "execution_result": null,
+      "session_id": "test-slack-4c6720"
+    }
+  ],
+  "created_at": "2026-09-26T06:32:45.448708+00:00",
+  "updated_at": "2026-09-26T06:32:48.928011+00:00"
+}

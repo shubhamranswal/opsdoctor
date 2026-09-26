@@ -1,0 +1,423 @@
+{
+  "session_id": "test-matrix-15-c0a599",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the status of ticket KAN-1?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:11:37.660147+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 📋 Jira Issue Details: `KAN-1`\n\n* **Key**: `KAN-1`\n* **Summary**: Task 1\n* **Status**: `To Do`\n* **Project**: OPS\n* **Priority**: None\n* **Created**: `2026-09-25T23:54:55.921+0530`\n",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-50abcd",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'What is the status of ticket KAN-1?'",
+          "system": null,
+          "data": {
+            "query": "What is the status of ticket KAN-1?"
+          },
+          "timestamp": "2026-09-26T06:11:33.060564+00:00"
+        },
+        {
+          "id": "step-26d549",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: jira_get_issue",
+          "description": "Querying Jira issue tracker for ticket KAN-1.",
+          "system": "jira",
+          "data": {
+            "tool": "jira_get_issue",
+            "args": {
+              "issue_key": "KAN-1"
+            }
+          },
+          "timestamp": "2026-09-26T06:11:33.060933+00:00"
+        },
+        {
+          "id": "step-9906a8",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: jira_get_issue",
+          "description": "Completed jira_get_issue call across JIRA integration.",
+          "system": "jira",
+          "data": {
+            "args": {
+              "issue_key": "KAN-1"
+            },
+            "result_preview": "{'key': 'KAN-1', 'summary': 'Task 1', 'status': 'To Do', 'priority': None, 'labels': [], 'created': '2026-09-25T23:54:55.921+0530', 'description': \"{'content': [], 'type': 'doc', 'version': 1}\", 'project': 'OPS'}"
+          },
+          "timestamp": "2026-09-26T06:11:37.659880+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-2716a2",
+          "system": "jira",
+          "title": "Jira Ticket KAN-1",
+          "summary": "Task 1",
+          "details": {
+            "key": "KAN-1",
+            "summary": "Task 1",
+            "status": "To Do",
+            "priority": null,
+            "labels": [],
+            "created": "2026-09-25T23:54:55.921+0530",
+            "description": "{'content': [], 'type': 'doc', 'version': 1}",
+            "project": "OPS"
+          },
+          "timestamp": "2026-09-26T06:11:37.659958+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:11:37.660126+00:00"
+    },
+    {
+      "role": "user",
+      "content": "Any pending payments?",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:11:48.136845+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💳 Pending Payments Status Overview\n\n* **Total Pending**: **2 transaction(s)** totaling **$1,270.00 USD**\n* **Time Horizon**: Real-time snapshot across active payment gateways\n\n#### 📊 Provider Breakdown\n* **PAYPAL**: 0 pending ($0.00 USD)\n* **STRIPE**: 2 pending ($1,270.00 USD)\n\n#### 🔍 Pending Transactions Detail\n* `pi_3UJihjRpzp5AdrAh144OTNjH` (STRIPE): **$850.00** for **cus_VKNS4ViWlBOdBO** | Flow: `enterprise-billing` | Method: `card` | Reason: `Awaiting Checkout Completion`\n* `pi_3UJiheRpzp5AdrAh1Scb7Oru` (STRIPE): **$420.00** for **cus_VKNSlChJRODlGu** | Flow: `checkout-v2` | Method: `pm_1UJiheRpzp5AdrAhIeQsy1XB` | Reason: `3D Secure Challenge Pending`\n\n> [!NOTE]\n> Retrieved 2 live pending transaction(s) directly from connected payment gateways. You can ask 'Which ones are stuck?' or 'Why is the Meridian payment stuck?' for deep-dive investigation.",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-379590",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Any pending payments?'",
+          "system": null,
+          "data": {
+            "query": "Any pending payments?"
+          },
+          "timestamp": "2026-09-26T06:11:43.535591+00:00"
+        },
+        {
+          "id": "step-c0ef8a",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_get_pending",
+          "description": "Querying pending payments from all connected providers",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_pending",
+            "args": {
+              "provider": null
+            }
+          },
+          "timestamp": "2026-09-26T06:11:43.535714+00:00"
+        },
+        {
+          "id": "step-ba6732",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_get_pending",
+          "description": "Completed payments_get_pending call across PAYMENTS integration.",
+          "system": "payments",
+          "data": {
+            "args": {
+              "provider": null
+            },
+            "result_preview": "{'total_pending_count': 2, 'total_pending_volume': 1270.0, 'currency': 'USD', 'provider_breakdown': {'paypal': {'count': 0, 'volume': 0, 'transactions': []}, 'stripe': {'count': 2, 'volume': 1270.0, 'transactions': [{'id': 'pi_3UJihjRpzp5AdrAh144OTNj"
+          },
+          "timestamp": "2026-09-26T06:11:48.136680+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-2af2ea",
+          "system": "payments",
+          "title": "Pending Payments Telemetry",
+          "summary": "2 pending payments identified across gateways totaling $1,270.00 USD.",
+          "details": {
+            "total_pending_count": 2,
+            "total_pending_volume": 1270.0,
+            "currency": "USD",
+            "provider_breakdown": {
+              "paypal": {
+                "count": 0,
+                "volume": 0,
+                "transactions": []
+              },
+              "stripe": {
+                "count": 2,
+                "volume": 1270.0,
+                "transactions": [
+                  {
+                    "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                    "customer": "cus_VKNS4ViWlBOdBO",
+                    "customer_email": null,
+                    "amount": 850.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T23:38:59+00:00",
+                    "flow": "enterprise-billing",
+                    "failure_reason": null,
+                    "payment_method": "card",
+                    "metadata": {
+                      "description": "Custom Data Pipeline Provisioning",
+                      "raw_status": "requires_payment_method",
+                      "object": "payment_intent",
+                      "auth_blocker": null,
+                      "metadata": {
+                        "flow": "enterprise-billing",
+                        "order_id": "ORD-STRIPE-104",
+                        "reason": "checkout_in_progress"
+                      }
+                    }
+                  },
+                  {
+                    "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                    "provider": "stripe",
+                    "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                    "customer": "cus_VKNSlChJRODlGu",
+                    "customer_email": null,
+                    "amount": 420.0,
+                    "currency": "USD",
+                    "status": "pending",
+                    "created_at": "2026-09-25T23:38:54+00:00",
+                    "flow": "checkout-v2",
+                    "failure_reason": null,
+                    "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                    "metadata": {
+                      "description": "Annual Security Addon - 3DS Pending",
+                      "raw_status": "requires_action",
+                      "object": "payment_intent",
+                      "auth_blocker": null,
+                      "metadata": {
+                        "flow": "checkout-v2",
+                        "order_id": "ORD-STRIPE-103",
+                        "reason": "3ds_challenge_pending"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "pending_transactions": [
+              {
+                "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "customer": "cus_VKNS4ViWlBOdBO",
+                "customer_email": null,
+                "amount": 850.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:59+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Custom Data Pipeline Provisioning",
+                  "raw_status": "requires_payment_method",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "enterprise-billing",
+                    "order_id": "ORD-STRIPE-104",
+                    "reason": "checkout_in_progress"
+                  }
+                }
+              },
+              {
+                "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "customer": "cus_VKNSlChJRODlGu",
+                "customer_email": null,
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:54+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                "metadata": {
+                  "description": "Annual Security Addon - 3DS Pending",
+                  "raw_status": "requires_action",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "checkout-v2",
+                    "order_id": "ORD-STRIPE-103",
+                    "reason": "3ds_challenge_pending"
+                  }
+                }
+              }
+            ],
+            "queried_at_utc": "2026-09-26T06:11:48.136548+00:00"
+          },
+          "timestamp": "2026-09-26T06:11:48.136708+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:11:48.136837+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-2716a2",
+      "system": "jira",
+      "title": "Jira Ticket KAN-1",
+      "summary": "Task 1",
+      "details": {
+        "key": "KAN-1",
+        "summary": "Task 1",
+        "status": "To Do",
+        "priority": null,
+        "labels": [],
+        "created": "2026-09-25T23:54:55.921+0530",
+        "description": "{'content': [], 'type': 'doc', 'version': 1}",
+        "project": "OPS"
+      },
+      "timestamp": "2026-09-26T06:11:37.659958+00:00"
+    },
+    {
+      "id": "ev-2af2ea",
+      "system": "payments",
+      "title": "Pending Payments Telemetry",
+      "summary": "2 pending payments identified across gateways totaling $1,270.00 USD.",
+      "details": {
+        "total_pending_count": 2,
+        "total_pending_volume": 1270.0,
+        "currency": "USD",
+        "provider_breakdown": {
+          "paypal": {
+            "count": 0,
+            "volume": 0,
+            "transactions": []
+          },
+          "stripe": {
+            "count": 2,
+            "volume": 1270.0,
+            "transactions": [
+              {
+                "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+                "customer": "cus_VKNS4ViWlBOdBO",
+                "customer_email": null,
+                "amount": 850.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:59+00:00",
+                "flow": "enterprise-billing",
+                "failure_reason": null,
+                "payment_method": "card",
+                "metadata": {
+                  "description": "Custom Data Pipeline Provisioning",
+                  "raw_status": "requires_payment_method",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "enterprise-billing",
+                    "order_id": "ORD-STRIPE-104",
+                    "reason": "checkout_in_progress"
+                  }
+                }
+              },
+              {
+                "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "provider": "stripe",
+                "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+                "customer": "cus_VKNSlChJRODlGu",
+                "customer_email": null,
+                "amount": 420.0,
+                "currency": "USD",
+                "status": "pending",
+                "created_at": "2026-09-25T23:38:54+00:00",
+                "flow": "checkout-v2",
+                "failure_reason": null,
+                "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+                "metadata": {
+                  "description": "Annual Security Addon - 3DS Pending",
+                  "raw_status": "requires_action",
+                  "object": "payment_intent",
+                  "auth_blocker": null,
+                  "metadata": {
+                    "flow": "checkout-v2",
+                    "order_id": "ORD-STRIPE-103",
+                    "reason": "3ds_challenge_pending"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "pending_transactions": [
+          {
+            "id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3UJihjRpzp5AdrAh144OTNjH",
+            "customer": "cus_VKNS4ViWlBOdBO",
+            "customer_email": null,
+            "amount": 850.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T23:38:59+00:00",
+            "flow": "enterprise-billing",
+            "failure_reason": null,
+            "payment_method": "card",
+            "metadata": {
+              "description": "Custom Data Pipeline Provisioning",
+              "raw_status": "requires_payment_method",
+              "object": "payment_intent",
+              "auth_blocker": null,
+              "metadata": {
+                "flow": "enterprise-billing",
+                "order_id": "ORD-STRIPE-104",
+                "reason": "checkout_in_progress"
+              }
+            }
+          },
+          {
+            "id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "provider": "stripe",
+            "provider_transaction_id": "pi_3UJiheRpzp5AdrAh1Scb7Oru",
+            "customer": "cus_VKNSlChJRODlGu",
+            "customer_email": null,
+            "amount": 420.0,
+            "currency": "USD",
+            "status": "pending",
+            "created_at": "2026-09-25T23:38:54+00:00",
+            "flow": "checkout-v2",
+            "failure_reason": null,
+            "payment_method": "pm_1UJiheRpzp5AdrAhIeQsy1XB",
+            "metadata": {
+              "description": "Annual Security Addon - 3DS Pending",
+              "raw_status": "requires_action",
+              "object": "payment_intent",
+              "auth_blocker": null,
+              "metadata": {
+                "flow": "checkout-v2",
+                "order_id": "ORD-STRIPE-103",
+                "reason": "3ds_challenge_pending"
+              }
+            }
+          }
+        ],
+        "queried_at_utc": "2026-09-26T06:11:48.136548+00:00"
+      },
+      "timestamp": "2026-09-26T06:11:48.136708+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T06:11:33.055549+00:00",
+  "updated_at": "2026-09-26T06:11:48.136850+00:00"
+}

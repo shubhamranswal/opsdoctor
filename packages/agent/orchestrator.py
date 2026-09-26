@@ -153,7 +153,11 @@ class OpsDoctorOrchestrator:
                 title=f"Selected Tool: {tool_name}",
                 description=step_desc,
                 system=system,
-                data={"tool": tool_name, "args": tool_args},
+                data={
+                    "tool": tool_name,
+                    "reason": step_desc,
+                    "args": tool_args,
+                },
             )
 
             # Check if tool itself is marked consequential
@@ -173,20 +177,26 @@ class OpsDoctorOrchestrator:
                     title="Consequential Action Requires Approval",
                     description=f"Tool {tool_name} requires human confirmation before execution.",
                     system=system,
-                    data={"approval_id": req.id},
+                    data={"approval_id": req.id, "target": req.target, "tool": tool_name},
                 )
                 break
 
-
             # Execute tool safely via Swytchcode registry
             tool_result = self.tool_registry.execute_tool(tool_name, **tool_args)
+            has_error = isinstance(tool_result, dict) and bool(tool_result.get("error"))
+            status_str = "FAILED" if has_error else "SUCCESS"
 
             emit_activity(
                 StepType.TOOL_EXECUTION,
                 title=f"Executed Tool: {tool_name}",
-                description=f"Completed {tool_name} call across {system.upper()} integration.",
+                description=f"Completed {tool_name} call across {system.upper()} integration ({status_str}).",
                 system=system,
-                data={"args": tool_args, "result_preview": str(tool_result)[:250]},
+                data={
+                    "tool": tool_name,
+                    "args": tool_args,
+                    "status": status_str,
+                    "result_preview": str(tool_result)[:300],
+                },
             )
 
             # Ingest tool observation into working memory and record evidence
@@ -201,6 +211,15 @@ class OpsDoctorOrchestrator:
                         summary=tool_result.get("summary", ""),
                         details=tool_result,
                     ))
+                elif isinstance(tool_result, list):
+                    working_memory["jira_search"] = tool_result
+                    evidence_items.append(EvidenceItem(
+                        id=f"ev-{uuid.uuid4().hex[:6]}",
+                        system="jira",
+                        title="Jira Issues Query",
+                        summary=f"Found {len(tool_result)} matching Jira issues.",
+                        details={"issues": tool_result},
+                    ))
 
             elif tool_name == "payments_get_pending":
                 working_memory["pending_payments"] = tool_result
@@ -212,6 +231,19 @@ class OpsDoctorOrchestrator:
                         system="payments",
                         title="Pending Payments Telemetry",
                         summary=f"{cnt} pending payments identified across gateways totaling ${vol:,.2f} USD.",
+                        details=tool_result,
+                    ))
+
+            elif tool_name == "payments_get_failed":
+                working_memory["failed_payments"] = tool_result
+                if isinstance(tool_result, dict):
+                    cnt = tool_result.get("total_failed_count", 0)
+                    vol = tool_result.get("total_failed_volume", 0.0)
+                    evidence_items.append(EvidenceItem(
+                        id=f"ev-{uuid.uuid4().hex[:6]}",
+                        system="payments",
+                        title="Failed Payments Telemetry",
+                        summary=f"{cnt} failed transactions identified totaling ${vol:,.2f} USD.",
                         details=tool_result,
                     ))
 
@@ -308,6 +340,7 @@ class OpsDoctorOrchestrator:
 
             elif tool_name == "slack_read_channel":
                 working_memory["slack_alerts"] = tool_result
+                working_memory["slack_messages"] = tool_result
                 if isinstance(tool_result, list):
                     evidence_items.append(EvidenceItem(
                         id=f"ev-{uuid.uuid4().hex[:6]}",
@@ -316,6 +349,39 @@ class OpsDoctorOrchestrator:
                         summary=f"Retrieved {len(tool_result)} messages from operational channel.",
                         details={"messages": tool_result},
                     ))
+
+            elif tool_name == "slack_list_channels":
+                working_memory["slack_channels"] = tool_result
+                if isinstance(tool_result, list):
+                    evidence_items.append(EvidenceItem(
+                        id=f"ev-{uuid.uuid4().hex[:6]}",
+                        system="slack",
+                        title="Slack Channels Directory",
+                        summary=f"{len(tool_result)} operational channels discovered in AcmeFlow Operations.",
+                        details={"channels": tool_result},
+                    ))
+
+            elif tool_name == "notion_search_policies":
+                working_memory["notion_policies"] = tool_result
+                if isinstance(tool_result, list):
+                    evidence_items.append(EvidenceItem(
+                        id=f"ev-{uuid.uuid4().hex[:6]}",
+                        system="notion",
+                        title="Notion Runbooks Search",
+                        summary=f"Discovered {len(tool_result)} matching policy pages in Notion workspace.",
+                        details={"policies": tool_result},
+                    ))
+
+            elif tool_name == "gmail_get_message":
+                working_memory["gmail_message"] = tool_result
+                if isinstance(tool_result, dict):
+                    evidence_items.append(EvidenceItem(
+                        id=f"ev-{uuid.uuid4().hex[:6]}",
+                        system="gmail",
+                        title=f"Email: {tool_result.get('subject')}",
+                        summary=f"From: {tool_result.get('from')} | Date: {tool_result.get('date')}",
+                        details=tool_result,
+                    ))
             else:
                 working_memory[tool_name] = tool_result
 
@@ -323,6 +389,26 @@ class OpsDoctorOrchestrator:
         final_text = ""
         if final_decision and final_decision.final_answer:
             final_text = final_decision.final_answer
+        elif approvals:
+            req_0 = approvals[0]
+            if req_0.system == "slack":
+                channel = req_0.proposed_payload.get("channel_name", req_0.target)
+                msg_body = req_0.proposed_payload.get("message", "")
+                final_text = (
+                    f"### 💬 Slack Communication Staged for Approval\n\n"
+                    f"I have staged an operational message to be posted to **#{channel.lstrip('#')}** in the AcmeFlow Operations workspace:\n\n"
+                    f"> *\"{msg_body}\"*\n\n"
+                    f"Because posting to shared Slack channels alters external team communication, this action requires your review and approval before dispatch."
+                )
+            elif req_0.system == "jira":
+                target = req_0.target
+                final_text = (
+                    f"### 📋 Jira Action Staged for Approval\n\n"
+                    f"I have staged an official update for Jira issue **{target}**.\n\n"
+                    f"Please review the proposed update and approve in the Action Center card."
+                )
+            else:
+                final_text = f"An action on {req_0.system.upper()} ({req_0.target}) has been staged for your approval."
         else:
             final_text = "Investigation complete. Evidence gathered."
 

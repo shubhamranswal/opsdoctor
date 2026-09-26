@@ -253,7 +253,7 @@ function createAssistantCard() {
   const card = document.createElement("div");
   card.className = "message-card assistant";
   card.innerHTML = `
-    <div class="card-avatar">🩺</div>
+    <div class="card-avatar"><img src="/static/img/logo_square.png" alt="OpsDoctor" class="avatar-logo-img"></div>
     <div class="card-content">
       <div class="execution-badge-container">
         <span class="execution-badge">⚡ OpsDoctor Reasoning...</span>
@@ -515,7 +515,7 @@ async function loadPulseData() {
       gateContainer.innerHTML = comp.comparison.map((c) => `
         <div class="glass-card flex-between">
           <div>
-            <div style="font-weight:700;font-size:1.05rem;color:#fff">${c.provider.toUpperCase()}</div>
+            <div style="font-weight:700;font-size:1.05rem;color:var(--text-primary)">${c.provider.toUpperCase()}</div>
             <div style="font-size:0.8rem;color:var(--text-muted)">${c.total_transactions} txns · $${c.total_volume.toFixed(2)}</div>
           </div>
           <div class="text-right">
@@ -533,7 +533,7 @@ async function loadPulseData() {
       activityBody.innerHTML = ov.recent_transactions.map((t) => `
         <tr>
           <td><code>${escapeHtml(t.id)}</code></td>
-          <td><strong style="color:${t.provider === 'stripe' ? '#818cf8' : '#38bdf8'}">${t.provider.toUpperCase()}</strong></td>
+          <td><strong style="color:${t.provider === 'stripe' ? 'var(--indigo-600)' : 'var(--cyan-500)'}">${t.provider.toUpperCase()}</strong></td>
           <td>${escapeHtml(t.customer)}</td>
           <td><strong>$${t.amount.toFixed(2)}</strong> ${t.currency}</td>
           <td><span class="status-badge ${t.status}">${t.status}</span></td>
@@ -599,7 +599,7 @@ function renderComparePanel(compData) {
   panel.innerHTML = `
     <div style="padding:16px 20px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-        <div style="font-weight:700;font-size:0.95rem;color:#fff;display:flex;align-items:center;gap:8px;">
+        <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;">
           <span>⚖️ Gateway Performance & Telemetry Comparison</span>
         </div>
         <span class="status-badge ${highest.toLowerCase() === 'paypal' ? 'failed' : 'pending'}" style="font-size:0.75rem;text-transform:uppercase;">
@@ -608,26 +608,26 @@ function renderComparePanel(compData) {
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;">
         ${rows.map((r) => `
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px 18px;">
+          <div style="background:var(--bg-panel-subtle);border:1px solid var(--border-subtle);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow-xs);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-              <strong style="color:${r.provider === 'stripe' ? '#818cf8' : '#38bdf8'};font-size:1.05rem;">
+              <strong style="color:${r.provider === 'stripe' ? 'var(--indigo-600)' : 'var(--cyan-500)'};font-size:1.05rem;">
                 ${escapeHtml(r.provider.toUpperCase())}
               </strong>
-              <span style="font-size:0.8rem;padding:3px 8px;border-radius:6px;background:${r.failure_rate_percent > 30 ? 'rgba(239,68,68,0.15)' : 'rgba(16,185,129,0.15)'};color:${r.failure_rate_percent > 30 ? 'var(--rose-400)' : 'var(--emerald-400)'};font-weight:700;">
+              <span style="font-size:0.8rem;padding:3px 8px;border-radius:6px;background:${r.failure_rate_percent > 30 ? 'var(--rose-bg)' : 'var(--emerald-bg)'};color:${r.failure_rate_percent > 30 ? 'var(--rose-500)' : 'var(--emerald-500)'};border:1px solid ${r.failure_rate_percent > 30 ? 'var(--rose-border)' : 'var(--emerald-border)'};font-weight:700;">
                 ${Math.round(r.failure_rate_percent)}% fail rate
               </span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-secondary);margin-bottom:5px;">
               <span>Total Volume:</span>
-              <strong style="color:#fff">$${(r.total_volume || 0).toLocaleString("en-US", { minimumFractionDigits: 2 })}</strong>
+              <strong style="color:var(--text-primary);">$${(r.total_volume || 0).toLocaleString("en-US", { minimumFractionDigits: 2 })}</strong>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-secondary);margin-bottom:5px;">
               <span>Succeeded / Failed:</span>
-              <span><strong style="color:var(--emerald-400)">${r.succeeded} ok</strong> / <strong style="color:var(--rose-400)">${r.failed} fail</strong></span>
+              <span><strong style="color:var(--emerald-500)">${r.succeeded} ok</strong> / <strong style="color:var(--rose-500)">${r.failed} fail</strong></span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-secondary);">
               <span>Total Transactions:</span>
-              <strong style="color:#fff">${r.total_transactions}</strong>
+              <strong style="color:var(--text-primary);">${r.total_transactions}</strong>
             </div>
           </div>
         `).join("")}
@@ -665,10 +665,10 @@ function renderPaymentsTable(transactions) {
 
   tbody.innerHTML = transactions.map((t) => `
     <tr>
-      <td><code style="font-size:0.8rem;background:rgba(255,255,255,0.06);padding:3px 6px;border-radius:4px;">${escapeHtml(t.id)}</code></td>
-      <td><strong style="color:${t.provider === 'stripe' ? '#818cf8' : '#38bdf8'}">${t.provider ? t.provider.toUpperCase() : 'N/A'}</strong></td>
+      <td><code style="font-size:0.8rem;background:var(--bg-panel-subtle);border:1px solid var(--border-subtle);color:var(--text-primary);padding:3px 6px;border-radius:4px;">${escapeHtml(t.id)}</code></td>
+      <td><strong style="color:${t.provider === 'stripe' ? 'var(--indigo-600)' : 'var(--cyan-500)'}">${t.provider ? t.provider.toUpperCase() : 'N/A'}</strong></td>
       <td>${escapeHtml(t.customer || 'Unknown')}</td>
-      <td><strong style="color:#fff">$${(t.amount || 0).toFixed(2)}</strong> ${escapeHtml(t.currency || 'USD')}</td>
+      <td><strong style="color:var(--text-primary)">$${(t.amount || 0).toFixed(2)}</strong> ${escapeHtml(t.currency || 'USD')}</td>
       <td><span class="status-badge ${t.status}">${escapeHtml(t.status)}</span></td>
       <td><code style="font-size:0.75rem;color:var(--text-muted)">${escapeHtml(t.flow || 'standard')}</code></td>
       <td>${escapeHtml(t.payment_method || 'card')}</td>

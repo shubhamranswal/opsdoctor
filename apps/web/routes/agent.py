@@ -93,3 +93,21 @@ async def stream_turn(session_id: str, message: str):
             "X-Accel-Buffering": "no",
         },
     )
+
+
+@router.get("/tools")
+def list_agent_tools():
+    """Diagnostic endpoint displaying all registered tools, schemas, and execution metadata."""
+    orchestrator = get_orchestrator()
+    inventory = orchestrator.tool_registry.get_diagnostic_inventory()
+    read_tools = [t for t in inventory if t["type"] == "READ"]
+    action_tools = [t for t in inventory if t["type"] == "ACTION"]
+    return {
+        "status": "ok",
+        "total_tools": len(inventory),
+        "total_read_tools": len(read_tools),
+        "total_action_tools": len(action_tools),
+        "tools": inventory,
+        "read_tools": [t["name"] for t in read_tools],
+        "action_tools": [t["name"] for t in action_tools],
+    }

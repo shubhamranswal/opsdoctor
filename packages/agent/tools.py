@@ -63,15 +63,41 @@ class ToolRegistry:
         except Exception as e:
             return {"error": str(e), "tool": name, "status": "failed"}
 
+    def get_diagnostic_inventory(self) -> List[Dict[str, Any]]:
+        """Return diagnostic inventory of all registered tools and their agent exposure metadata."""
+        inventory = []
+        for tool in self.list_tools():
+            inventory.append({
+                "name": tool.name,
+                "system": tool.system,
+                "type": "ACTION" if tool.is_consequential else "READ",
+                "is_consequential": tool.is_consequential,
+                "requires_approval": tool.is_consequential,
+                "registered": True,
+                "exposed_to_agent": True,
+                "description": tool.description,
+                "parameters": [
+                    {
+                        "name": p.name,
+                        "type": p.type,
+                        "description": p.description,
+                        "required": p.required,
+                        "default": p.default,
+                    }
+                    for p in tool.parameters
+                ],
+            })
+        return inventory
+
     def _register_default_tools(self):
-        # 1. Unified Payment Domain Tools
+        # 1. Unified Payment Domain Tools (READ)
         self.register(
             ToolDefinition(
                 name="payments_get_pending",
-                description="Inspect pending payment transactions across connected gateways (PayPal, Stripe). Returns transaction counts, total pending volume, and details.",
+                description="Retrieve current pending payment transactions awaiting clearance or settlement across connected payment gateways (PayPal, Stripe). Use this when the user asks about pending payments, unsettled transactions, transactions requiring action, or pending volume. Do NOT use this for completed, refunded, or failed payment inquiries (use payments_get_failed). This is READ-ONLY and does not mutate payment state. Touches the payments domain.",
                 system="payments",
                 parameters=[
-                    ToolParam(name="provider", type="string", description="Optional provider name ('paypal' or 'stripe')", required=False, default=None)
+                    ToolParam(name="provider", type="string", description="Optional provider filter ('paypal' or 'stripe')", required=False, default=None)
                 ],
                 is_consequential=False,
             ),
@@ -81,10 +107,10 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="payments_get_failed",
-                description="Inspect failed payment transactions and capture errors across payment gateways (PayPal, Stripe).",
+                description="Retrieve failed and declined payment transactions, error codes, and capture failure records across connected payment gateways (PayPal, Stripe). Use this when the user asks about payment failures, checkout drop-offs, declined cards, or gateway error spikes. Do NOT use this for pending or successful transaction questions. This is READ-ONLY and does not mutate payment state. Touches the payments domain.",
                 system="payments",
                 parameters=[
-                    ToolParam(name="provider", type="string", description="Optional provider name ('paypal' or 'stripe')", required=False, default=None)
+                    ToolParam(name="provider", type="string", description="Optional provider filter ('paypal' or 'stripe')", required=False, default=None)
                 ],
                 is_consequential=False,
             ),
@@ -94,7 +120,7 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="payments_compare_providers",
-                description="Compare payment gateway performance, failure rates, and transaction volumes between PayPal and Stripe.",
+                description="Perform comparative side-by-side performance analysis between connected payment gateways (PayPal and Stripe), evaluating failure rates, transaction volumes, and gateway health. Use this when the user asks to compare providers/gateways, asks which gateway has more failures or higher failure rates, or asks for provider breakdown comparisons. Do NOT use this for single-transaction lookups. This is READ-ONLY and does not mutate payment state. Touches the payments domain.",
                 system="payments",
                 parameters=[],
                 is_consequential=False,
@@ -105,7 +131,7 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="payments_get_overview",
-                description="Get unified high-level financial overview across all connected payment gateways.",
+                description="Retrieve unified executive financial summary and high-level health metrics across all active payment gateways, including total volume, transaction counts, and settlement rates. Use this when the user requests an overall payments overview, general operations health, or financial telemetry summary. Do NOT use this when specific transaction-level or gateway-comparison details are requested. This is READ-ONLY and does not mutate payment state. Touches the payments domain.",
                 system="payments",
                 parameters=[],
                 is_consequential=False,
@@ -113,11 +139,11 @@ class ToolRegistry:
             self._handle_payments_get_overview,
         )
 
-        # 2. Stripe Specific Tools
+        # 2. Stripe Specific Tools (READ)
         self.register(
             ToolDefinition(
                 name="stripe_get_payment",
-                description="Fetch full details of a specific Stripe payment intent or charge by its ID (e.g. pi_3PqaA4LkdIwHu7ix01mK81a1).",
+                description="Retrieve complete object details, customer metadata, and lifecycle status for a specific Stripe PaymentIntent by its ID (e.g., pi_...). Use this when investigating a specific Stripe transaction or looking up a PaymentIntent ID mentioned by the user or discovered in evidence. Do NOT use for PayPal orders or general provider listings. REQUIRED: payment_id (string, e.g. pi_...). This is READ-ONLY and does not mutate payment state. Touches the Stripe gateway.",
                 system="stripe",
                 parameters=[
                     ToolParam(name="payment_id", type="string", description="Stripe PaymentIntent ID (e.g. pi_...)")
@@ -130,22 +156,22 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="stripe_list_payments",
-                description="List recent Stripe payment transactions filtered optionally by status.",
+                description="List recent Stripe payment transactions filtered optionally by status (succeeded, pending, failed) from the connected Stripe account. Use this when inspecting recent Stripe transactions or locating transactions for a specific Stripe customer. Do NOT use for PayPal queries or cross-provider comparisons. This is READ-ONLY and does not mutate payment state. Touches the Stripe gateway.",
                 system="stripe",
                 parameters=[
-                    ToolParam(name="status", type="string", description="Optional status ('succeeded', 'pending', 'failed')", required=False, default=None),
-                    ToolParam(name="limit", type="integer", description="Max transactions to return", required=False, default=20),
+                    ToolParam(name="status", type="string", description="Optional status filter ('succeeded', 'pending', 'failed')", required=False, default=None),
+                    ToolParam(name="limit", type="integer", description="Max transactions to return (default 20)", required=False, default=20),
                 ],
                 is_consequential=False,
             ),
             self._handle_stripe_list_payments,
         )
 
-        # 3. PayPal Specific Tools
+        # 3. PayPal Specific Tools (READ)
         self.register(
             ToolDefinition(
                 name="paypal_get_incident_evidence",
-                description="Retrieve PayPal Sandbox orders, transaction statuses, and capture failure records.",
+                description="Retrieve PayPal checkout telemetry, failed capture attempts, and transaction error records for a specific payment flow. Use this when investigating checkout failures, HTTP 422 capture errors, or evaluating incident telemetry. Do NOT use for Stripe-specific inquiries. This is READ-ONLY and does not mutate payment state. Touches the PayPal sandbox integration.",
                 system="paypal",
                 parameters=[
                     ToolParam(name="flow", type="string", description="Payment flow name (e.g. 'checkout-v2')", required=False, default="checkout-v2")
@@ -158,7 +184,7 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="paypal_get_order",
-                description="Get detailed status and purchase units of a specific PayPal order by PayPal ID or Custom ID.",
+                description="Retrieve detailed status, purchase units, and customer information for a specific PayPal order by PayPal order ID or internal order reference (ORD-...). Use this when investigating a specific PayPal order. Do NOT use for Stripe PaymentIntents. REQUIRED: order_id (string). This is READ-ONLY and does not mutate payment state. Touches the PayPal integration.",
                 system="paypal",
                 parameters=[
                     ToolParam(name="order_id", type="string", description="PayPal Order ID (e.g. 1LL009468F308113M) or internal custom ID (ORD-...)")
@@ -168,11 +194,11 @@ class ToolRegistry:
             self._handle_paypal_get_order,
         )
 
-        # 4. Jira Tools
+        # 4. Jira Tools (READ & ACTION)
         self.register(
             ToolDefinition(
                 name="jira_get_issue",
-                description="Fetch full details of a Jira issue by its key (e.g. KAN-4, KAN-1).",
+                description="Retrieve full issue fields, summary, status, description, priority, and reporter for a specific Jira ticket (e.g., KAN-4, KAN-1). Use this when the user asks about an issue, ticket, or incident tracking item, or during incident correlation. Do NOT use for payment telemetry lookups. REQUIRED: issue_key (string). This is READ-ONLY and does not mutate Jira state. Touches the Jira integration.",
                 system="jira",
                 parameters=[
                     ToolParam(name="issue_key", type="string", description="The Jira issue key (e.g. KAN-4)")
@@ -185,10 +211,10 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="jira_search_issues",
-                description="Search Jira issues using JQL (e.g. 'project = KAN', 'labels = INC-2026-042').",
+                description="Search Jira issues using JQL (Jira Query Language) to locate tickets by project, status, label, or summary text. Use this when searching for unresolved issues, incident tickets, or tickets matching criteria. Do NOT use when a specific issue key is already known (use jira_get_issue). REQUIRED: jql (string). This is READ-ONLY and does not mutate Jira state. Touches the Jira integration.",
                 system="jira",
                 parameters=[
-                    ToolParam(name="jql", type="string", description="JQL search expression")
+                    ToolParam(name="jql", type="string", description="JQL search expression (e.g. 'project = KAN order by created desc')")
                 ],
                 is_consequential=False,
             ),
@@ -198,11 +224,11 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="jira_add_comment",
-                description="Add an investigation finding or escalation comment to a Jira issue.",
+                description="Add an official comment or investigation findings to an existing Jira issue. This MUTATES Jira state. Use this ONLY after preparing an explicit action proposal and receiving operator approval. Do NOT invoke for read-only ticket lookups or inquiries. REQUIRED: issue_key (string), comment_text (string). Touches the Jira integration.",
                 system="jira",
                 parameters=[
                     ToolParam(name="issue_key", type="string", description="The Jira issue key (e.g. KAN-4)"),
-                    ToolParam(name="comment_text", type="string", description="Markdown/Plain text comment content")
+                    ToolParam(name="comment_text", type="string", description="Plain text comment content formatted professionally without markdown asterisks")
                 ],
                 is_consequential=True,
             ),
@@ -212,7 +238,7 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="jira_update_issue",
-                description="Update issue fields or state on a Jira issue.",
+                description="Update summary, description, or field values on an existing Jira issue. This MUTATES Jira state. Use this ONLY after preparing an explicit action proposal and receiving operator approval. Do NOT invoke for read-only inquiries. REQUIRED: issue_key (string). Touches the Jira integration.",
                 system="jira",
                 parameters=[
                     ToolParam(name="issue_key", type="string", description="The Jira issue key (e.g. KAN-4)"),
@@ -223,11 +249,11 @@ class ToolRegistry:
             self._handle_jira_update_issue,
         )
 
-        # 5. Slack Tools
+        # 5. Slack Tools (READ & ACTION)
         self.register(
             ToolDefinition(
                 name="slack_list_channels",
-                description="List available operational Slack channels in AcmeFlow Operations.",
+                description="List all available public and private operational channels in the AcmeFlow Operations Slack workspace. Use this when discovering channels or checking where alerts/incidents are posted. Do NOT use for reading message history or posting messages. This is READ-ONLY and does not mutate Slack state. Touches the Slack integration.",
                 system="slack",
                 parameters=[],
                 is_consequential=False,
@@ -238,11 +264,11 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="slack_read_channel",
-                description="Read recent operational discussions, alerts, and deployment logs from a Slack channel (e.g. 'ops-alerts', 'payments', 'ops-incidents').",
+                description="Read recent messages, alerts, and operational discussions from a specified Slack channel (e.g., ops-alerts, ops-incidents, payments). Use this when reviewing incident timelines, deployment notices, or team communications. Do NOT use to post messages. REQUIRED: channel_name (string). This is READ-ONLY and does not mutate Slack state. Touches the Slack integration.",
                 system="slack",
                 parameters=[
                     ToolParam(name="channel_name", type="string", description="Channel name or ID (e.g. 'ops-alerts', 'payments', 'ops-incidents')"),
-                    ToolParam(name="limit", type="integer", description="Number of recent messages to retrieve", required=False, default=20)
+                    ToolParam(name="limit", type="integer", description="Number of recent messages to retrieve (default 20)", required=False, default=20)
                 ],
                 is_consequential=False,
             ),
@@ -252,25 +278,25 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="slack_post_message",
-                description="Post an incident status update or alert to a Slack channel.",
+                description="Post an operational announcement, incident update, or alert to a designated Slack channel. This MUTATES Slack workspace state by publishing an external message. Use this ONLY after preparing an explicit action proposal and receiving operator approval. Do NOT invoke for read-only channel history lookups. REQUIRED: channel_name (string), message (string). Touches the Slack integration.",
                 system="slack",
                 parameters=[
-                    ToolParam(name="channel_name", type="string", description="Channel name (e.g. 'ops-incidents')"),
-                    ToolParam(name="message", type="string", description="Message text to post")
+                    ToolParam(name="channel_name", type="string", description="Target Slack channel name (e.g. 'ops-incidents', 'ops-alerts')"),
+                    ToolParam(name="message", type="string", description="Message text to post to the channel")
                 ],
                 is_consequential=True,
             ),
             self._handle_slack_post_message,
         )
 
-        # 6. Gmail Tools
+        # 6. Gmail Tools (READ)
         self.register(
             ToolDefinition(
                 name="gmail_search_messages",
-                description="Search AcmeFlow emails for customer complaints, billing alerts, or incident references.",
+                description="Search customer support and operational emails in Gmail matching a search query (e.g., customer complaints, order references, billing alerts). Use this when gathering customer impact evidence or checking reported complaints. Do NOT use for reading policy documents or payment telemetry. REQUIRED: query (string). This is READ-ONLY and does not mutate Gmail state. Touches the Gmail integration.",
                 system="gmail",
                 parameters=[
-                    ToolParam(name="query", type="string", description="Search query (e.g. 'ORD-88219', 'payment failed', 'PayPal')")
+                    ToolParam(name="query", type="string", description="Search query string (e.g. 'ORD-88219', 'payment failed', 'BrightPath')")
                 ],
                 is_consequential=False,
             ),
@@ -280,24 +306,24 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="gmail_get_message",
-                description="Retrieve full headers, subject, sender, and body of a specific email by its ID.",
+                description="Retrieve complete email headers, sender, recipient, subject, and full message body of a specific email by message ID. Use this when inspecting full details of an email discovered via search. Do NOT use for general mailbox searching. REQUIRED: message_id (string). This is READ-ONLY and does not mutate Gmail state. Touches the Gmail integration.",
                 system="gmail",
                 parameters=[
-                    ToolParam(name="message_id", type="string", description="Gmail message ID")
+                    ToolParam(name="message_id", type="string", description="Gmail message ID string")
                 ],
                 is_consequential=False,
             ),
             self._handle_gmail_get_message,
         )
 
-        # 7. Notion Tools
+        # 7. Notion Tools (READ)
         self.register(
             ToolDefinition(
                 name="notion_search_policies",
-                description="Search AcmeFlow Operations Notion workspace for runbooks, SOPs, and policy documents.",
+                description="Search the AcmeFlow Operations Notion workspace for policy documents, runbooks, SOPs, and operational guidelines. Use this when the exact policy page title or ID is unknown and needs to be discovered. Do NOT use when the policy page name is already known (use notion_read_policy_page). This is READ-ONLY and does not mutate Notion state. Touches the Notion integration.",
                 system="notion",
                 parameters=[
-                    ToolParam(name="query", type="string", description="Search query (e.g. 'Payment', 'Escalation', 'Incident')", required=False, default="")
+                    ToolParam(name="query", type="string", description="Search query for runbooks/policies (e.g. 'Payment', 'Escalation', 'Incident')", required=False, default="")
                 ],
                 is_consequential=False,
             ),
@@ -307,7 +333,7 @@ class ToolRegistry:
         self.register(
             ToolDefinition(
                 name="notion_read_policy_page",
-                description="Retrieve and read the full text content and blocks of a specific Notion policy page (e.g. 'Payment Procedures', 'Escalation Rules').",
+                description="Retrieve and extract the complete text content and procedures from a specific Notion policy page (e.g., 'Payment Procedures', 'Refund Policy', 'Escalation Rules'). Use this when evaluating operational thresholds, escalation rules, or SOP compliance. Do NOT use for general search across unknown titles. REQUIRED: page_name_or_id (string). This is READ-ONLY and does not mutate Notion state. Touches the Notion integration.",
                 system="notion",
                 parameters=[
                     ToolParam(name="page_name_or_id", type="string", description="Page title (e.g. 'Payment Procedures') or Notion page ID")
@@ -445,11 +471,8 @@ class ToolRegistry:
         return meta or self.paypal.execute("orders.checkout.orders.get", {"id": mapped_paypal_id})
 
     # Handlers: Slack
-    def _handle_slack_list_channels(self) -> List[Dict[str, Any]]:
-        channels = self.slack.list_channels()
-        return [{"id": c.get("id"), "name": c.get("name"), "topic": c.get("topic", {}).get("value")} for c in channels]
-
-    def _handle_slack_read_channel(self, channel_name: str, limit: int = 20) -> List[Dict[str, Any]]:
+    def _resolve_channel_id(self, channel_name: str) -> str:
+        clean_name = channel_name.lstrip("#").lower().strip()
         ch_map = {
             "all-acmeflow-operations": "C0C43R6TS15",
             "general": "C0C4D0KH9C3",
@@ -457,8 +480,27 @@ class ToolRegistry:
             "ops-incidents": "C0C4D0G4H1R",
             "payments": "C0C4D0HSLF5",
             "social": "C0C4K2WG6LS",
+            "new-channel": "C0C4E48431T",
         }
-        cid = ch_map.get(channel_name.lstrip("#"), channel_name)
+        if clean_name in ch_map:
+            return ch_map[clean_name]
+        if clean_name.startswith("c0") or (clean_name.startswith("c") and len(clean_name) > 8):
+            return channel_name
+        # Fallback to dynamic lookup from live Slack workspace
+        try:
+            for ch in self.slack.list_channels():
+                if ch.get("name", "").lower() == clean_name:
+                    return ch.get("id")
+        except Exception:
+            pass
+        return channel_name
+
+    def _handle_slack_list_channels(self) -> List[Dict[str, Any]]:
+        channels = self.slack.list_channels()
+        return [{"id": c.get("id"), "name": c.get("name"), "topic": c.get("topic", {}).get("value")} for c in channels]
+
+    def _handle_slack_read_channel(self, channel_name: str, limit: int = 20) -> List[Dict[str, Any]]:
+        cid = self._resolve_channel_id(channel_name)
         raw_msgs = self.slack.get_channel_history(channel_id=cid, limit=limit)
         results = []
         for m in raw_msgs:
@@ -470,17 +512,10 @@ class ToolRegistry:
         return results
 
     def _handle_slack_post_message(self, channel_name: str, message: str) -> Dict[str, Any]:
-        ch_map = {
-            "all-acmeflow-operations": "C0C43R6TS15",
-            "general": "C0C4D0KH9C3",
-            "ops-alerts": "C0C4E4BERRB",
-            "ops-incidents": "C0C4D0G4H1R",
-            "payments": "C0C4D0HSLF5",
-            "social": "C0C4K2WG6LS",
-        }
-        cid = ch_map.get(channel_name.lstrip("#"), channel_name)
+        cid = self._resolve_channel_id(channel_name)
         res = self.slack.post_message(channel_id=cid, text=message)
-        return {"status": "success", "channel": channel_name, "ts": res.get("ts")}
+        ts_val = res.get("ts")
+        return {"status": "success", "channel": channel_name, "ts": ts_val, "id": ts_val}
 
     # Handlers: Gmail
     def _handle_gmail_search_messages(self, query: str) -> List[Dict[str, Any]]:

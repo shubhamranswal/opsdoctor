@@ -45,7 +45,7 @@ def approve_action(approval_id: str):
         req = mgr.approve_and_execute(approval_id)
         exec_id = "N/A"
         if req.execution_result and isinstance(req.execution_result, dict):
-            exec_id = req.execution_result.get("comment_id") or req.execution_result.get("id") or req.id
+            exec_id = req.execution_result.get("comment_id") or req.execution_result.get("id") or req.execution_result.get("ts") or req.id
         return {
             "status": "success",
             "response_type": "ACTION_COMPLETED",

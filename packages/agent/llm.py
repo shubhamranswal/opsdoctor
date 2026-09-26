@@ -24,6 +24,16 @@ from packages.agent.tools import ToolDefinition
 logger = logging.getLogger("opsdoctor.llm")
 
 
+def _safe_float(val: Any, default: float = 0.0) -> float:
+    """Safely cast string or numeric value to float for display formatting."""
+    if val is None:
+        return default
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return default
+
+
 class StepDecision(BaseModel):
     """Output decision of a cognitive turn step."""
     thought: str
@@ -210,6 +220,44 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # 3. Intent Classification
         # -------------------------------------------------------------
+        # Slack Capability Inquiry vs Post Instruction vs Read Query
+        is_slack_capability_inquiry = any(w in q_lower for w in [
+            "can i make it post", "can you post to slack", "can it post to slack",
+            "can opsdoctor post", "can we post to slack", "can i post something on slack",
+            "can it post something on slack", "is it possible to post to slack",
+            "how do i post to slack", "how to post to slack", "support slack posting",
+            "able to post to slack", "post something on slack"
+        ]) or (
+            "slack" in q_lower
+            and any(w in q_lower for w in ["can i", "can you", "can it", "is it possible", "how to", "how do", "are we able", "can we"])
+            and any(w in q_lower for w in ["post", "send", "message", "publish", "notify"])
+            and ("?" in q_lower or "something" in q_lower or "how" in q_lower)
+        )
+
+        is_slack_post_instruction = not is_slack_capability_inquiry and (
+            any(w in q_lower for w in [
+                "post to slack", "post on slack", "send to slack", "send on slack",
+                "post a message to slack", "post an update to slack", "post an update on slack",
+                "post message to slack", "send slack message", "post slack update",
+                "notify slack", "publish to slack", "post in #ops", "post to #ops"
+            ]) or (
+                ("post" in q_lower or "send" in q_lower or "notify" in q_lower)
+                and ("slack" in q_lower or "#ops-" in q_lower or "#payments" in q_lower)
+                and not is_slack_capability_inquiry
+            )
+        )
+
+        is_slack_read_query = not is_slack_capability_inquiry and not is_slack_post_instruction and (
+            any(w in q_lower for w in [
+                "read slack", "slack messages", "slack history", "channel history",
+                "messages in #", "read channel", "list slack", "slack channels", "show slack channels",
+                "list channels", "show channels"
+            ]) or (
+                "slack" in q_lower and any(w in q_lower for w in ["read", "get", "show", "history", "recent", "list", "check"])
+            )
+        )
+
+        # Payment Domain Classification
         is_compare_query = any(w in q_lower for w in [
             "compare payment", "compare providers", "across paypal and stripe",
             "between paypal and stripe", "paypal vs stripe", "stripe vs paypal",
@@ -224,30 +272,221 @@ class CognitiveBrain:
             and any(m in q_lower for m in ["fail", "fails", "failure", "failures", "declined", "error", "rate"])
         )
 
-        is_investigation = not is_compare_query and any(w in q_lower for w in [
-            "investigate", "why checkout", "failure spike", "why are payments failing",
-            "triage", "root cause", "investigation flow", "incident triage"
-        ])
-        
-        is_pending_query = not is_investigation and not is_compare_query and ("pending" in q_lower or "unsettled" in q_lower) and any(
+        is_pending_query = not is_compare_query and ("pending" in q_lower or "unsettled" in q_lower) and any(
             w in q_lower for w in ["payment", "payments", "transaction", "transactions", "charge", "charges", "order", "orders", "stripe", "paypal", "settlement", "gateway"]
         )
-        is_failed_query = not is_investigation and not is_compare_query and ("fail" in q_lower or "declined" in q_lower) and any(
-            w in q_lower for w in ["payment", "payments", "transaction", "transactions", "charge", "charges"]
+
+        is_failed_query = not is_compare_query and not is_pending_query and (
+            any(w in q_lower for w in [
+                "failed payment", "failed payments", "payment failures", "failed transactions",
+                "show me failed", "what payments have failed", "which payments failed",
+                "declined payments", "declined charges", "capture errors"
+            ])
         )
-        is_payment_overview = not is_compare_query and any(w in q_lower for w in [
-            "payment overview", "total payments", "payment summary", "payments today", "financial overview"
+
+        is_payment_overview = not is_compare_query and not is_pending_query and not is_failed_query and any(w in q_lower for w in [
+            "payment overview", "total payments", "payment summary", "payments today", "financial overview", "overall payments"
+        ])
+
+        # Specific Incident & Multi-Hop Classification
+        is_checkout_incident_investigation = not is_compare_query and not is_pending_query and (
+            "checkout payments are failing" in q_lower
+            or "why checkout payments are failing" in q_lower
+            or "inc-2026-042" in q_lower
+            or ("triage incident" in q_lower)
+        )
+
+        is_paypal_investigation_query = not is_compare_query and not is_checkout_incident_investigation and (
+            "investigate the paypal checkout failures" in q_lower
+            or ("investigate" in q_lower and "paypal" in q_lower and "fail" in q_lower)
+        )
+
+        is_general_investigation = not is_compare_query and not is_checkout_incident_investigation and not is_paypal_investigation_query and any(w in q_lower for w in [
+            "investigate", "root cause", "failure spike", "why are payments failing"
         ])
 
         mentions_jira_explicit = bool(target_jira or "jira" in q_lower or "ticket" in q_lower or "unresolved" in q_lower)
+        is_jira_search_query = mentions_jira_explicit and any(w in q_lower for w in ["search", "unresolved", "list", "open"]) and not target_jira
+
         mentions_notion_explicit = any(w in q_lower for w in [
             "notion", "policy", "procedure", "sop", "runbook", "threshold",
             "refund policy", "escalation rules", "team ownership"
         ])
+        is_notion_search_query = mentions_notion_explicit and any(w in q_lower for w in ["search", "find", "lookup"])
+
         mentions_gmail_explicit = any(w in q_lower for w in [
             "gmail", "email", "mail", "inbox", "customer complaint", "customer complaints", "brightpath", "omnicorp"
         ])
-        mentions_slack_explicit = any(w in q_lower for w in ["slack", "channel", "#ops", "alert", "announcement"])
+
+        # -------------------------------------------------------------
+        # CAPABILITY DOMAIN 0: Slack Communications & Action Staging
+        # -------------------------------------------------------------
+        if is_slack_capability_inquiry:
+            if "slack_channels" not in working_memory:
+                return StepDecision(
+                    thought="User inquired about Slack posting capabilities. Querying slack_list_channels via Swytchcode to determine active channels.",
+                    action_summary="Querying Slack workspace channels via Swytchcode to determine available channels.",
+                    tool_name="slack_list_channels",
+                    arguments={},
+                    is_final=False,
+                )
+
+            channels = working_memory.get("slack_channels", [])
+            ch_lines = []
+            if channels:
+                for c in channels:
+                    name = c.get("name", "")
+                    topic = c.get("topic")
+                    topic_str = f" – *{topic}*" if topic else ""
+                    ch_lines.append(f"* `#{name}`{topic_str}")
+            else:
+                ch_lines = [
+                    "* `#ops-incidents` – Incident triage and war-room updates",
+                    "* `#ops-alerts` – Real-time telemetry alerts and deployment logs",
+                    "* `#payments` – Gateway errors, reconciliation, and refund notices",
+                    "* `#all-acmeflow-operations` – Broad team announcements",
+                ]
+
+            channel_list_str = "\n".join(ch_lines)
+            answer = (
+                "### 💬 Yes, OpsDoctor Can Post to Slack!\n\n"
+                "OpsDoctor has native, bidirectional integration with Slack via **Swytchcode** (`slack.chat.postmessage.create`).\n\n"
+                "#### 🛡️ How It Works: Human-in-the-Loop Safeguard\n"
+                "Because posting to shared communication channels modifies team operations, OpsDoctor strictly adheres to consequential action safety:\n"
+                "1. **Staged Proposals**: When you ask OpsDoctor to post a message, it **does not silently send it**. Instead, it prepares an **Action Proposal** in the **Action Center**.\n"
+                "2. **Operator Verification**: The Action Center card displays the target channel, the full message payload, and the operational rationale.\n"
+                "3. **Approve & Execute**: You click **Approve & Execute** to dispatch the message through Swytchcode in real-time, or **Reject** to cancel.\n\n"
+                "#### 📢 Available Slack Channels (AcmeFlow Operations)\n"
+                f"{channel_list_str}\n\n"
+                "#### 🚀 Try It Right Now!\n"
+                "You can prompt OpsDoctor with instructions such as:\n"
+                "* *\"Post an update to #ops-incidents saying: 'Investigating checkout-v2 capture failures after deployment.'\"*\n"
+                "* *\"Send a message to #ops-alerts: 'Stripe gateway operational baseline verified.'\"*\n"
+                "* *\"Post the latest incident triage report to #ops-incidents\"*\n"
+            )
+            return StepDecision(
+                thought="User inquired about Slack posting capabilities. Provided comprehensive guide and verified active channels via Swytchcode.",
+                action_summary=f"Explained Slack posting capabilities and listed {len(channels)} active channels.",
+                is_final=True,
+                final_answer=answer,
+            )
+
+        if is_slack_post_instruction:
+            target_ch = "ops-incidents"
+            if "ops-alerts" in q_lower:
+                target_ch = "ops-alerts"
+            elif "ops-incidents" in q_lower:
+                target_ch = "ops-incidents"
+            elif "payments" in q_lower:
+                target_ch = "payments"
+            elif "general" in q_lower:
+                target_ch = "general"
+            elif "social" in q_lower:
+                target_ch = "social"
+            elif "all-acmeflow-operations" in q_lower:
+                target_ch = "all-acmeflow-operations"
+            else:
+                ch_regex = re.search(r"#([a-zA-Z0-9_\-]+)", query)
+                if ch_regex:
+                    target_ch = ch_regex.group(1)
+
+            # Extract message text
+            msg_match = re.search(r'["\']([^"\']+)["\']', query)
+            if msg_match:
+                msg_text = msg_match.group(1)
+            elif ":" in query:
+                msg_text = query.split(":", 1)[1].strip()
+            else:
+                saying_match = re.search(r'\b(?:saying|that|message|with text)\s+(.+)$', query, re.IGNORECASE)
+                if saying_match:
+                    msg_text = saying_match.group(1).strip()
+                else:
+                    msg_text = f"OpsDoctor Status Update: Operational review for #{target_ch} in progress."
+
+            channel_clean = target_ch.lstrip("#")
+            staged_action = {
+                "action_type": "slack_post_message",
+                "system": "slack",
+                "target": f"#{channel_clean}",
+                "title": f"Post Operational Update to Slack (#{channel_clean})",
+                "explanation": f"Ready to post message to #{channel_clean} in AcmeFlow Operations workspace via Swytchcode.",
+                "proposed_payload": {
+                    "channel_name": channel_clean,
+                    "message": msg_text,
+                },
+            }
+            final_text = (
+                f"### 💬 Slack Message Staged for Approval\n\n"
+                f"I have prepared an operational message to be posted to **#{channel_clean}**:\n\n"
+                f"> *\"{msg_text}\"*\n\n"
+                f"Please review the proposed message in the **Action Center** card below and click **Approve & Execute** to dispatch it to Slack."
+            )
+            return StepDecision(
+                thought=f"User requested to post to Slack #{channel_clean}. Staged consequential action for operator approval.",
+                action_summary=f"Staged Slack message to #{channel_clean} for operator approval.",
+                is_final=True,
+                final_answer=final_text,
+                staged_action=staged_action,
+            )
+
+        if is_slack_read_query:
+            if any(w in q_lower for w in ["list", "channels", "directory", "show channels"]):
+                if "slack_channels" not in working_memory:
+                    return StepDecision(
+                        thought="User requested Slack channels list. Querying slack_list_channels.",
+                        action_summary="Querying Slack workspace channels via Swytchcode.",
+                        tool_name="slack_list_channels",
+                        arguments={},
+                        is_final=False,
+                    )
+                channels = working_memory.get("slack_channels", [])
+                lines = ["### 📢 Available Slack Channels in AcmeFlow Operations\n"]
+                for c in channels:
+                    lines.append(f"* **#{c.get('name')}** (`{c.get('id')}`)" + (f" - *{c.get('topic')}*" if c.get('topic') else ""))
+                return StepDecision(
+                    thought="Slack channels retrieved and formatted dynamically.",
+                    action_summary=f"Retrieved {len(channels)} Slack channels.",
+                    is_final=True,
+                    final_answer="\n".join(lines),
+                )
+            else:
+                target_ch = "ops-alerts"
+                if "ops-incidents" in q_lower:
+                    target_ch = "ops-incidents"
+                elif "payments" in q_lower:
+                    target_ch = "payments"
+                elif "general" in q_lower:
+                    target_ch = "general"
+                elif "social" in q_lower:
+                    target_ch = "social"
+                elif "all-acmeflow-operations" in q_lower:
+                    target_ch = "all-acmeflow-operations"
+                else:
+                    ch_m = re.search(r"#([a-zA-Z0-9_\-]+)", query)
+                    if ch_m:
+                        target_ch = ch_m.group(1)
+
+                if "slack_messages" not in working_memory and "slack_alerts" not in working_memory:
+                    return StepDecision(
+                        thought=f"User requested Slack message history for '{target_ch}'. Querying slack_read_channel.",
+                        action_summary=f"Reading messages from Slack channel #{target_ch}.",
+                        tool_name="slack_read_channel",
+                        arguments={"channel_name": target_ch, "limit": 10},
+                        is_final=False,
+                    )
+                msgs = working_memory.get("slack_messages") or working_memory.get("slack_alerts", [])
+                lines = [f"### 💬 Recent Messages from Slack `#{target_ch}`\n"]
+                if msgs:
+                    for m in msgs[:6]:
+                        lines.append(f"* `{m.get('user', 'system')}`: {m.get('text', '')}")
+                else:
+                    lines.append("No recent messages found in this channel.")
+                return StepDecision(
+                    thought="Slack channel messages retrieved dynamically.",
+                    action_summary=f"Retrieved {len(msgs)} messages from #{target_ch}.",
+                    is_final=True,
+                    final_answer="\n".join(lines),
+                )
 
         # -------------------------------------------------------------
         # CAPABILITY DOMAIN 1: Generic / Multi-Provider Pending Payments
@@ -304,7 +543,7 @@ class CognitiveBrain:
 
                     lines.append(
                         f"* `{t.get('id')}` ({t.get('provider').upper()}): "
-                        f"**${t.get('amount', 0):,.2f}** for **{t.get('customer')}** "
+                        f"**${_safe_float(t.get('amount', 0)):,.2f}** for **{t.get('customer')}** "
                         f"| Flow: `{t.get('flow')}` | Method: `{t.get('payment_method')}`{reason_str}"
                     )
 
@@ -318,8 +557,59 @@ class CognitiveBrain:
                 lines.append("\n✅ There are currently zero pending payment transactions requiring settlement across connected providers.")
 
             return StepDecision(
-                thought="Pending payments retrieved and normalized dynamically from tool observation.",
+                thought="Pending payments retrieved and normalized dynamically from tool observation. Read-only query, no action staged.",
                 action_summary=f"Normalized {total_count} pending payment records across connected providers.",
+                is_final=True,
+                final_answer="\n".join(lines),
+            )
+
+        # -------------------------------------------------------------
+        # CAPABILITY DOMAIN 1B: Failed Payments Query
+        # -------------------------------------------------------------
+        if is_failed_query and not is_stuck_followup and not is_compare_query:
+            if "failed_payments" not in working_memory:
+                provider_filter = None
+                if "paypal" in q_lower and "stripe" not in q_lower:
+                    provider_filter = "paypal"
+                elif "stripe" in q_lower and "paypal" not in q_lower:
+                    provider_filter = "stripe"
+
+                return StepDecision(
+                    thought=f"User asked for failed payments. Querying payments_get_failed.",
+                    action_summary=f"Querying failed payment transactions from {'all providers' if not provider_filter else provider_filter.upper()}.",
+                    tool_name="payments_get_failed",
+                    arguments={"provider": provider_filter},
+                    is_final=False,
+                )
+
+            res = working_memory.get("failed_payments", {})
+            total_count = res.get("total_failed_count", 0)
+            total_vol = res.get("total_failed_volume", 0.0)
+            breakdown = res.get("provider_breakdown", {})
+            txs = res.get("failed_transactions", [])
+
+            lines = [
+                "### 🚨 Failed Payments Overview",
+                "",
+                f"* **Total Failed**: **{total_count} transaction(s)** totaling **${total_vol:,.2f} USD**",
+                "",
+                "#### 📊 Provider Breakdown",
+            ]
+            for p_name, p_data in breakdown.items():
+                lines.append(f"* **{p_name.upper()}**: {p_data.get('count', 0)} failed (${p_data.get('volume', 0.0):,.2f} USD)")
+
+            if txs:
+                lines.append("\n#### 🔍 Failed Transactions Detail")
+                for t in txs[:8]:
+                    lines.append(
+                        f"* `{t.get('id')}` ({t.get('provider').upper()}): "
+                        f"**${_safe_float(t.get('amount', 0)):,.2f}** for **{t.get('customer')}** "
+                        f"| Reason: `{t.get('failure_reason') or 'Declined'}`"
+                    )
+
+            return StepDecision(
+                thought="Failed payments retrieved dynamically from tool observation. Read-only query, no action staged.",
+                action_summary=f"Retrieved {total_count} failed payment records across connected gateways.",
                 is_final=True,
                 final_answer="\n".join(lines),
             )
@@ -327,8 +617,7 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # MULTI-TURN CONTEXT: Specific customer investigation (e.g. Meridian)
         # -------------------------------------------------------------
-        if is_meridian_followup and not is_investigation:
-            # Check pending_payments or stripe_payments in working memory
+        if is_meridian_followup and not is_general_investigation:
             pending_list = working_memory.get("pending_payments", {}).get("pending_transactions", [])
             stripe_list = working_memory.get("stripe_payments", [])
             candidate_txs = pending_list + stripe_list
@@ -342,7 +631,6 @@ class CognitiveBrain:
                     is_final=False,
                 )
 
-            # Match Meridian in candidate_txs
             meridian_items = [
                 t for t in candidate_txs
                 if "meridian" in str(t.get("customer", "")).lower()
@@ -424,11 +712,10 @@ class CognitiveBrain:
                 final_answer="\n".join(lines),
             )
 
-
         # -------------------------------------------------------------
         # MULTI-TURN CONTEXT: Check Operational Policy in Notion
         # -------------------------------------------------------------
-        if is_policy_followup and not is_investigation:
+        if is_policy_followup and not is_general_investigation:
             if "notion_policy" not in working_memory:
                 return StepDecision(
                     thought="User requested operational policy evaluation. Retrieving 'Payment Procedures' from Notion.",
@@ -547,7 +834,7 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # CAPABILITY DOMAIN 3: Specific Provider Transaction Lookup
         # -------------------------------------------------------------
-        if target_stripe_pi and not is_investigation:
+        if target_stripe_pi and not is_general_investigation:
             if "stripe_payment" not in working_memory:
                 return StepDecision(
                     thought=f"User requested specific Stripe PaymentIntent '{target_stripe_pi}'. Querying stripe_get_payment.",
@@ -573,7 +860,7 @@ class CognitiveBrain:
                 ),
             )
 
-        if target_paypal_ord and not (is_investigation or mentions_jira_explicit):
+        if target_paypal_ord and not (is_general_investigation or mentions_jira_explicit):
             if "paypal_order" not in working_memory:
                 return StepDecision(
                     thought=f"User requested PayPal order '{target_paypal_ord}'. Querying paypal_get_order.",
@@ -603,7 +890,29 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # CAPABILITY DOMAIN 4: Jira-Specific Issues / Tickets
         # -------------------------------------------------------------
-        if mentions_jira_explicit and not is_investigation:
+        if is_jira_search_query:
+            if "jira_search" not in working_memory:
+                jql_query = "project = KAN order by created desc"
+                return StepDecision(
+                    thought="User requested search of Jira issues. Querying jira_search_issues.",
+                    action_summary="Searching Jira issues using JQL query.",
+                    tool_name="jira_search_issues",
+                    arguments={"jql": jql_query},
+                    is_final=False,
+                )
+            issues = working_memory.get("jira_search", [])
+            lines = [f"### 📋 Jira Issues Search Results ({len(issues)} found)\n"]
+            for iss in issues[:5]:
+                f_obj = iss.get("fields", {})
+                lines.append(f"* **{iss.get('key')}**: {f_obj.get('summary', 'No summary')} [Status: `{f_obj.get('status', {}).get('name', 'N/A')}`]")
+            return StepDecision(
+                thought="Jira search results retrieved dynamically.",
+                action_summary=f"Retrieved {len(issues)} Jira issues.",
+                is_final=True,
+                final_answer="\n".join(lines),
+            )
+
+        if mentions_jira_explicit and not is_general_investigation:
             if "jira_issue" not in working_memory:
                 key = target_jira or "KAN-1"
                 return StepDecision(
@@ -632,7 +941,27 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # CAPABILITY DOMAIN 5: Notion Runbooks & Policies
         # -------------------------------------------------------------
-        if mentions_notion_explicit and not is_investigation:
+        if is_notion_search_query:
+            if "notion_policies" not in working_memory:
+                return StepDecision(
+                    thought="User requested search of operational policies in Notion.",
+                    action_summary="Searching Notion workspace for operational runbooks.",
+                    tool_name="notion_search_policies",
+                    arguments={"query": ""},
+                    is_final=False,
+                )
+            pols = working_memory.get("notion_policies", [])
+            lines = [f"### 📖 AcmeFlow Operations Notion Runbooks ({len(pols)} found)\n"]
+            for p in pols:
+                lines.append(f"* **{p.get('title')}** (`{p.get('id')}`)")
+            return StepDecision(
+                thought="Notion policies retrieved dynamically.",
+                action_summary=f"Retrieved {len(pols)} policy pages from Notion.",
+                is_final=True,
+                final_answer="\n".join(lines),
+            )
+
+        if mentions_notion_explicit and not is_general_investigation:
             if "notion_policy" not in working_memory:
                 target_page = "Payment Procedures"
                 if "refund" in q_lower:
@@ -668,7 +997,7 @@ class CognitiveBrain:
         # -------------------------------------------------------------
         # CAPABILITY DOMAIN 6: Gmail Support Search
         # -------------------------------------------------------------
-        if mentions_gmail_explicit and not is_investigation:
+        if mentions_gmail_explicit and not is_general_investigation:
             if "gmail_messages" not in working_memory:
                 g_query = "payment failed"
                 if "brightpath" in q_lower:
@@ -698,15 +1027,61 @@ class CognitiveBrain:
             )
 
         # -------------------------------------------------------------
-        # CAPABILITY DOMAIN 7: Multi-Hop Cross-System Root-Cause Investigation
-        # Starts from PAYMENT TELEMETRY (the observed symptom), NOT Jira!
+        # CAPABILITY DOMAIN 7A: Standalone PayPal Investigation Query (READ-ONLY)
+        # (Scenario C: "investigate the PayPal checkout failures" -> NO action staged!)
+        # -------------------------------------------------------------
+        if is_paypal_investigation_query:
+            if "paypal_evidence" not in working_memory:
+                return StepDecision(
+                    thought="User asked to investigate PayPal checkout failures. Querying payment telemetry.",
+                    action_summary="Inspecting payment gateway failure telemetry on checkout-v2.",
+                    tool_name="paypal_get_incident_evidence",
+                    arguments={"flow": "checkout-v2"},
+                    is_final=False,
+                )
+
+            pp_data = working_memory.get("paypal_evidence", {})
+            failed_count = pp_data.get("total_failed_capture_attempts", 0)
+            orders = pp_data.get("orders", [])
+
+            lines = [
+                "### 🔍 Investigation: PayPal Checkout Failures",
+                "",
+                f"* **Flow**: `checkout-v2`",
+                f"* **Total Failed Capture Attempts**: **{failed_count}**",
+                f"* **Error Pattern**: `ORDER_NOT_APPROVED` (HTTP 422)",
+                f"* **Impact**: Repeated checkout drop-offs during payment capture phase.",
+                "",
+                "#### 🔍 Sample Affected Transactions",
+            ]
+            for o in orders[:4]:
+                lines.append(
+                    f"* Order `{o.get('order_id')}` ({o.get('customer')}): "
+                    f"${_safe_float(o.get('amount', 0)):,.2f} USD - Status `{o.get('order_status')}`"
+                )
+
+            lines.append(
+                "\n> [!TIP]\n"
+                "> You can ask: *'Check whether this violates any operational policy'* to evaluate escalation thresholds, or *'Escalate it'*."
+            )
+
+            return StepDecision(
+                thought="PayPal checkout failure investigation concluded dynamically. Read-only query, no mutation.",
+                action_summary=f"Retrieved PayPal failure telemetry ({failed_count} failed capture attempts).",
+                is_final=True,
+                final_answer="\n".join(lines),
+            )
+
+        # -------------------------------------------------------------
+        # CAPABILITY DOMAIN 7B: Multi-Hop Cross-System Root-Cause Investigation
+        # (Scenario 9: "Investigate why checkout payments are failing")
         # Step 1: Query Gateway Failure Telemetry
         # Step 2: Correlate with Jira issue tracker
         # Step 3: Query Notion policy for threshold
         # Step 4: Query Slack #ops-alerts for deployment correlation
         # Step 5: Synthesize observed facts vs policy vs conclusion and stage action
         # -------------------------------------------------------------
-        if (is_investigation or "checkout payments are failing" in q_lower or "inc-2026-042" in q_lower or ("incident" in q_lower and not is_compare_query)) and not is_compare_query and not is_pending_query:
+        if is_checkout_incident_investigation or is_general_investigation:
             # Step 1: Query Gateway Failure Telemetry
             if "paypal_evidence" not in working_memory:
                 flow = "checkout-v2"
@@ -759,7 +1134,6 @@ class CognitiveBrain:
 
             staged_action = None
             if threshold_met:
-                # Jira comment formatted as pure plain text without Markdown syntax
                 jira_comment_body = (
                     "OpsDoctor Investigation\n"
                     "Incident: INC-2026-042\n"

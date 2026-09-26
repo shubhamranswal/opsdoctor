@@ -1,0 +1,117 @@
+{
+  "session_id": "test-matrix-06-bbcc27",
+  "title": "Operations Investigation",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Show me pending PayPal payments",
+      "response_type": "READ_ONLY",
+      "activities": [],
+      "evidence": [],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:33:22.289274+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "### 💳 Pending Payments Status Overview\n\n* **Total Pending**: **0 transaction(s)** totaling **$0.00 USD**\n* **Time Horizon**: Real-time snapshot across active payment gateways\n\n#### 📊 Provider Breakdown\n* **PAYPAL**: 0 pending ($0.00 USD)\n\n✅ There are currently zero pending payment transactions requiring settlement across connected providers.",
+      "response_type": "READ_ONLY",
+      "activities": [
+        {
+          "id": "step-9305c4",
+          "step_type": "understanding",
+          "title": "Understanding Operational Intent",
+          "description": "Analyzing user request: 'Show me pending PayPal payments'",
+          "system": null,
+          "data": {
+            "query": "Show me pending PayPal payments"
+          },
+          "timestamp": "2026-09-26T06:33:22.287632+00:00"
+        },
+        {
+          "id": "step-c11376",
+          "step_type": "tool_selection",
+          "title": "Selected Tool: payments_get_pending",
+          "description": "Querying pending payments from PAYPAL",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_pending",
+            "reason": "Querying pending payments from PAYPAL",
+            "args": {
+              "provider": "paypal"
+            }
+          },
+          "timestamp": "2026-09-26T06:33:22.287899+00:00"
+        },
+        {
+          "id": "step-3815d2",
+          "step_type": "tool_execution",
+          "title": "Executed Tool: payments_get_pending",
+          "description": "Completed payments_get_pending call across PAYMENTS integration (SUCCESS).",
+          "system": "payments",
+          "data": {
+            "tool": "payments_get_pending",
+            "args": {
+              "provider": "paypal"
+            },
+            "status": "SUCCESS",
+            "result_preview": "{'total_pending_count': 0, 'total_pending_volume': 0, 'currency': 'USD', 'provider_breakdown': {'paypal': {'count': 0, 'volume': 0, 'transactions': []}}, 'pending_transactions': [], 'queried_at_utc': '2026-09-26T06:33:22.288933+00:00'}"
+          },
+          "timestamp": "2026-09-26T06:33:22.289024+00:00"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev-5d2c49",
+          "system": "payments",
+          "title": "Pending Payments Telemetry",
+          "summary": "0 pending payments identified across gateways totaling $0.00 USD.",
+          "details": {
+            "total_pending_count": 0,
+            "total_pending_volume": 0,
+            "currency": "USD",
+            "provider_breakdown": {
+              "paypal": {
+                "count": 0,
+                "volume": 0,
+                "transactions": []
+              }
+            },
+            "pending_transactions": [],
+            "queried_at_utc": "2026-09-26T06:33:22.288933+00:00"
+          },
+          "timestamp": "2026-09-26T06:33:22.289091+00:00"
+        }
+      ],
+      "actions": [],
+      "approvals": [],
+      "timestamp": "2026-09-26T06:33:22.289253+00:00"
+    }
+  ],
+  "accumulated_evidence": [
+    {
+      "id": "ev-5d2c49",
+      "system": "payments",
+      "title": "Pending Payments Telemetry",
+      "summary": "0 pending payments identified across gateways totaling $0.00 USD.",
+      "details": {
+        "total_pending_count": 0,
+        "total_pending_volume": 0,
+        "currency": "USD",
+        "provider_breakdown": {
+          "paypal": {
+            "count": 0,
+            "volume": 0,
+            "transactions": []
+          }
+        },
+        "pending_transactions": [],
+        "queried_at_utc": "2026-09-26T06:33:22.288933+00:00"
+      },
+      "timestamp": "2026-09-26T06:33:22.289091+00:00"
+    }
+  ],
+  "pending_approvals": [],
+  "created_at": "2026-09-26T06:33:22.283203+00:00",
+  "updated_at": "2026-09-26T06:33:22.289286+00:00"
+}
