@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2620.8109999999997 1018.7" width="2620.8109999999997" height="1018.7" style="--bg:#FFFFFF;--fg:#3B3B3B;--line:#3B3B3B;--accent:#005FB8;--muted:#3B3B3BCC;--surface:#F8F8F8;--border:#3B3B3B;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Frontend" data-label="Apps / User-Facing Web (React / Next.js)">
+  <rect x="195.89599999999996" y="644.6000000000001" width="1360.7689999999998" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="195.89599999999996" y="644.6000000000001" width="1360.7689999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="207.89599999999996" y="658.6000000000001" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Apps / User-Facing Web (React / Next.js)</text>
+</g>
+<g class="subgraph" data-id="Backend" data-label="Services / Agent API (FastAPI)">
+  <rect x="537.7049999999999" y="70" width="590.2144999999999" height="300.5" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="537.7049999999999" y="70" width="590.2144999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="549.7049999999999" y="84" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Services / Agent API (FastAPI)</text>
+</g>
+<g class="subgraph" data-id="Authority" data-label="Execution Authority (Swytchcode)">
+  <rect x="1584.6649999999997" y="474.8" width="996.146" height="278.70000000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1584.6649999999997" y="474.8" width="996.146" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1596.6649999999997" y="488.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Execution Authority (Swytchcode)</text>
+</g>
+<g class="subgraph" data-id="Sandboxes" data-label="External Test Systems (Sandbox / Dev)">
+  <rect x="1130.0484999999999" y="881.8" width="984.341" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1130.0484999999999" y="881.8" width="984.341" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1142.0484999999999" y="895.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">External Test Systems (Sandbox / Dev)</text>
+</g>
+<polyline class="edge" data-from="UI_Chat" data-to="API_Routes" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="User Request" points="1418.9139999999998,731.5000000000001 1418.9139999999998,771.5000000000002 77.5,771.5000000000002 77.5,40.00000000000023 718.0156666666666,40.00000000000023 718.0156666666664,114" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="UI_Approval" data-to="API_Routes" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Approve / Reject Action" points="343.2799999999999,731.5000000000001 343.28,759.5000000000002 185.89599999999996,759.5000000000002 185.89599999999996,52.00000000000023 635.8603333333333,52.00000000000023 635.8603333333332,114" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="API_Routes" data-to="UI_Trace" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="SSE Stream Events" points="676.9379999999999,150.9 676.9379999999999,174.9 621.8214999999999,174.9 621.8214999999999,558.3000000000002 604.5234999999998,558.3000000000002 604.5234999999998,626.6000000000001 621.8214999999998,626.6000000000001 621.8214999999998,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="API_Routes" data-to="UI_Approval" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="SSE Stream Events" points="615.3214999999999,150.9 615.3214999999999,162.9 584.5132499999999,162.9 584.51325,558.3000000000002 343.28,558.3000000000002 343.2799999999999,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Graph_Engine" data-to="Swx_Runtime" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Dynamic Tool Query &amp; Exec" points="752.7199999999998,252.70000000000002 752.7199999999998,264.70000000000005 634.8214999999999,264.70000000000005 634.8214999999999,388.5 1860.0449999999996,388.5 1860.0449999999996,518.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="P_PayPal" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Authenticated HTTP" points="1790.3288999999997,640.5999999999999 1790.3288999999997,664.5999999999999 1613.6649999999997,664.5999999999999 1613.6649999999997,795.5 1452.4327499999997,795.5 1452.4327499999997,863.8 1428.8925,863.8 1428.8925,925.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="P_Gmail" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Authenticated HTTP" points="1952.9997999999996,640.5999999999999 1952.9997999999996,652.5999999999999 2563.8109999999997,652.5999999999999 2563.8109999999997,819.5 2275.5272499999996,819.5 2275.5272499999996,863.8 2021.8394999999998,863.8 2021.8394999999998,925.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="P_Slack" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Authenticated HTTP" points="1767.0901999999996,640.5999999999999 1767.0901999999996,652.5999999999999 1600.6649999999997,652.5999999999999 1600.6649999999997,783.5 1296.2394999999997,783.5 1296.2394999999997,863.8 1232.6019999999999,863.8 1232.6019999999999,925.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="P_Jira" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Authenticated HTTP" points="1860.0449999999996,640.5999999999999 1860.0449999999998,795.5 1829.995,795.5 1829.995,925.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="P_Notion" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Authenticated HTTP" points="1813.5675999999999,640.5999999999999 1813.5675999999999,676.5999999999999 1626.6649999999997,676.5999999999999 1626.665,925.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="API_Routes" data-to="Graph_Engine" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="738.5545,150.9 738.5545,162.9 814.7069999999999,162.9 814.7069999999999,198.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Graph_Engine" data-to="Checkpointer" data-style="solid" data-arrow-start="true" data-arrow-end="true" points="814.7069999999999,252.70000000000002 814.7069999999999,264.70000000000005 762.3854999999999,264.70000000000005 762.3854999999999,300.70000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="Graph_Engine" data-to="Verification_Engine" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="876.6939999999998,252.70000000000002 876.6939999999998,264.70000000000005 1009.4344999999998,264.70000000000005 1009.4344999999998,300.70000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Swx_Runtime" data-to="CLI_Kernel" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1860.0449999999996,555.7 1860.0449999999996,603.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="Tooling_Spec" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1836.8062999999997,640.6 1836.8062999999997,688.6 1743.8549999999998,688.6 1743.8549999999998,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="Policies_Spec" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1883.2836999999997,640.6 1883.2836999999997,688.6 1977.2349999999997,688.6 1977.2349999999997,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="Auth_Store" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1906.5223999999998,640.6 1906.5223999999998,676.6 2224.2839999999997,676.6 2224.2839999999997,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CLI_Kernel" data-to="Audit_Store" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1929.7610999999997,640.6 1929.7610999999997,664.6 2459.477,664.6 2459.477,694.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="UI_Chat" data-to="API_Routes" data-label="User Request">
+  <rect x="36" y="734.2" width="82.39600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="77.19800000000001" y="749.35" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">User Request</text>
+</g>
+<g class="edge-label" data-from="UI_Approval" data-to="API_Routes" data-label="Approve / Reject Action">
+  <rect x="122.39599999999997" y="565.3000000000002" width="126.946" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="185.86899999999997" y="580.4500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Approve / Reject Action</text>
+</g>
+<g class="edge-label" data-from="API_Routes" data-to="UI_Trace" data-label="SSE Stream Events">
+  <rect x="549.5234999999998" y="565.3000000000002" width="109.12600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="604.0864999999998" y="580.4500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">SSE Stream Events</text>
+</g>
+<g class="edge-label" data-from="API_Routes" data-to="UI_Approval" data-label="SSE Stream Events">
+  <rect x="288.28" y="565.3000000000002" width="109.12600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="342.84299999999996" y="580.4500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">SSE Stream Events</text>
+</g>
+<g class="edge-label" data-from="Graph_Engine" data-to="Swx_Runtime" data-label="Dynamic Tool Query &amp; Exec">
+  <rect x="1786.0449999999996" y="395.5" width="147.14200000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1859.6159999999995" y="410.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Dynamic Tool Query &amp; Exec</text>
+</g>
+<g class="edge-label" data-from="CLI_Kernel" data-to="P_PayPal" data-label="Authenticated HTTP">
+  <rect x="1395.9327499999997" y="802.5" width="112.096" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1451.9807499999997" y="817.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Authenticated HTTP</text>
+</g>
+<g class="edge-label" data-from="CLI_Kernel" data-to="P_Gmail" data-label="Authenticated HTTP">
+  <rect x="2219.02725" y="826.5" width="112.096" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="2275.07525" y="841.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Authenticated HTTP</text>
+</g>
+<g class="edge-label" data-from="CLI_Kernel" data-to="P_Slack" data-label="Authenticated HTTP">
+  <rect x="1239.7394999999997" y="802.5" width="112.096" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1295.7874999999997" y="817.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Authenticated HTTP</text>
+</g>
+<g class="edge-label" data-from="CLI_Kernel" data-to="P_Jira" data-label="Authenticated HTTP">
+  <rect x="1773.495" y="802.5" width="112.096" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1829.543" y="817.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Authenticated HTTP</text>
+</g>
+<g class="edge-label" data-from="CLI_Kernel" data-to="P_Notion" data-label="Authenticated HTTP">
+  <rect x="1570.165" y="802.5" width="112.096" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1626.213" y="817.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Authenticated HTTP</text>
+</g>
+<g class="node" data-id="UI_Chat" data-label="Operational Chat &amp; Prompt Console" data-shape="rectangle">
+  <rect x="1297.1629999999998" y="694.6000000000001" width="243.50199999999995" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1418.9139999999998" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Operational Chat &amp; Prompt Console</text>
+</g>
+<g class="node" data-id="UI_Trace" data-label="Live Agent Activity &amp; Graph Trace" data-shape="rectangle">
+  <rect x="502.6639999999998" y="694.6000000000001" width="238.315" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="621.8214999999998" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Live Agent Activity &amp; Graph Trace</text>
+</g>
+<g class="node" data-id="UI_Approval" data-label="Human Approval Modal &amp; Action Gates" data-shape="rectangle">
+  <rect x="211.89599999999996" y="694.6000000000001" width="262.7679999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="343.2799999999999" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Human Approval Modal &amp; Action Gates</text>
+</g>
+<g class="node" data-id="UI_Health" data-label="Integration Health &amp; Sandbox Status" data-shape="rectangle">
+  <rect x="768.9789999999998" y="694.6000000000001" width="247.94799999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="892.9529999999997" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Integration Health &amp; Sandbox Status</text>
+</g>
+<g class="node" data-id="UI_Audit" data-label="Audit Trail &amp; Findings Inspector" data-shape="rectangle">
+  <rect x="1044.9269999999997" y="694.6000000000001" width="224.236" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1157.0449999999996" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Audit Trail &amp; Findings Inspector</text>
+</g>
+<g class="node" data-id="API_Routes" data-label="FastAPI Endpoints &amp; SSE Streamer" data-shape="rectangle">
+  <rect x="553.7049999999999" y="114" width="246.46599999999995" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="676.9379999999999" y="132.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">FastAPI Endpoints &amp; SSE Streamer</text>
+</g>
+<g class="node" data-id="Graph_Engine" data-label="LangGraph State Engine
+(Stateful Cycles &amp; Human Interrupts)" data-shape="rectangle">
+  <rect x="690.733" y="198.9" width="247.94799999999995" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="814.7069999999999" y="225.8" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="814.7069999999999" dy="-3.9000000000000012">LangGraph State Engine</tspan><tspan x="814.7069999999999" dy="16.900000000000002">(Stateful Cycles &amp; Human Interrupts)</tspan></text>
+</g>
+<g class="node" data-id="Checkpointer" data-label="SQLite Checkpointer
+(Resumable Workflows &amp; History)" data-shape="rectangle">
+  <rect x="645.8214999999999" y="300.70000000000005" width="233.128" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="762.3854999999999" y="327.6" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="762.3854999999999" dy="-3.9000000000000012">SQLite Checkpointer</tspan><tspan x="762.3854999999999" dy="16.900000000000002">(Resumable Workflows &amp; History)</tspan></text>
+</g>
+<g class="node" data-id="Verification_Engine" data-label="Outcome Verification Engine
+(Post-action Validation)" data-shape="rectangle">
+  <rect x="906.9495" y="300.70000000000005" width="204.96999999999997" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1009.4345" y="327.6" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1009.4345" dy="-3.9000000000000012">Outcome Verification Engine</tspan><tspan x="1009.4345" dy="16.900000000000002">(Post-action Validation)</tspan></text>
+</g>
+<g class="node" data-id="Swx_Runtime" data-label="swytchcode-runtime (Python)" data-shape="rectangle">
+  <rect x="1754.5959999999998" y="518.8" width="210.89799999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1860.0449999999998" y="537.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">swytchcode-runtime (Python)</text>
+</g>
+<g class="node" data-id="Tooling_Spec" data-label="tooling.json (Trust Boundary)" data-shape="rectangle">
+  <rect x="1637.6649999999997" y="694.6000000000001" width="212.38" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1743.8549999999998" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">tooling.json (Trust Boundary)</text>
+</g>
+<g class="node" data-id="Policies_Spec" data-label="policies.json (Guard Policies)" data-shape="rectangle">
+  <rect x="1871.0449999999996" y="694.6000000000001" width="212.37999999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1977.2349999999997" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">policies.json (Guard Policies)</text>
+</g>
+<g class="node" data-id="CLI_Kernel" data-label="Swytchcode CLI Kernel (v2.23.7)" data-shape="rectangle">
+  <rect x="1743.8514999999998" y="603.7" width="232.38699999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1860.0449999999996" y="622.1500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Swytchcode CLI Kernel (v2.23.7)</text>
+</g>
+<g class="node" data-id="Auth_Store" data-label="Credential Store (OAuth &amp; Keys)" data-shape="rectangle">
+  <rect x="2111.4249999999997" y="694.6000000000001" width="225.718" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2224.2839999999997" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Credential Store (OAuth &amp; Keys)</text>
+</g>
+<g class="node" data-id="Audit_Store" data-label="~/.swytchcode/audit/ Log" data-shape="rectangle">
+  <rect x="2365.1429999999996" y="694.6000000000001" width="188.668" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2459.4769999999994" y="713.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">~/.swytchcode/audit/ Log</text>
+</g>
+<g class="node" data-id="P_PayPal" data-label="PayPal Sandbox API" data-shape="rectangle">
+  <rect x="1347.1554999999998" y="925.8" width="163.474" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1428.8925" y="944.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">PayPal Sandbox API</text>
+</g>
+<g class="node" data-id="P_Gmail" data-label="Gmail Test Account" data-shape="rectangle">
+  <rect x="1945.2894999999999" y="925.8" width="153.1" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2021.8394999999998" y="944.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Gmail Test Account</text>
+</g>
+<g class="node" data-id="P_Slack" data-label="Slack Dev Workspace" data-shape="rectangle">
+  <rect x="1146.0484999999999" y="925.8" width="173.107" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1232.6019999999999" y="944.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Slack Dev Workspace</text>
+</g>
+<g class="node" data-id="P_Jira" data-label="Jira Cloud Dev Project" data-shape="rectangle">
+  <rect x="1742.7005" y="925.8" width="174.58899999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1829.995" y="944.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Jira Cloud Dev Project</text>
+</g>
+<g class="node" data-id="P_Notion" data-label="Notion Dev Workspace" data-shape="rectangle">
+  <rect x="1538.6295" y="925.8" width="176.07099999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1626.665" y="944.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Notion Dev Workspace</text>
+</g>
+</svg>
